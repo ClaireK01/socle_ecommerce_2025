@@ -26,6 +26,8 @@ Encore
     .addStyleEntry('style', './assets/styles/main.css')
     .addEntry('js-admin', './assets/js/app.js')
     .addEntry('js-slider', './assets/js/slider.js')
+    .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
+
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     // .enableStimulusBridge('./assets/controllers.json')

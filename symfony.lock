@@ -1,4 +1,10 @@
 {
+    "a2lix/auto-form-bundle": {
+        "version": "0.4.4"
+    },
+    "a2lix/translation-form-bundle": {
+        "version": "3.2.1"
+    },
     "artgris/filemanager-bundle": {
         "version": "2.5.2"
     },
