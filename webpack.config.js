@@ -24,6 +24,8 @@ Encore
     .addEntry('bootstrap_modal', './node_modules/bootstrap/js/dist/modal')
     .addEntry('js', './assets/js/main.js')
     .addStyleEntry('style', './assets/styles/main.css')
+    .addEntry('js-admin', './assets/js/app.js')
+    .addEntry('js-slider', './assets/js/slider.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     // .enableStimulusBridge('./assets/controllers.json')

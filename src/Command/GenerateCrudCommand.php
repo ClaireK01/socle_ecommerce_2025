@@ -49,6 +49,7 @@ class GenerateCrudCommand extends Command
         //controller
         $this->generate('Controller', $name, './src/Controller/Admin/', 'Controller.txt',  $trans, $io);
 
+        $this->generate('Controller', $name, './src/Controller/Admin/', 'Controller.txt',  $trans, $io);
 
         $io->success('Entité ' . $name . ' créer avec succès !');
         return Command::SUCCESS;

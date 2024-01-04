@@ -7,15 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+
 
 {IFCONTENT}
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 {/IFCONTENT}
 
 #[ORM\Entity(repositoryClass: {NAME}Repository::class)]
-class {NAME}
+class {NAME} implements TranslatableInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait;
+    use SoftDeletableTrait,TimestampableTrait{IFCONTENT},TranslatableTrait{/IFCONTENT};
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

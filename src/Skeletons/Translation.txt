@@ -8,10 +8,12 @@ use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
+
 
 
 #[ORM\Entity(repositoryClass: {NAME}TranslationRepository::class)]
-class {NAME}Translation
+class {NAME}Translation implements TranslationInterface
 
 {
     use TranslationTrait, SoftDeletableTrait, TimestampableTrait, SluggableTrait;
@@ -21,20 +23,14 @@ class {NAME}Translation
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    *@ORM\Column(name="title", type="string", nullable=true)
-    **/
-    private $title;
+    #[ORM\Column(name:"title", type: 'string')]
+        protected $title;
 
-    /**
-    *@ORM\Column(name="shortContent", type="string", nullable=true)
-    **/
-    private $shortContent;
+    #[ORM\Column(name:"shortContent", type: 'text')]
+    protected $shortContent;
 
-    /**
-    *@ORM\Column(name="content", type="text", nullable=true)
-    **/
-    private $content;
+    #[ORM\Column(name:"content", type: 'text')]
+    protected $content;
 
     public function getId(): ?int
     {
