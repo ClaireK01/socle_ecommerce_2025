@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\{NAME};
+use App\Form\{NAME}Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
