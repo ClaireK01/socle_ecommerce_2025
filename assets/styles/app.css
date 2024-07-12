@@ -50,3 +50,19 @@ nav ul li{
 .image-container img{
     object-fit: cover;
 }
+
+.contact-list-item{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+}
+.contact-profile-pic{
+    width: 60px;
+    height: 60px;
+    background-color: lightgrey;
+}
+
+.contact-infos{
+    display: flex;
+    flex-direction: column;
+}
