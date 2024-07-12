@@ -23,6 +23,7 @@ Encore
     .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
     .addEntry('bootstrap_modal', './node_modules/bootstrap/js/dist/modal')
     .addEntry('js', './assets/js/main.js')
+    .addEntry('js-socket', './assets/js/websocket/socket.js')
     .addStyleEntry('style', './assets/styles/main.css')
     .addEntry('js-admin', './assets/js/app.js')
     .addEntry('js-slider', './assets/js/slider.js')
@@ -85,3 +86,4 @@ Encore
 ;
 
 module.exports = Encore.getWebpackConfig();
+

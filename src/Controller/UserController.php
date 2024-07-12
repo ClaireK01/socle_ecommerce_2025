@@ -32,7 +32,7 @@ class UserController extends AbstractController
             $this->em->flush();
         }
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/show.html.twig', [
             'form'=>$form->createView(),
         ]);
     }
