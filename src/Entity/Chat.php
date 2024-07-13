@@ -2,51 +2,48 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
-use Psr\Http\Message\MessageInterface;
+use App\Repository\UserRepository;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Twig\Environment;
 
-
-
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
-use Symfony\Component\VarDumper\VarDumper;
-
-
-//#[ORM\Entity(repositoryClass: ChatRepository::class)]
 class Chat implements MessageComponentInterface
 {
+
+
     protected $clients;
     private $serializer;
-//    private $logger;
+    private $logger;
+    private $repository;
+    private $twig;
 
-    public function __construct(EncoderInterface $serializer){
+    public function __construct(EncoderInterface $serializer, LoggerInterface $logger,
+                                UserRepository $repository, Environment $twig
+    ){
         $this->clients =  new \SplObjectStorage;
         $this->serializer = $serializer;
+        $this->logger = $logger;
+        $this->repository = $repository;
+        $this->twig = $twig;
     }
 
 
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
+        $count = count($this->clients);
+        $this->sendToClient($conn, $this->clients, $this->encode(['count' => $count]));
+        $this->sendToClient($conn, $this->clients, $this->encode(['clients' => $this->getTemplate()]));
+
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        foreach($this->clients as $c){
-            if($from !== $c){
-                $c->send($msg);
-            }
-        }
+        $this->sendToOtherClients($from, $this->clients, $this->encode(['message' => $msg]));
+
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -59,6 +56,28 @@ class Chat implements MessageComponentInterface
         $conn->close();
     }
 
+    public function sendToClient($from, $clients, $message){
+        foreach($clients as $c){
+            if($from == $c){
+                $c->send($message);
+            }
+        }
+    }
 
+    public function sendToOtherClients($from, $clients, $message){
+        foreach($clients as $c){
+            if($from !== $c){
+                $c->send($message);
+            }
+        }
+    }
+
+    public function encode($data){
+        return $this->serializer->encode($data, 'json');
+    }
+
+    public function getTemplate(){
+        return $this->twig->render('websocket/clients.html.twig', ["clients" => $this->clients]);
+    }
 
 }
