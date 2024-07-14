@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Chat;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Ratchet\App;
 use Ratchet\Http\HttpServer;
@@ -15,6 +16,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -31,15 +34,21 @@ class SocketCommand extends Command
     private LoggerInterface $logger;
     private UserRepository $repository;
     private Environment $twig;
+    private EntityManagerInterface $em;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(EncoderInterface $serializer, LoggerInterface $logger,
-                                UserRepository $repository, Environment $twig)
+                                UserRepository $repository, Environment $twig, EntityManagerInterface $em,
+                                EventDispatcherInterface $dispatcher
+    )
     {
         parent::__construct();
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->repository = $repository;
         $this->twig = $twig;
+        $this->em = $em;
+        $this->dispatcher = $dispatcher;
 
     }
 
@@ -59,7 +68,7 @@ class SocketCommand extends Command
                 new SessionProvider(
                     new WsServer(
                         new Chat($this->serializer, $this->logger, $this->repository,
-                                $this->twig)
+                                $this->twig, $this->em, $this->dispatcher)
                     ),
                     new MemcachedSessionHandler($memcache)
                 )

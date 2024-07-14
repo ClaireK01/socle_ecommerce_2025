@@ -29,10 +29,26 @@ ws.onclose = function (e){
 
 app = {
     clients : function(data){
-        document.querySelector('#client-list').innerHTML = data;
+        let clients = document.querySelector('.client-list');
+        if(clients){
+            clients.innerHTML = data;
+        }
+        let btns = document.querySelectorAll('.btn-sendmessage');
+        if(btns){
+            btns.forEach((el) => {
+                el.addEventListener('click', function (e){
+                    e.preventDefault();
+                    let link = e.currentTarget.dataset.message;
+                    window.location = link;
+                })
+            })
+        }
     },
     count : function(count){
-        document.querySelector('.count').innerHTML = count;
+        let c = document.querySelector('.count');
+        if(c){
+            c.innerHTML = count;
+        }
     },
     message : function(){},
 }

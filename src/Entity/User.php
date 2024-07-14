@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -35,6 +36,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     use PictureTrait;
 
+    const CONNECTED = 1;
+    const DISCONNECTED = 0;
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -52,6 +57,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\Column(name:"session_ids", type:"array", nullable:true)]
+    private ?array $session_ids = [];
+
+    #[ORM\Column(name:"status", type:"integer", nullable:true)]
+    private ?int $status;
+
+
+
     /**
      * @var string The hashed password
      */
@@ -62,8 +75,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Conversation::class)]
+    private Collection $conversations;
+
     public function __construct()
     {
+        $this->conversations = new ArrayCollection();
+        $this->session_ids = [];
     }
 
     public function getId(): ?int
@@ -179,5 +197,85 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSessionIds(): ?array
+    {
+        return $this->session_ids;
+    }
+
+    /**
+     */
+    public function setSessionIds(?array $session_ids): void
+    {
+        $this->session_ids = $session_ids;
+    }
+
+    public function addSessionId(?string $id){
+        if(!$this->session_ids){
+            $this->session_ids = [];
+        }
+
+        $ids = $this->session_ids;
+
+        if($id && !in_array($id, $ids)){
+            $ids[] = $id;
+            if(count($ids) > 3){
+                array_shift($ids);
+            }
+            $this->setSessionIds($ids);
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conversation>
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): static
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): static
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getSender() === $this) {
+                $conversation->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(?int $status): void
+    {
+        $this->status = $status;
     }
 }

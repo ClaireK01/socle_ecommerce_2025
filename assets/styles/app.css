@@ -40,7 +40,9 @@ nav ul li{
     background-color: #afabab;
 }
 
-
+.tag{
+    font-size: 0.8rem;
+}
 /***************************** image **********************/
 
 .image-container{
@@ -65,4 +67,22 @@ nav ul li{
 .contact-infos{
     display: flex;
     flex-direction: column;
+}
+
+
+/************* page message ******************/
+.message-container{
+    position: fixed;
+    bottom: 2rem;
+    width: 70%;
+}
+
+.message-text{
+    border: 1px solid lightgrey;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.message-text::-webkit-resizer {
+    display: none;
 }
