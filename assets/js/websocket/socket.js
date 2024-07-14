@@ -47,7 +47,8 @@ app = {
     count : function(count){
         let c = document.querySelector('.count');
         if(c){
-            c.innerHTML = count;
+            let num = parseInt(count) - 1;
+            c.innerHTML = num.toString();
         }
     },
     message : function(){},
