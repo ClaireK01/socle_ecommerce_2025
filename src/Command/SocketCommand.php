@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Chat;
+use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -36,10 +37,11 @@ class SocketCommand extends Command
     private Environment $twig;
     private EntityManagerInterface $em;
     private EventDispatcherInterface $dispatcher;
+    private ConversationRepository $conversationRepository;
 
     public function __construct(EncoderInterface $serializer, LoggerInterface $logger,
                                 UserRepository $repository, Environment $twig, EntityManagerInterface $em,
-                                EventDispatcherInterface $dispatcher
+                                EventDispatcherInterface $dispatcher, ConversationRepository $conversationRepository
     )
     {
         parent::__construct();
@@ -49,6 +51,7 @@ class SocketCommand extends Command
         $this->twig = $twig;
         $this->em = $em;
         $this->dispatcher = $dispatcher;
+        $this->conversationRepository = $conversationRepository;
 
     }
 
@@ -68,7 +71,7 @@ class SocketCommand extends Command
                 new SessionProvider(
                     new WsServer(
                         new Chat($this->serializer, $this->logger, $this->repository,
-                                $this->twig, $this->em, $this->dispatcher)
+                                $this->twig, $this->em, $this->dispatcher, $this->conversationRepository)
                     ),
                     new MemcachedSessionHandler($memcache)
                 )

@@ -3,10 +3,16 @@
 {% block body %}
 
     <div class="container my-5">
+        <div class="message-list" data-convo="{{ conversation.id }}">
+
+        </div>
 
        <div class="message-container">
            <hr>
-           <textarea class="message-text"></textarea>
+           <div class="message-text-container">
+               <textarea class="message-text"></textarea>
+                <button class="btn btn-primary btn-send-message">Envoyer</button>
+           </div>
        </div>
     </div>
 

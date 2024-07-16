@@ -21,6 +21,18 @@ class ConversationRepository extends ServiceEntityRepository
         parent::__construct($registry, Conversation::class);
     }
 
+    public function getConversationByMember($from, $to)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('c.members', 'm')
+        ->andWhere($qb->expr()->isMemberOf(":from", "c.members"))
+        ->andWhere($qb->expr()->isMemberOf(":to", "c.members"))
+        ->setParameters(["from" => $from, "to" => $to])
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Conversation[] Returns an array of Conversation objects
 //     */

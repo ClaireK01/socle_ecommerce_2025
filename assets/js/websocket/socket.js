@@ -1,31 +1,48 @@
-var ws = new WebSocket('ws://127.0.0.1:8080');
 
-ws.onopen = function(e) {
-    console.log("Connection established!");
 
-    //btn test
-    if(document.querySelector('.test-socket')){
-        document.querySelector('.test-socket').addEventListener('click', function (e){
-            ws.send('Salut !');
-        });
-    }
-};
+window.addEventListener('load', function (){
+    var ws = new WebSocket('ws://127.0.0.1:8080');
 
-ws.onmessage = function(e) {
-    let data = JSON.parse(e.data);
+    ws.onopen = function(e) {
+        console.log("Connection established!");
 
-    for(let id in data){
+        //btn test
+        // if(document.querySelector('.test-socket')){
+        //     document.querySelector('.test-socket').addEventListener('click', function (e){
+        //         ws.send('Salut !');
+        //     });
+        // }
+        let btn = document.querySelector('.btn-send-message');
+        if(btn){
+            btn.addEventListener('click', function(e){
+                e.preventDefault();
+                //mettre dans une function
+                let convo = document.querySelector('[data-convo]').dataset.convo;
+                let message = document.querySelector('.message-text').innerText;
+                ws.send(JSON.stringify({'message' : message, "convo" : convo}))
+            })
+        }
+    };
+
+    ws.onmessage = function(e) {
+        let data = JSON.parse(e.data);
+
+        for(let id in data){
             app[id](data[id]);
+        }
+    };
+
+    ws.onerror = function (e){
+        console.log(e)
     }
-};
 
-ws.onerror = function (e){
-    console.log(e)
-}
+    ws.onclose = function (e){
+        console.log('web socket closed')
+    }
 
-ws.onclose = function (e){
-    console.log('web socket closed')
-}
+})
+
+
 
 app = {
     clients : function(data){
@@ -51,7 +68,15 @@ app = {
             c.innerHTML = num.toString();
         }
     },
-    message : function(){},
+    conversation : function(){
+        let messages = document.querySelector('.message-list');
+        if(c){
+            messages.innerHTML = data;
+        }
+    },
+    message : function(msg){
+        console.log(msg)
+    },
 }
 
 

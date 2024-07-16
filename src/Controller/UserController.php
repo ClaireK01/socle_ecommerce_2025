@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Conversation;
 use App\Entity\User;
+use App\Repository\ConversationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,10 +42,22 @@ class UserController extends AbstractController
     }
 
     #[Route('/messages/{from}/{to}', name: 'app_user_convo')]
-    public function conversationAction(Request $request, User $from, User $to): Response
+    public function conversationAction(Request $request, User $from, User $to, ConversationRepository $conversationRepository, EntityManagerInterface $entityManager): Response
     {
+        $conversation = $conversationRepository->getConversationByMember($from, $to)[0];
+
+        if(!$conversation){
+            $conversation = new Conversation();
+            $conversation->addMember($from);
+            $conversation->addMember($to);
+            $entityManager->persist($conversation);
+            $entityManager->flush();
+        }
+
+        setcookie('conversation', $conversation->getId());
 
         return $this->render('user/conversation.html.twig', [
+            "conversation" => $conversation
         ]);
     }
 
