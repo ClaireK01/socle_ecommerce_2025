@@ -36,6 +36,10 @@ class UserWebSocketEventSubscriber implements EventSubscriberInterface {
         $r->setTimestamp($date);
         $user->addResourceId($r);
 
+        if(count($user->getResourceIds()) > 10){
+            $user->removeResourceId($user->getResourceIds()->first());
+        }
+
         $this->em->persist($user);
         $this->em->flush();
     }

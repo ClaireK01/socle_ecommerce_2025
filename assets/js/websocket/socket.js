@@ -64,6 +64,7 @@ app = {
         let messages = document.querySelector('.message-list');
         if(messages){
             messages.innerHTML = data;
+            document.querySelector('.message-container').scrollTo(0, document.querySelector('.message-container').scrollHeight);
         }
     },
     message : function(msg){

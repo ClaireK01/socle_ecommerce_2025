@@ -12,7 +12,6 @@ class AppController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function index(Request $request): Response
     {
-        setcookie('test', 'test');
         if($this->getUser()){
             setcookie('user', $this->getUser()->getId());
         }        return $this->render('app/index.html.twig', [

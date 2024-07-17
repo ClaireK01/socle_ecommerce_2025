@@ -7,7 +7,6 @@ use App\Events\Events;
 use App\Events\UserWebSocketEvent;
 use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -142,7 +141,7 @@ class Chat implements MessageComponentInterface
 //        }
 //    }
 
-    //trouver moyen d'eviter code dupliquer
+    //trouver moyen d'eviter ducplication de code
     public function sendTemplateToSpecificClient($from, $clients, $members){
 
         $cookies = $this->getCookies($from->httpRequest);
