@@ -71,7 +71,7 @@ nav ul li{
 
 
 /************* page message ******************/
-.message-container{
+.message-text-container{
     position: fixed;
     bottom: 2rem;
     width: 70%;
@@ -87,6 +87,16 @@ nav ul li{
     display: none;
 }
 
+.message-container{
+    max-height: 70vh;
+    overflow: scroll;
+}
+
+.message-list{
+    display: flex;
+    flex-direction: column;
+}
+
 .message-text-container{
     display: flex;
     justify-content: space-between;
@@ -94,4 +104,23 @@ nav ul li{
 
 .message-text-container button{
     margin-left: 1rem;
+}
+
+.message-sender{
+    background-color: #1baa1b;
+    color: white;
+    align-self: flex-end;
+}
+
+.message-receiver{
+    background-color: lightgrey;
+    color: black;
+    align-self: flex-start;
+}
+
+.message-bubble{
+    padding: 2rem 1rem;
+    margin: 1rem;
+    max-width: 50%;
+    border-radius: 12px;
 }

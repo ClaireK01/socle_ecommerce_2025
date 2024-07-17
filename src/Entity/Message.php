@@ -5,10 +5,16 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-class Message
+class Message implements TimestampableInterface
 {
+
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,14 +25,11 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?User $sender = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $created_at = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
-    #[ORM\Column(name:"read", type:"boolean", nullable:true)]
-    private bool $read;
+    #[ORM\Column(name:"is_read", type:"boolean", nullable:true)]
+    private ?bool $is_read = false;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,17 +41,6 @@ class Message
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
 
     public function getContent(): ?string
     {
@@ -74,22 +66,6 @@ class Message
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRead(): bool
-    {
-        return $this->read;
-    }
-
-    /**
-     * @param bool $read
-     */
-    public function setRead(bool $read): void
-    {
-        $this->read = $read;
-    }
-
     public function getConversation(): ?Conversation
     {
         return $this->conversation;
@@ -100,5 +76,15 @@ class Message
         $this->conversation = $conversation;
 
         return $this;
+    }
+
+    public function getIsRead(): ?bool
+    {
+        return $this->is_read;
+    }
+
+    public function setIsRead(?bool $is_read): void
+    {
+        $this->is_read = $is_read;
     }
 }

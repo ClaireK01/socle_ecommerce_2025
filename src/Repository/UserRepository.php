@@ -56,6 +56,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function getLastResourceIdUser($id){
+
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->join('u.resourceIds', 'r')
+            ->where('r.resourceId = :id')
+            ->setParameter('id', $id)
+            ->orderBy('r.timestamp', 'DESC')
+            ->setMaxResults(1)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

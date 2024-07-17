@@ -1,48 +1,40 @@
 
 
-window.addEventListener('load', function (){
-    var ws = new WebSocket('ws://127.0.0.1:8080');
+var ws = new WebSocket('ws://127.0.0.1:8080');
 
-    ws.onopen = function(e) {
-        console.log("Connection established!");
+ws.onopen = function(e) {
+    console.log("Connection established!");
 
-        //btn test
-        // if(document.querySelector('.test-socket')){
-        //     document.querySelector('.test-socket').addEventListener('click', function (e){
-        //         ws.send('Salut !');
-        //     });
-        // }
-        let btn = document.querySelector('.btn-send-message');
-        if(btn){
-            btn.addEventListener('click', function(e){
-                e.preventDefault();
-                //mettre dans une function
-                let convo = document.querySelector('[data-convo]').dataset.convo;
-                let message = document.querySelector('.message-text').innerText;
-                ws.send(JSON.stringify({'message' : message, "convo" : convo}))
-            })
-        }
-    };
+    let btn = document.querySelector('.btn-send-message');
+    if(btn){
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            //mettre dans une function
+            let convo = document.querySelector('[data-convo]').dataset.convo;
+            let messageContainer = document.querySelector('.message-text');
 
-    ws.onmessage = function(e) {
-        let data = JSON.parse(e.data);
-
-        for(let id in data){
-            app[id](data[id]);
-        }
-    };
-
-    ws.onerror = function (e){
-        console.log(e)
+            let json = JSON.stringify({"mess" : messageContainer.value, "convo" : convo});
+            ws.send(json)
+            messageContainer.value = '';
+        })
     }
+};
 
-    ws.onclose = function (e){
-        console.log('web socket closed')
+ws.onmessage = function(e) {
+    let data = JSON.parse(e.data);
+
+    for(let id in data){
+        app[id](data[id]);
     }
+};
 
-})
+ws.onerror = function (e){
+    console.log(e)
+}
 
-
+ws.onclose = function (e){
+    console.log('web socket closed')
+}
 
 app = {
     clients : function(data){
@@ -68,9 +60,9 @@ app = {
             c.innerHTML = num.toString();
         }
     },
-    conversation : function(){
+    conversation : function(data){
         let messages = document.querySelector('.message-list');
-        if(c){
+        if(messages){
             messages.innerHTML = data;
         }
     },

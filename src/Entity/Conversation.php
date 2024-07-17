@@ -6,12 +6,14 @@ use App\Repository\ConversationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 #[ORM\Entity(repositoryClass: ConversationRepository::class)]
-class Conversation
+class Conversation implements TimestampableInterface, SoftDeletableInterface
 {
     use TimestampableTrait;
     use SoftDeletableTrait;
@@ -25,7 +27,7 @@ class Conversation
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations')]
     private Collection $members;
 
-    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class, cascade: ["persist", "remove"])]
     private Collection $messages;
 
     public function __construct()

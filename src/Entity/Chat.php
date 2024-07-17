@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Events\ConversationWebSocketEvent;
 use App\Events\Events;
 use App\Events\UserWebSocketEvent;
 use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -45,24 +47,38 @@ class Chat implements MessageComponentInterface
 
 
     //TODO : trouver comment faire en sorte que cookie "conversation" puisse etre recuperer apres avoir ete mis sur la page
+    // -> faire en sorte que la page aille chercher les cookies dans le bon path (si possible eviter de les mettre sur l'acceuil)
 
     public function onOpen(ConnectionInterface $conn)
     {
 
         $cookies = $this->getCookies($conn->httpRequest);
         $user = $this->getUser($cookies);
+        $conversation = $this->getConversation($cookies);
 
         $this->clients->attach($conn);
         $count = count($this->clients);
         $this->sendToClient($conn, $this->clients, $this->encode(['count' => $count, 'clients' => $this->getTemplate($conn)]));
-        $this->sendToClient($conn, $this->clients, $this->encode(['conversation' => $this->getConversationTemplate($conn)]));
+        if($conversation){
+            $this->sendToClient($conn, $this->clients, $this->encode(['conversation' => $this->getConversationTemplate($conn)]));
+        }
         $this->dispatcher->dispatch(new UserWebSocketEvent($user, $conn->resourceId), Events::USER_CONNECETD);
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        $this->sendToOtherClients($from, $this->clients, $this->encode(['message' => $msg]));
+        $cookies = $this->getCookies($from->httpRequest);
+        $conversation = $this->getConversation($cookies);
+        $user = $this->getUser($cookies);
+        $array = json_decode($msg);
 
+        if($conversation){
+            $this->dispatcher->dispatch(new ConversationWebSocketEvent($conversation, $user, $array->mess), Events::CONVERSATION_MESSAGE_SENT);
+
+            if($conversation->getId() == $array->convo){
+                $this->sendTemplateToSpecificClient($from, $this->clients, $conversation->getMembers()->toArray());
+            }
+        }
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -93,6 +109,70 @@ class Chat implements MessageComponentInterface
             if($from !== $c){
                 $c->send($message);
             }
+        }
+    }
+
+//    public function sendToSpecificClient($from, $clients, $members, $message){
+//
+//        $cookies = $this->getCookies($from->httpRequest);
+//        $user = $this->getUser($cookies);
+//        $connected = false;
+//        $member = null;
+//
+//        foreach($clients as $c){
+//            if($from != $c){
+//                foreach ($members as $m){
+//                    if($m->findResourceId($c->resourceId)){
+//                        $member = $m;
+//                        break;
+//                    }
+//                }
+//
+//                if($member && $member != $user && $this->repository->getLastResourceIdUser($c->resourceId) == $member){
+//                    $c->send($message);
+//                    $connected = true;
+//                }
+//            }else{
+//                $c->send($message);
+//            }
+//        }
+//
+//        if(!$connected){
+//            var_dump('notify');
+//        }
+//    }
+
+    //trouver moyen d'eviter code dupliquer
+    public function sendTemplateToSpecificClient($from, $clients, $members){
+
+        $cookies = $this->getCookies($from->httpRequest);
+        $user = $this->getUser($cookies);
+        $connected = false;
+        $member = null;
+
+        foreach($clients as $c){
+            if($from != $c){
+                foreach ($members as $m){
+                    if($m->findResourceId($c->resourceId)){
+                        $member = $m;
+                        break;
+                    }
+                }
+
+                if($member && $member != $user && $this->repository->getLastResourceIdUser($c->resourceId) == $member){
+                    $message = $this->encode(['conversation' => $this->getConversationTemplate($c)]);
+                    $c->send($message);
+                    $connected = true;
+                }
+            }else{
+
+                $message = $this->encode(['conversation' => $this->getConversationTemplate($c)]);
+                $c->send($message);
+            }
+        }
+
+        if(!$connected){
+            var_dump('notify');
         }
     }
 
@@ -145,8 +225,6 @@ class Chat implements MessageComponentInterface
     }
 
     public function getConversation($cookies){
-        var_dump($cookies);
-
         if(array_key_exists('conversation', $cookies)){
             return $this->conversationRepository->find($cookies['conversation']);
         }

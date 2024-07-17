@@ -9,13 +9,10 @@ class UserWebSocketEvent {
 
     private User $user;
     private ?string $resourceId;
-    private ?string $message;
 
-    public function __construct(User $user, $resourceId = null, $message = null){
+    public function __construct(User $user, $resourceId = null){
         $this->user = $user;
-        $this->resourceId = $resourceId;
-        $this->message = $message;
-    }
+        $this->resourceId = $resourceId;}
 
     /**
      * @return User
@@ -28,11 +25,6 @@ class UserWebSocketEvent {
     public function getResourceId()
     {
         return $this->resourceId;
-    }
-
-    public function getMessage()
-    {
-        return $this->message;
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Subscriber;
 
+use App\Entity\ResourceId;
 use App\Entity\User;
 use App\Events\Events;
 use App\Events\UserWebSocketEvent;
@@ -17,7 +18,6 @@ class UserWebSocketEventSubscriber implements EventSubscriberInterface {
         return  [
             Events::USER_CONNECETD => "onUserConnected",
             Events::USER_DISCONNECTED => "onUserDisconnected",
-//            Events::USER_MESSAGE => "onUserMessage",
         ];
     }
 
@@ -27,9 +27,15 @@ class UserWebSocketEventSubscriber implements EventSubscriberInterface {
 
 
     public function onUserConnected(UserWebSocketEvent $event){
+        $date = new \DateTime();
         $user = $event->getUser();
         $user->setStatus(User::CONNECTED);
-        $user->addSessionId($event->getResourceId());
+
+        $r = new ResourceId();
+        $r->setResourceId($event->getResourceId());
+        $r->setTimestamp($date);
+        $user->addResourceId($r);
+
         $this->em->persist($user);
         $this->em->flush();
     }
