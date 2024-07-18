@@ -28,6 +28,9 @@ class Message implements TimestampableInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $short_content = null;
+
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Conversation $conversation = null;
@@ -94,5 +97,15 @@ class Message implements TimestampableInterface
         }
 
         return $this;
+    }
+
+    public function getShortContent(): ?string
+    {
+        return $this->short_content;
+    }
+
+    public function setShortContent(?string $short_content): void
+    {
+        $this->short_content = $short_content;
     }
 }

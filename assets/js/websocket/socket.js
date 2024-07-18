@@ -1,6 +1,6 @@
 
 
-var ws = new WebSocket('ws://127.0.0.1:8080');
+var ws = new WebSocket('ws://127.0.0.1:8080/profile/message');
 
 ws.onopen = function(e) {
     console.log("Connection established!");
@@ -51,7 +51,23 @@ app = {
                 el.addEventListener('click', function (e){
                     e.preventDefault();
                     let link = e.currentTarget.dataset.message;
-                    window.location = link;
+                    //from and to ids
+                    let from = e.currentTarget.dataset.f;
+                    let to = e.currentTarget.dataset.t
+                    let form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = link;
+                    form.style.display = "none";
+                    let inputFrom = document.createElement("input");
+                    inputFrom.name = "from";
+                    inputFrom.value = from;
+                    let inputTo = document.createElement("input");
+                    inputTo.name = "to";
+                    inputTo.value = to;
+                    form.appendChild(inputFrom)
+                    form.appendChild(inputTo)
+                    document.querySelector('body').appendChild(form)
+                    form.submit();
                 })
             })
         }

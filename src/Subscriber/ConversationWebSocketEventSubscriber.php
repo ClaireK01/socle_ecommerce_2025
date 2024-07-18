@@ -30,8 +30,14 @@ class ConversationWebSocketEventSubscriber implements EventSubscriberInterface {
         $user = $event->getUser();
 
         if($conversation->getMembers()->contains($user)) {
+            $content = $event->getMessage();
+            $limit = 150;
+            $length = strlen($content);
+            $shortContent = strlen($content) > $limit ? substr($content, 0, ($length -  ($length - $limit) )) : $content;
+
             $message = new Message();
             $message->setContent($event->getMessage());
+            $message->setShortContent($shortContent);
             $message->setSender($event->getUser());
             $message->addReadBy($event->getUser());
             $conversation->addMessage($message);

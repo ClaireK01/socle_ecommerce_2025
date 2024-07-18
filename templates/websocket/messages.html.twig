@@ -1,3 +1,4 @@
+
 {% for message in conversation.messages|sort((a, b) => a.createdAt <=> b.createdAt) %}
     <div class="{{ message.sender == user ? "message-sender" : "message-receiver" }} message-bubble">
         {{ message.content }}

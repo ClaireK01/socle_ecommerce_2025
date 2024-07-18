@@ -1,15 +1,24 @@
-{% for c in clients %}{% endfor %}
+{% set show_message = true %}
 {% if user %}
 {% for client in users %}
     {% if client != user %}
         <hr>
         <div class="contact-list-item">
-            <div class="contact-profile-pic">
-            </div>
+            <div class="contact-profile-pic"></div>
+            {% if show_message is defined and show_message == true %}
+                {% set message = getLastMessage(user, client) %}
+                <div class="contact-message">
+                    {% if message %}
+                        <span class="{{ user.id in message.readBy ? "short-content-message" : "short-content-message-bold" }}">
+                            {{ message.shortContent ? message.shortContent : "" }}
+                        </span>{{ message.content != message.shortContent ? '...' : '' }}
+                    {% endif %}
+                </div>
+            {% endif %}
             <div class="contact-infos">
                     {{ client.email }}
                     <span class="tag" style="color:{{ client.status == 0 ? 'grey' : 'green' }}"> &#x2022; {{ client.status == 0 ? 'Non connecté' : 'Connecté'}}</span>
-                <button class="btn btn-success btn-sendmessage" data-message="{{ path('app_user_convo', {'from' : user.id, 'to':client.id}) }}">Envoyer un message</button>
+                <button class="btn btn-success btn-sendmessage" data-message="{{ path('app_user_convo') }}" data-f="{{ user.id }}" data-t="{{ client.id }}">Envoyer un message</button>
             </div>
         </div>
     {% endif %}

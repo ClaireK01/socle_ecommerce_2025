@@ -65,6 +65,7 @@ class SocketCommand extends Command
 
         $memcache = new \Memcached();
         $memcache->addServer('127.0.0.1', 8000);
+        $memcache->addServer('127.0.0.1/profile/messages', 8000);
 
         $server = IoServer::factory(
             new HttpServer(

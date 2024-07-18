@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,9 +42,16 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/messages/{from}/{to}', name: 'app_user_convo')]
-    public function conversationAction(Request $request, User $from, User $to, ConversationRepository $conversationRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/messages', name: 'app_user_convo', methods: ['POST'])]
+    public function conversationAction(Request $request, ConversationRepository $conversationRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
+        $from = $userRepository->find($request->request->get('from'));
+        $to = $userRepository->find($request->request->get('to'));
+
+        if(!$from || !$to){
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $conversation = $conversationRepository->getConversationByMember($from, $to)[0];
 
         if(!$conversation){
@@ -54,7 +62,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        setcookie('conversation', $conversation->getId());
+        setcookie('conversation', $conversation->getId(), 0, '/');
 
         return $this->render('user/conversation.html.twig', [
             "conversation" => $conversation

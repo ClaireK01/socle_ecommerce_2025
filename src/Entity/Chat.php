@@ -8,17 +8,21 @@ use App\Events\UserWebSocketEvent;
 use App\Repository\ConversationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Self_;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\VarDumper\VarDumper;
 use Twig\Environment;
 
 class Chat implements MessageComponentInterface
 {
 
+    const TYPE_CONVERSATION = 'conversation';
+    const TYPE_CLIENTS = 'clients';
 
     protected $clients;
     private $serializer;
@@ -46,6 +50,7 @@ class Chat implements MessageComponentInterface
 
     //TODO : trouver comment faire en sorte que cookie "conversation" puisse etre recuperer apres avoir ete mis sur la page
     // -> faire en sorte que la page aille chercher les cookies dans le bon path (si possible eviter de les mettre sur l'acceuil)
+    // -> notif check (premier chargement et notif de page profil ne marche pas a cause de ça)
 
     public function onOpen(ConnectionInterface $conn)
     {
@@ -57,8 +62,7 @@ class Chat implements MessageComponentInterface
         $count = count($this->clients);
         $this->sendToClient($conn, $this->clients, $this->encode(['count' => $count, 'clients' => $this->getTemplate($conn)]));
         if($conversation){
-//            $this->sendToClient($conn, $this->clients, $this->encode(['conversation' => $this->getConversationTemplate($conn)]));
-            $this->sendTemplateToSpecificClients($conn, $this->clients, $conversation->getMembers()->toArray());
+            $this->sendToSpecificClients($conn, $this->clients, $conversation->getMembers()->toArray(), self::TYPE_CONVERSATION);
         }
         if($user){
             $this->dispatcher->dispatch(new UserWebSocketEvent($user, $conn->resourceId), Events::USER_CONNECETD);
@@ -76,7 +80,7 @@ class Chat implements MessageComponentInterface
             $this->dispatcher->dispatch(new ConversationWebSocketEvent($conversation, $user, $array->mess), Events::CONVERSATION_MESSAGE_SENT);
 
             if($conversation->getId() == $array->convo){
-                $this->sendTemplateToSpecificClients($from, $this->clients, $conversation->getMembers()->toArray());
+                $this->sendToSpecificClients($from, $this->clients, $conversation->getMembers()->toArray(), self::TYPE_CONVERSATION);
             }
         }
     }
@@ -113,43 +117,24 @@ class Chat implements MessageComponentInterface
         }
     }
 
-//    public function sendToSpecificClient($from, $clients, $members, $message){
-//
-//        $cookies = $this->getCookies($from->httpRequest);
-//        $user = $this->getUser($cookies);
-//        $connected = false;
-//        $member = null;
-//
-//        foreach($clients as $c){
-//            if($from != $c){
-//                foreach ($members as $m){
-//                    if($m->findResourceId($c->resourceId)){
-//                        $member = $m;
-//                        break;
-//                    }
-//                }
-//
-//                if($member && $member != $user && $this->repository->getLastResourceIdUser($c->resourceId) == $member){
-//                    $c->send($message);
-//                    $connected = true;
-//                }
-//            }else{
-//                $c->send($message);
-//            }
-//        }
-//
-//        if(!$connected){
-//            var_dump('notify');
-//        }
-//    }
-
-    //trouver moyen d'eviter ducplication de code
-    public function sendTemplateToSpecificClients($from, $clients, $members){
+    public function sendToSpecificClients($from, $clients, $members, $type){
 
         $cookies = $this->getCookies($from->httpRequest);
         $user = $this->getUser($cookies);
         $connected = false;
         $member = null;
+        $templateUser = '';
+
+        //degeulasse eviter la repet en haut et bas si possible dans le futur (mais pr l'instant resout le pb des notif non synchro pour le user)
+        foreach($clients as $c) {
+            if($from == $c) {
+                if(self::TYPE_CONVERSATION){
+                    $templateUser =   $this->getConversationTemplate($c);
+                    $message = $this->encode([$type => $templateUser]);
+                    $c->send($message);
+                }
+            }
+        }
 
         foreach($clients as $c){
             if($from != $c){
@@ -161,24 +146,34 @@ class Chat implements MessageComponentInterface
                 }
 
                 if($member && $member != $user && $this->repository->getLastResourceIdUser($c->resourceId) == $member){
-                    $message = $this->encode(['conversation' => $this->getConversationTemplate($c)]);
-                    $c->send($message);
-                    $connected = true;
+                    $template = $type == self::TYPE_CONVERSATION ? $this->getConversationTemplate($c) : $this->getTemplate($c);
+                    if($template != ''){
+                        $message = $this->encode([$type => $template]);
+                        $c->send($message);
+                        $connected = true;
+                    }
                 }
             }
         }
 
+        //repetition en question ; parfois le user doit avoir son template update en premier, parfois en dernier...
         foreach($clients as $c) {
             if($from == $c) {
-                $message = $this->encode(['conversation' => $this->getConversationTemplate($c)]);
-                $c->send($message);
+                if(self::TYPE_CONVERSATION){
+                    $newTemplateUser = $this->getConversationTemplate($c);
+                    if($templateUser != $newTemplateUser){
+                        $message = $this->encode([$type => $this->getConversationTemplate($c)]);
+                        $c->send($message);
+                    }
+                }
             }
         }
 
-
-        if(!$connected){
-            var_dump('notify');
+        if($type == self::TYPE_CONVERSATION && !$connected){
+            $this->sendToSpecificClients($from, $clients, $members, self::TYPE_CLIENTS);
         }
+
+        //ajouter notif sur le menu
     }
 
     public function encode($data){
@@ -198,7 +193,7 @@ class Chat implements MessageComponentInterface
         ]);
     }
 
-    public function getConversationTemplate($conn) : string{
+    public function getConversationTemplate($conn) : ?string {
         $cookies = $this->getCookies($conn->httpRequest);
         $user = $this->getUser($cookies);
         $conversation = $this->getConversation($cookies);
@@ -208,19 +203,20 @@ class Chat implements MessageComponentInterface
             //attention, se declenchera sur chaque page a cause du path du cookie
             //checker si ne se declenche pas sur mauvaise convo (une fois cookie resolu)
             $this->dispatcher->dispatch(new ConversationWebSocketEvent($conversation, $user), Events::CONVERSATION_OPENED);
+
+            return $this->twig->render('websocket/messages.html.twig', [
+                "conversation" => $conversation,
+                "user" => $user,
+            ]);
         }
 
-        return $this->twig->render('websocket/messages.html.twig', [
-
-            "conversation" => $conversation,
-            "user" => $user,
-        ]);
+        return '';
     }
 
 
     public function getCookies($request) : array{
        $cookies = [];
-       $array =  explode(';', $request->getHeader('Cookie')[0]);
+        $array =  explode(';', $request->getHeader('Cookie')[0]);
        foreach ($array as $cookie){
            $val = explode('=', $cookie);
            $cookies[str_replace(' ', '', $val[0])] = $val[1];
