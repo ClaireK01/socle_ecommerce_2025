@@ -9,13 +9,13 @@ use App\Repository\ConversationRepository;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 class ConversationWebSocketEventSubscriber implements EventSubscriberInterface {
 
     public static function getSubscribedEvents() : array
     {
         return  [
+            Events::CONVERSATION_OPENED => "onConversationOpened",
             Events::CONVERSATION_MESSAGE_SENT => "onConversationMessageSent",
         ];
     }
@@ -27,14 +27,34 @@ class ConversationWebSocketEventSubscriber implements EventSubscriberInterface {
 
     public function onConversationMessageSent(ConversationWebSocketEvent $event) : void {
         $conversation = $event->getConversation();
+        $user = $event->getUser();
 
-        $message = new Message();
-        $message->setContent($event->getMessage());
-        $message->setSender($event->getUser());
-        $conversation->addMessage($message);
+        if($conversation->getMembers()->contains($user)) {
+            $message = new Message();
+            $message->setContent($event->getMessage());
+            $message->setSender($event->getUser());
+            $message->addReadBy($event->getUser());
+            $conversation->addMessage($message);
 
-        $this->em->persist($conversation);
-        $this->em->flush();
+            $this->em->persist($conversation);
+            $this->em->flush();
+        }
+    }
+
+    public function onConversationOpened(ConversationWebSocketEvent $event) : void{
+        $conversation = $event->getConversation();
+        $user = $event->getUser();
+
+        if($conversation->getMembers()->contains($user)){
+            foreach ($conversation->getMessages() as $m){
+                $m = $m->addReadBy($user);
+                $this->em->persist($m);
+            }
+
+            $this->em->flush();
+        }
+
+
     }
 
 

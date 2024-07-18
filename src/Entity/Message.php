@@ -28,13 +28,13 @@ class Message implements TimestampableInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
-    #[ORM\Column(name:"is_read", type:"boolean", nullable:true)]
-    private ?bool $is_read = false;
-
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Conversation $conversation = null;
 
+
+    #[ORM\Column(name:"read_by", type:"simple_array", nullable:true)]
+    private ?array $read_by = [];
 
     public function getId(): ?int
     {
@@ -78,13 +78,21 @@ class Message implements TimestampableInterface
         return $this;
     }
 
-    public function getIsRead(): ?bool
+    public function getReadBy(): ?array
     {
-        return $this->is_read;
+        return $this->read_by;
     }
 
-    public function setIsRead(?bool $is_read): void
+    public function setReadBy(?array $read_by): void
     {
-        $this->is_read = $is_read;
+        $this->read_by = $read_by;
+    }
+
+    public function addReadBy($user){
+        if(!in_array($user->getId(), $this->read_by)){
+            $this->read_by[] = $user->getId();
+        }
+
+        return $this;
     }
 }

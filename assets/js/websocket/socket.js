@@ -6,16 +6,19 @@ ws.onopen = function(e) {
     console.log("Connection established!");
 
     let btn = document.querySelector('.btn-send-message');
-    if(btn){
+    let textInput = document.querySelector('.message-text');
+    if(btn) {
         btn.addEventListener('click', function(e){
             e.preventDefault();
-            //mettre dans une function
-            let convo = document.querySelector('[data-convo]').dataset.convo;
-            let messageContainer = document.querySelector('.message-text');
-
-            let json = JSON.stringify({"mess" : messageContainer.value, "convo" : convo});
-            ws.send(json)
-            messageContainer.value = '';
+            app.send();
+        })
+    }
+    if(textInput) {
+        textInput.addEventListener('keypress', function(e){
+            if(e.key === "Enter"){
+                e.preventDefault();
+                app.send();
+            }
         })
     }
 };
@@ -69,6 +72,14 @@ app = {
     },
     message : function(msg){
         console.log(msg)
+    },
+
+    send : function (){
+        let convo = document.querySelector('[data-convo]').dataset.convo;
+        let messageContainer = document.querySelector('.message-text');
+        let json = JSON.stringify({"mess" : messageContainer.value, "convo" : convo});
+        ws.send(json)
+        messageContainer.value = '';
     },
 }
 

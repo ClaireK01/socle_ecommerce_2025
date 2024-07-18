@@ -1,6 +1,9 @@
 {% for message in conversation.messages|sort((a, b) => a.createdAt <=> b.createdAt) %}
     <div class="{{ message.sender == user ? "message-sender" : "message-receiver" }} message-bubble">
         {{ message.content }}
+        {% for i in message.readBy %}
+            <span class="check-read" style="right:{{ i * 6 }}px"><i class="fa fa-check"></i></span>
+        {% endfor %}
     </div>
 {% endfor %}
 

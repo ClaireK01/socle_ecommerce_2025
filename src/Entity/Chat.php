@@ -28,7 +28,6 @@ class Chat implements MessageComponentInterface
     private $twig;
     private $conversationRepository;
     private EntityManagerInterface $em;
-    private ?User $user;
 
     public function __construct(EncoderInterface $serializer, LoggerInterface $logger,
                                 UserRepository $repository, Environment $twig, EntityManagerInterface $em,
@@ -50,7 +49,6 @@ class Chat implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-
         $cookies = $this->getCookies($conn->httpRequest);
         $user = $this->getUser($cookies);
         $conversation = $this->getConversation($cookies);
@@ -59,9 +57,12 @@ class Chat implements MessageComponentInterface
         $count = count($this->clients);
         $this->sendToClient($conn, $this->clients, $this->encode(['count' => $count, 'clients' => $this->getTemplate($conn)]));
         if($conversation){
-            $this->sendToClient($conn, $this->clients, $this->encode(['conversation' => $this->getConversationTemplate($conn)]));
+//            $this->sendToClient($conn, $this->clients, $this->encode(['conversation' => $this->getConversationTemplate($conn)]));
+            $this->sendTemplateToSpecificClients($conn, $this->clients, $conversation->getMembers()->toArray());
         }
-        $this->dispatcher->dispatch(new UserWebSocketEvent($user, $conn->resourceId), Events::USER_CONNECETD);
+        if($user){
+            $this->dispatcher->dispatch(new UserWebSocketEvent($user, $conn->resourceId), Events::USER_CONNECETD);
+        }
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
@@ -75,7 +76,7 @@ class Chat implements MessageComponentInterface
             $this->dispatcher->dispatch(new ConversationWebSocketEvent($conversation, $user, $array->mess), Events::CONVERSATION_MESSAGE_SENT);
 
             if($conversation->getId() == $array->convo){
-                $this->sendTemplateToSpecificClient($from, $this->clients, $conversation->getMembers()->toArray());
+                $this->sendTemplateToSpecificClients($from, $this->clients, $conversation->getMembers()->toArray());
             }
         }
     }
@@ -84,8 +85,9 @@ class Chat implements MessageComponentInterface
     {
         $cookies = $this->getCookies($conn->httpRequest);
         $user = $this->getUser($cookies);
-
-        $this->dispatcher->dispatch(new UserWebSocketEvent($user), Events::USER_DISCONNECTED);
+        if($user){
+            $this->dispatcher->dispatch(new UserWebSocketEvent($user), Events::USER_DISCONNECTED);
+        }
         $this->clients->detach($conn);
     }
 
@@ -142,7 +144,7 @@ class Chat implements MessageComponentInterface
 //    }
 
     //trouver moyen d'eviter ducplication de code
-    public function sendTemplateToSpecificClient($from, $clients, $members){
+    public function sendTemplateToSpecificClients($from, $clients, $members){
 
         $cookies = $this->getCookies($from->httpRequest);
         $user = $this->getUser($cookies);
@@ -163,12 +165,16 @@ class Chat implements MessageComponentInterface
                     $c->send($message);
                     $connected = true;
                 }
-            }else{
+            }
+        }
 
+        foreach($clients as $c) {
+            if($from == $c) {
                 $message = $this->encode(['conversation' => $this->getConversationTemplate($c)]);
                 $c->send($message);
             }
         }
+
 
         if(!$connected){
             var_dump('notify');
@@ -197,7 +203,15 @@ class Chat implements MessageComponentInterface
         $user = $this->getUser($cookies);
         $conversation = $this->getConversation($cookies);
 
+        if($conversation && $user){
+            //si va chercher template == conversation ouverte
+            //attention, se declenchera sur chaque page a cause du path du cookie
+            //checker si ne se declenche pas sur mauvaise convo (une fois cookie resolu)
+            $this->dispatcher->dispatch(new ConversationWebSocketEvent($conversation, $user), Events::CONVERSATION_OPENED);
+        }
+
         return $this->twig->render('websocket/messages.html.twig', [
+
             "conversation" => $conversation,
             "user" => $user,
         ]);

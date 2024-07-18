@@ -8,5 +8,6 @@ class Events{
     const USER_DISCONNECTED = "user.disconnected";
     const USER_MESSAGE = "user.message";
     const CONVERSATION_MESSAGE_SENT = "conversation.message.sent";
+    const CONVERSATION_OPENED = "conversation.opened";
 
 }
