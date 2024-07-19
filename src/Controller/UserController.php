@@ -52,14 +52,16 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $conversation = $conversationRepository->getConversationByMember($from, $to)[0];
+        $conversations = $conversationRepository->getConversationByMember($from, $to);
 
-        if(!$conversation){
+        if(!$conversations){
             $conversation = new Conversation();
             $conversation->addMember($from);
             $conversation->addMember($to);
             $entityManager->persist($conversation);
             $entityManager->flush();
+        }else{
+            $conversation = $conversations[0];
         }
 
         setcookie('conversation', $conversation->getId(), 0, '/');
