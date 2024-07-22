@@ -32,6 +32,7 @@ class TwigExtension extends AbstractExtension
     {
         /** @var Conversation $conversation */
         $conversations = $this->conversationRepository->getConversationByMember($user, $member);
+        $conversation = null;
         if(!empty($conversations)){
             $conversation = $conversations[0];
         }
