@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            {% for product in products %}
+                <div class="card-product">
+                    <div class="card-product-img">
+
+                    </div>
+                    <div class="card-product-descr">
+                        <p>{{ product.translate.title }}</p>
+                        <p>{{ product.translate.shortContent }}</p>
+                        <p>{{ product.price }}€</p>
+                        <button class="btn btn-warning add-cart">Ajouter au panier</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

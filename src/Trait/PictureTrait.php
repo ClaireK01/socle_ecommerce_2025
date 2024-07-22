@@ -15,10 +15,6 @@ use Doctrine\ORM\Mapping\ManyToMany;
 
 trait PictureTrait
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity")]
     #[JoinTable(name: "entity_picture")]

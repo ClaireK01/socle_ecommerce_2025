@@ -64,8 +64,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name:"status", type:"integer", nullable:true)]
     private ?int $status;
 
-
-
     /**
      * @var string The hashed password
      */
@@ -82,11 +80,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ResourceId::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $resourceIds;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $addresses;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class, cascade: ['persist'])]
+    private Collection $orders;
+
     public function __construct()
     {
-        $this->conversations = new ArrayCollection();
         $this->session_ids = [];
+        $this->conversations = new ArrayCollection();
         $this->resourceIds = new ArrayCollection();
+        $this->address = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,7 +283,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function findResourceId($id) : bool{
 
         foreach ($this->getResourceIds() as $rIds){
@@ -288,5 +292,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return false;
+    }
+
+    public function getAddresses(){
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $addresse): self
+    {
+        if (!$this->addresses->contains($addresse)) {
+            $this->addresses->add($addresse);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $addresse): self
+    {
+        $this->addresses->removeElement($addresse);
+
+        return $this;
     }
 }
