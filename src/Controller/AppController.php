@@ -21,15 +21,4 @@ class AppController extends AbstractController
             'controller_name' => 'AppController',
         ]);
     }
-
-
-    #[Route('{_locale}/products/list', name: 'app_product_list')]
-    public function list(Request $request, ProductRepository $productRepository): Response
-    {
-        $products = $productRepository->findAll();
-
-        return $this->render('app/product/list.html.twig', [
-            'products' => $products,
-        ]);
-    }
 }

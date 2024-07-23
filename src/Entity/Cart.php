@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CartRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -28,10 +29,15 @@ class Cart
     #[ORM\Column(type: 'string', nullable:true)]
     private $session_id;
 
-    #[JoinTable(name: "cart_card_product")]
-    #[JoinColumn(name: "cart_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "card_product_id", referencedColumnName: "id")]
+//    #[ORM\ManyToMany(targetEntity: CardProduct::class, cascade: ["persist", "remove"])]
+
+    #[ORM\OneToMany(targetEntity: CardProduct::class, mappedBy: 'cart', cascade: ['persist', 'remove'])]
     private $cardProducts;
+
+
+    public function __construct(){
+        $this->cardProducts = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -47,6 +53,7 @@ class Cart
     {
         if (!$this->cardProducts->contains($cardProduct)) {
             $this->cardProducts->add($cardProduct);
+            $cardProduct->setCart($this);
         }
 
         return $this;
@@ -57,5 +64,21 @@ class Cart
         $this->cardProducts->removeElement($cardProduct);
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSessionId()
+    {
+        return $this->session_id;
+    }
+
+    /**
+     * @param mixed $session_id
+     */
+    public function setSessionId($session_id): void
+    {
+        $this->session_id = $session_id;
     }
 }

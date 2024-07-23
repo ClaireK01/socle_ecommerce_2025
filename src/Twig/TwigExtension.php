@@ -2,8 +2,11 @@
 
 namespace App\Twig;
 
+use App\Entity\Cart;
 use App\Entity\Conversation;
+use App\Repository\CartRepository;
 use App\Repository\ConversationRepository;
+use App\Service\OrderService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -11,7 +14,9 @@ use Twig\TwigFunction;
 class TwigExtension extends AbstractExtension
 {
 
-    public function __construct( private readonly ConversationRepository $conversationRepository)
+    public function __construct(    private readonly ConversationRepository $conversationRepository, private readonly OrderService $orderService,
+                                    private readonly CartRepository $cartRepository
+    )
     {
 
     }
@@ -25,6 +30,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('getLastMessage', [$this, 'getLastMessage']),
+            new TwigFunction('getShopCount', [$this, 'getShopCount']),
         ];
     }
 
@@ -42,5 +48,17 @@ class TwigExtension extends AbstractExtension
         }
 
         return null;
+    }
+
+    public function getShopCount($session){
+        $cart = $this->cartRepository->findOneBy(['session_id' => $session->getId()]);
+
+
+
+        if($cart instanceof Cart){
+            return $this->orderService->getCartInfos($cart)['total_quantity'];
+        }
+
+        return 0;
     }
 }

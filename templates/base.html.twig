@@ -13,24 +13,10 @@
 
         {% block javascripts %}{% endblock %}
     </head>
-    <body>
+    <body data-controller="ecommerce">
         {% block header %}
         <header>
-            <nav>
-                <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>
-                <ul>
-                    <li>A propos</li>
-                    <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>
-                    <li><a href="{{ path('app_product_list') }}">Page de product test</a></li>
-                    {% if app.user %}
-                        <li><a href="{{ path('app_user') }}" class="btn btn-primary">Mon Profil</a></li>
-                        <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>
-                    {% else %}
-                        <li><a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a></li>
-                        <li><a href="{{ path('app_login') }}" class="btn btn-primary">Se Connecter</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
+            {% include 'app/_inc/_menu.html.twig' %}
         </header>
     {% endblock %}
         {% block body %}{% endblock %}

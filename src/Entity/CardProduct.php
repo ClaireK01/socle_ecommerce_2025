@@ -26,13 +26,19 @@ class CardProduct
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[JoinTable(name: "card_product_product")]
-    #[JoinColumn(name: "card_product_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "product_id", referencedColumnName: "id")]
-    private $products;
+
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    private $product;
 
     #[ORM\Column(type: 'integer', nullable:true)]
     private $quantity;
+
+    #[ORM\Column(type: 'integer', nullable:true)]
+    private $price;
+
+
+    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cardProducts")]
+    private $cart;
 
 
 
@@ -50,20 +56,68 @@ class CardProduct
         return $this->products;
     }
 
-    public function addProduct(Product $product): self
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
     {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
+        return $this->quantity;
     }
 
-    public function removeProduct(Product $product): self
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
     {
-        $this->products->removeElement($product);
+        $this->quantity = $quantity;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param mixed $product
+     */
+    public function setProduct($product): void
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    /**
+     * @param mixed $cart
+     */
+    public function setCart($cart): void
+    {
+        $this->cart = $cart;
     }
 
 }

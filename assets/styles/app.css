@@ -196,3 +196,20 @@ nav ul li{
     flex-direction: column;
     align-items: center;
 }
+
+/************************ ecommerce ***************************/
+
+.shop-icon-container{
+    position: relative;
+    font-size: 1.3rem;
+}
+
+.shop-count{
+    position: absolute;
+    top: 0;
+    right: -10px;
+    border-radius: 40px;
+    background-color: white;
+    font-size: 0.5rem;
+    padding: 0.05rem 0.3rem;
+}
