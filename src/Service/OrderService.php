@@ -92,4 +92,14 @@ class OrderService
 
         return $order;
     }
+
+    public function removeCart(Cart $cart)
+    {
+        foreach ($cart->getCardProducts() as $c){
+            $c->setCart(null);
+            $this->entityManager->persist($c);
+        }
+        $this->entityManager->remove($cart);
+        $this->entityManager->flush();
+    }
 }

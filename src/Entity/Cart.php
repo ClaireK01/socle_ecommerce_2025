@@ -30,7 +30,7 @@ class Cart implements TimestampableInterface
     #[ORM\Column(type: 'string', nullable:true)]
     private $session_id;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CardProduct::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CardProduct::class, cascade: ['persist'], orphanRemoval: false)]
     private $cardProducts;
 
 

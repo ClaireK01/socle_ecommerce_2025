@@ -19,6 +19,7 @@ commerce:
   validate: Valider le paiement
   pay: Payer
   checkoutForm: Paiement
+  empty: Aucun produit dans votre panier
 
 
 message:

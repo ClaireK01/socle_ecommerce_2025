@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\EcommerceOrder;
 use App\Repository\CartRepository;
 use App\Repository\EcommerceOrderRepository;
+use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
@@ -34,7 +36,8 @@ class StripeController extends AbstractController
 
 
     #[Route('/stripe/create-charge', name: 'app_stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request, EcommerceOrderRepository $orderRepository, EntityManagerInterface $entityManager, CartRepository $cartRepository)
+    public function createCharge(Request $request, EcommerceOrderRepository $orderRepository, EntityManagerInterface $entityManager,
+                                 CartRepository $cartRepository, OrderService $orderService)
     {
         $order = $request->request->get('order') ? $orderRepository->find($request->request->get('order')) : null ;
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
@@ -55,8 +58,10 @@ class StripeController extends AbstractController
 
             $order->setStatus(EcommerceOrder::PAYED);
             $entityManager->persist($order);
-            $entityManager->remove($cart);
-            $entityManager->flush();
+
+            if($cart instanceof Cart){
+                $orderService->removeCart($cart);
+            }
 
             return $this->redirectToRoute('payment_stripe_success', [], Response::HTTP_SEE_OTHER);
 
@@ -71,7 +76,6 @@ class StripeController extends AbstractController
 
     #[Route('payment/success', name: 'payment_stripe_success')]
     public function paymentSuccessAction(){
-
 
         return $this->render('app/payment/stripe_success.html.twig', [
             'controller_name' => 'AppController',
