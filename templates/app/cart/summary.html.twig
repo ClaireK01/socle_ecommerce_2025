@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="main">
+    <div class="container my-5">
+        <h1>{{ 'commerce.summary'|trans }}</h1>
+        <hr>
+        <div class="table-products">
+            {% if cart %}
+                {% for c in cart.cardProducts %}
+                    <div class="product list-item">
+                        <div class="card-product-img"></div>
+                        <div class="card-product-line">
+                            <p>{{ c.product.translate.title }}</p>
+                            <p>{{ c.quantity }}</p>
+                            <p>{{ c.product.price }}€</p>
+                            <p>{{ c.product.price * c.quantity }}€</p>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="order-infos">
+            <div class="address card-order-infos">
+                <span class="small-title">{{ 'commerce.address'|trans }}</span>
+                <h3>{{ address.label }}</h3>
+                <p>{{ address.address }}</p>
+                <p>{{ address.zipCode }}, {{ address.city|upper }}</p>
+            </div>
+            <div class="shipping card-order-infos">
+                <span class="small-title">{{ 'commerce.shipping'|trans }}</span>
+                <h3>{{ shipping.translate.title }}</h3>
+                <p>{{ shipping.translate.shortContent }}</p>
+            </div>
+            <div class="payment card-order-infos">
+                <span class="small-title">{{ 'commerce.payment'|trans }}</span>
+                <h3>{{ payment.translate.title }}</h3>
+                <p>{{ payment.translate.shortContent }}</p>
+            </div>
+        </div>
+        <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.previous'|trans }}</a>
+        <a class="btn btn-warning" href="{{ path('ecommerce_validate') }}">{{ 'commerce.validate'|trans }}</a>
+    </div>
+</div>
+{% endblock %}

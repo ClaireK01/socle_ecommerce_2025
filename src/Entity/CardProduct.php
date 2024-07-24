@@ -40,7 +40,8 @@ class CardProduct
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cardProducts")]
     private $cart;
 
-
+    #[ORM\ManyToOne(targetEntity: EcommerceOrder::class, inversedBy: "cardProducts")]
+    private $ecommerceOrder;
 
     public function __construct(){
         $this->products = new ArrayCollection();
@@ -118,6 +119,22 @@ class CardProduct
     public function setCart($cart): void
     {
         $this->cart = $cart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEcommerceOrder()
+    {
+        return $this->ecommerceOrder;
+    }
+
+    /**
+     * @param mixed $ecommerceOrder
+     */
+    public function setEcommerceOrder($ecommerceOrder): void
+    {
+        $this->ecommerceOrder = $ecommerceOrder;
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
@@ -13,9 +14,15 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
-class Order
+class EcommerceOrder
 {
     use SoftDeletableTrait,TimestampableTrait;
+
+
+    const PENDING = 0;
+    const CONFIRMED = 1;
+    const PAYED = 2;
+    const CANCELED = 3;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,7 +38,7 @@ class Order
     #[ORM\ManyToOne(targetEntity: Address::class)]
     private $facturation_address;
 
-    #[ORM\ManyToOne(targetEntity: CardProduct::class)]
+    #[ORM\OneToMany(targetEntity: CardProduct::class, mappedBy: "order")]
     private $cardProducts;
 
     #[ORM\ManyToOne(targetEntity: Shipping::class)]
@@ -47,6 +54,12 @@ class Order
     private $total_price_ht;
 
 
+    public function __construct()
+    {
+        $this->cardProducts = new ArrayCollection();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +73,7 @@ class Order
     {
         if (!$this->cardProducts->contains($cardProduct)) {
             $this->cardProducts->add($cardProduct);
+            $cardProduct->setEcommerceOrder($this);
         }
 
         return $this;
@@ -68,6 +82,13 @@ class Order
     public function removeCardProduct(CardProduct $cardProduct): self
     {
         $this->cardProducts->removeElement($cardProduct);
+
+        return $this;
+    }
+
+    public function setCardProducts($cardProducts)
+    {
+        $this->cardProducts = $cardProducts;
 
         return $this;
     }

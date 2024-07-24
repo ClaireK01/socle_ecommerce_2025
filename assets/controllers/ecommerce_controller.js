@@ -12,12 +12,14 @@ async function postData(url = "", donnees = {}) {
 export default class extends Controller{
     static targets = ["cart", "shopcount"];
 
-    connect(){
-        this.cartTarget.addEventListener('click', (e) => {
+    cartTargetConnected(element){
+        element.addEventListener('click', (e) => {
             let url = e.target.dataset.add;
             postData(url, {"quantity" : 1}).then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'];
             });
         })
     }
+
+    connect(){}
 }

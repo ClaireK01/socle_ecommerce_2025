@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="main">
+    <div class="container my-5">
+        <h1>{{ 'commerce.payment'|trans }}</h1>
+        <hr>
+        {% if paymentMethods|length > 0 %}
+            <form class="table-choices" action="#" method="POST">
+                {% for p in paymentMethods %}
+                    <div class="cart list-item">
+                        <input type="radio" id="{{ p.id }}" name="payment" value="{{ p.id }}">
+                        <div class="item-infos">
+                            <label for="{{ p.id }}" class="display-none">{{ p.translate.title }}</label>
+                            <h2>{{ p.translate.title }}</h2>
+                            <p>{{ p.translate.shortContent }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <a class="btn btn-warning" href="{{ path('ecommerce_shipping') }}">{{ 'all.previous'|trans }}</a>
+                <button type="submit" class="btn btn-warning">{{ 'all.next'|trans }}</button>
+            </form>
+        {% else %}
+            <p>{{ "commerce.noPayments"|trans }}</p>
+            <a class="btn btn-warning" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

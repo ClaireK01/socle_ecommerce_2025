@@ -3,7 +3,7 @@
 {% for client in users %}
     {% if client != user %}
         <hr>
-        <div class="contact-list-item">
+        <div class="contact list-item">
             <div class="contact-profile-pic"></div>
             {% if show_message is defined and show_message == true %}
                 {% set message = getLastMessage(user, client) %}

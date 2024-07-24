@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Order;
+use App\Entity\EcommerceOrder;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +23,7 @@ class OrderController extends AbstractController
 
         $qb = $em->createQueryBuilder();
         $qb->select('e')
-            ->from(Order::class, 'e')
+            ->from(EcommerceOrder::class, 'e')
         //->where('e.deletedAt is null')
         ;
 
@@ -60,9 +60,9 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[ParamConverter('order', class: Order::class)]
+    #[ParamConverter('order', class: EcommerceOrder::class)]
     #[Route('/delete/{id}', name: 'admin_order_delete')]
-    public function deleteAction(Order $order, Request $request, EntityManagerInterface $em): Response
+    public function deleteAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($order);
         $em->flush();

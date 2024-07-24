@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Order;
+use App\Entity\EcommerceOrder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,10 +18,10 @@ class OrderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Order::class);
+        parent::__construct($registry, EcommerceOrder::class);
     }
 
-    public function add(Order $entity, bool $flush = false): void
+    public function add(EcommerceOrder $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 

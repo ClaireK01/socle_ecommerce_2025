@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="main">
+    <div class="container my-5">
+        <h1>{{ 'commerce.address'|trans }}</h1>
+        <hr>
+        {% if user.addresses|length > 0 %}
+            <form class="table-choices" action="#" method="POST">
+                {% for a in user.addresses %}
+                    <div class="cart list-item">
+                        <input type="radio" id="{{ a.id }}" name="address" value="{{ a.id }}">
+                        <div class="item-infos">
+                            <label for="{{ a.id }}" class="display-none">{{ a.label }}</label>
+                            <h2>{{ a.label }}</h2>
+                            <p>{{ a.address }}</p>
+                            <p>{{ a.zipCode }}, {{ a.city|upper }}</p>
+                        </div>
+
+                    </div>
+                    <hr>
+                {% endfor %}
+                <a class="btn btn-warning" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                <button type="submit" class="btn btn-warning">{{ 'all.next'|trans }}</button>
+            </form>
+        {% else %}
+            <button class="btn-btn-warning">{{ "commerce.addAddress"|trans }}</button>
+            <a class="btn btn-warning" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

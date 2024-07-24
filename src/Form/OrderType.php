@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use App\Entity\Order;
+use App\Entity\EcommerceOrder;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,7 +22,7 @@ class OrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Order::class,
+            'data_class' => EcommerceOrder::class,
         ]);
     }
 }

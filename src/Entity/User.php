@@ -83,8 +83,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $addresses;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class, cascade: ['persist'])]
-    private Collection $orders;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: EcommerceOrder::class, cascade: ['persist'])]
+    private Collection $ecommerceOrders;
 
     public function __construct()
     {

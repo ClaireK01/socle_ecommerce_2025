@@ -1,5 +1,9 @@
 /************ header *********/
 
+.display-none{
+    display: none !important;
+}
+
 .main.div-pad{
     padding:7rem 0;
 }
@@ -53,7 +57,7 @@ nav ul li{
     object-fit: cover;
 }
 
-.contact-list-item{
+.list-item{
     width: 100%;
     justify-content: space-between;
     display: flex;
@@ -173,15 +177,23 @@ nav ul li{
 
 /************* page list product test ******************/
 
+.product-list{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .card-product{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1rem 0;
-    width: 20%;
+    width: 30%;
     align-items: center;
     border: lightgrey 1px solid;
     border-radius: 10px;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 .card-product-img{
@@ -212,4 +224,37 @@ nav ul li{
     background-color: white;
     font-size: 0.5rem;
     padding: 0.05rem 0.3rem;
+}
+
+
+/************************ cart ***************************/
+
+.small-title{
+    color: #9a9999;
+    font-size: 0.9rem;
+}
+
+.card-product-line{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart.list-item .item-infos{
+    margin: auto;
+}
+
+.order-infos{
+    display: flex;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.card-order-infos{
+    padding: 2rem 3rem;
+    width: 50%;
+    border-radius: 15px;
+    border: solid lightgrey 1px;
+    margin-top: 1rem;
+    margin-right: 1rem;
 }

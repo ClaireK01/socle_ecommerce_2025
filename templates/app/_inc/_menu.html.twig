@@ -5,7 +5,7 @@
         <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>
         <li><a href="{{ path('app_product_list') }}">Page de product test</a></li>
         <div class="shop-icon-container">
-            <li><a href="{{ path('app_homepage') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a href="{{ path('ecommerce_cart') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
             <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
         </div>
         {% if app.user %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="main">
+    <div class="container my-5">
+        <h1>{{ 'commerce.cart'|trans }}</h1>
+        <hr>
+        <div class="table-products">
+            {% if cart %}
+                {% for c in cart.cardProducts %}
+                     <div class="product list-item">
+                         <div class="card-product-img"></div>
+                         <div class="card-product-line">
+                             <p>{{ c.product.translate.title }}</p>
+                             <p>{{ c.quantity }}</p>
+                             <p>{{ c.product.price }}€</p>
+                             <p>{{ c.product.price * c.quantity }}€</p>
+                             <a class="btn btn-danger" href="{{ path('remove_from_cart', {'id' : c.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                         </div>
+                     </div>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+{#        <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.previous'|trans }}</a>#}
+    </div>
+</div>
+{% endblock %}

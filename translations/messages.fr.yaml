@@ -1,0 +1,20 @@
+all:
+  next: Suivant
+  previous: Précédent
+
+commerce:
+  cart: Panier
+  address: Adresse
+  payment: Paiment
+  shipping: Livraison
+  summary: Résumé de la commande
+  quantity: Quantité
+  price: Prix
+  unitPrice: Prix unitaire
+  totalPrice: Prix total
+  addAddress: Ajouter une adresse
+  noPayments: Aucun mode de paiement disponible
+  noShipping: Aucun mode de livraison disponible
+  validate: Valider le paiement
+
+

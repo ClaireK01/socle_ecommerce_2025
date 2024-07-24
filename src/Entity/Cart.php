@@ -29,9 +29,7 @@ class Cart
     #[ORM\Column(type: 'string', nullable:true)]
     private $session_id;
 
-//    #[ORM\ManyToMany(targetEntity: CardProduct::class, cascade: ["persist", "remove"])]
-
-    #[ORM\OneToMany(targetEntity: CardProduct::class, mappedBy: 'cart', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CardProduct::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $cardProducts;
 
 
@@ -62,6 +60,7 @@ class Cart
     public function removeCardProduct(CardProduct $cardProduct): self
     {
         $this->cardProducts->removeElement($cardProduct);
+        $cardProduct->setCart(null);
 
         return $this;
     }

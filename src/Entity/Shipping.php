@@ -28,6 +28,10 @@ class Shipping implements TranslatableInterface
     private $type;
 
 
+    #[ORM\Column(type: 'integer', nullable:true)]
+    private $price;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,6 +51,22 @@ class Shipping implements TranslatableInterface
     public function setType($type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
     }
 
 }
