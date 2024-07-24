@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,9 +18,9 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
-class Cart
+class Cart implements TimestampableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait;
+    use TimestampableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

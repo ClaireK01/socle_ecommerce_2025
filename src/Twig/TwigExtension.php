@@ -54,7 +54,7 @@ class TwigExtension extends AbstractExtension
         $cart = $this->cartRepository->findOneBy(['session_id' => $session->getId()]);
 
         if($cart instanceof Cart){
-            return $this->orderService->getCartInfos($cart)['total_quantity'];
+            return $this->orderService->getCartInfos($cart)['total_quantity'] ?? 0;
         }
 
         return 0;

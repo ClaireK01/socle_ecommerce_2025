@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\EcommerceOrder;
+use App\Repository\CartRepository;
+use App\Repository\EcommerceOrderRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,41 +22,63 @@ class StripeController extends AbstractController
     // test card  = Visa : 4242424242424242, Mastercard : 5555555555554444
 
 
-    #[Route('/stripe', name: 'app_stripe')]
-    public function index(): Response
+    #[ParamConverter('number', class: EcommerceOrder::class)]
+    #[Route('{number}/stripe', name: 'app_stripe')]
+    public function index(EcommerceOrder $order): Response
     {
         return $this->render('stripe/index.html.twig', [
             'stripe_key' => $_ENV["STRIPE_KEY"],
+            'order' => $order
         ]);
     }
 
 
     #[Route('/stripe/create-charge', name: 'app_stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request)
+    public function createCharge(Request $request, EcommerceOrderRepository $orderRepository, EntityManagerInterface $entityManager, CartRepository $cartRepository)
     {
+        $order = $request->request->get('order') ? $orderRepository->find($request->request->get('order')) : null ;
+        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+
+        if(!$order || $order->getStatus() != EcommerceOrder::PENDING){
+            return $this->redirectToRoute('payment_stripe_cancel');
+        }
+
         \Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
-        \Stripe\Charge::create ([
-            "amount" => 5 * 100,
-            "currency" => "usd",
-            "source" => $request->request->get('stripeToken'),
-            "description" => "Binaryboxtuts Payment Test"
-        ]);
-        $this->addFlash(
-            'success',
-            'Payment Successful!'
-        );
-        return $this->redirectToRoute('app_stripe', [], Response::HTTP_SEE_OTHER);
+
+        try{
+            \Stripe\Charge::create ([
+                "amount" => $order->getTotalPriceTtc() * 100,
+                "currency" => "usd",
+                "source" => $request->request->get('stripeToken'),
+                "description" => "Binaryboxtuts Payment Test"
+            ]);
+
+            $order->setStatus(EcommerceOrder::PAYED);
+            $entityManager->persist($order);
+            $entityManager->remove($cart);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('payment_stripe_success', [], Response::HTTP_SEE_OTHER);
+
+        }catch (ApiErrorException $exception){
+            $order->setStatus(EcommerceOrder::CANCELED);
+            $entityManager->persist($order);
+            $entityManager->flush();
+            return $this->redirectToRoute('payment_stripe_cancel', [], Response::HTTP_SEE_OTHER);
+        }
+
     }
 
-    #[Route('/payment/success', name: 'payment_stripe_success')]
+    #[Route('payment/success', name: 'payment_stripe_success')]
     public function paymentSuccessAction(){
+
 
         return $this->render('app/payment/stripe_success.html.twig', [
             'controller_name' => 'AppController',
         ]);
     }
 
-    #[Route('/payment/cancel', name: 'payment_stripe_cancel')]
+    #[Route('payment/cancel', name: 'payment_stripe_cancel')]
     public function paymentCancelAction(){
 
         return $this->render('app/payment/stripe_cancel.html.twig', [

@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderRepository;
+use App\Repository\EcommerceOrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,8 +15,8 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 
 
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-class EcommerceOrder
+#[ORM\Entity(repositoryClass: EcommerceOrderRepository::class)]
+class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 {
     use SoftDeletableTrait,TimestampableTrait;
 
@@ -28,6 +30,9 @@ class EcommerceOrder
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
+    #[ORM\Column(type: 'integer', nullable:true)]
+    private $number;
 
     #[ORM\Column(type: 'integer', nullable:true)]
     private $status;
@@ -203,6 +208,24 @@ class EcommerceOrder
     public function setPaymentMethod($payment_method): void
     {
         $this->payment_method = $payment_method;
+    }
+
+    /**
+     * @return mixed
+     * @ORM\PrePersist()
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * @param mixed $number
+     * @ORM\PrePersist()
+     */
+    public function setNumber($number): void
+    {
+        $this->number = $number;
     }
 
 

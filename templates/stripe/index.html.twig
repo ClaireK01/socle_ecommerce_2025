@@ -24,8 +24,9 @@
                     {% endfor %}
 
                     <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">
+                        <input type='hidden' name='order' id='order' value="{{ order.id }}">
                         <input type='hidden' name='stripeToken' id='stripe-token-id'>
-                        <label for="card-element" class="mb-5">Checkout Forms</label>
+                        <label for="card-element" class="mb-5">{{ "commerce.checkoutForm"|trans }}</label>
                         <br>
                         <div id="card-element" class="form-control" ></div>
                         <button
@@ -33,7 +34,7 @@
                                 class="btn btn-success mt-3"
                                 type="button"
                                 style="margin-top: 20px; width: 100%;padding: 7px;"
-                                onclick="createToken()">PAY $5
+                                onclick="createToken()">{{ "commerce.pay"|trans }} {{ order.totalPriceTtc }} €
                         </button>
                         </form>
                 </div>

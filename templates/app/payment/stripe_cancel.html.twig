@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Checkout canceled</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<section>
-    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
-</section>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            <h1>{{ "message.order.oops"|trans }}</h1>
+            <p>{{ "message.order.error"|trans }}</p>
+            <p><a href="{{ path('app_homepage') }}">{{ "all.backHome"|trans }}</a></p>
+            {#            <a href="mailto:orders@example.com">orders@example.com</a>.#}
+        </div>
+    </div>
+{% endblock %}

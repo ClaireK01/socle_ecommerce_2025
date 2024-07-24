@@ -206,7 +206,7 @@ class EcommerceController extends AbstractController
         $order = $orderService->createNewOrder($cart, $address, $shipping, $payment);
 
         if($order){
-            return $this->redirectToRoute("app_stripe_charge", ['id' => $order->getId()]);
+            return $this->redirectToRoute("app_stripe", ['number' => $order->getNumber()]);
         }
 
     }

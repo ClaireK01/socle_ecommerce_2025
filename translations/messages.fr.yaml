@@ -1,6 +1,7 @@
 all:
   next: Suivant
   previous: Précédent
+  backHome: Revenir à l'acceuil
 
 commerce:
   cart: Panier
@@ -16,5 +17,15 @@ commerce:
   noPayments: Aucun mode de paiement disponible
   noShipping: Aucun mode de livraison disponible
   validate: Valider le paiement
+  pay: Payer
+  checkoutForm: Paiement
+
+
+message:
+  order:
+    thank: Merci de votre commande !
+    oops: Erreur lors de votre commande
+    error: Une erreur est survenue lors de votre commande. Veuillez réessayer plus tard.
+    success: Votre commande a bien été confirmé. Vous recevrez un mail de confirmation sous peu.
 
 

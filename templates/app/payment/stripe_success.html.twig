@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Thanks for your order!</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<section>
-    <p>
-        We appreciate your business! If you have any questions, please email
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-    </p>
-</section>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            <h1>{{ "message.order.thank"|trans }}</h1>
+            <p>{{ "message.order.success"|trans }}</p>
+            <p><a href="{{ path('app_homepage') }}">{{ "all.backHome"|trans }}</a></p>
+{#            <a href="mailto:orders@example.com">orders@example.com</a>.#}
+        </div>
+    </div>
+{% endblock %}

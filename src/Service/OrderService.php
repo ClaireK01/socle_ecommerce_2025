@@ -8,6 +8,7 @@ use App\Entity\CardProduct;
 use App\Entity\Cart;
 use App\Entity\EcommerceOrder;
 use App\Repository\CartRepository;
+use App\Repository\EcommerceOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\VarDumper\VarDumper;
@@ -16,11 +17,13 @@ class OrderService
 {
     private CartRepository $cartRepository;
     private EntityManagerInterface $entityManager;
+    private EcommerceOrderRepository $ecommerceOrderRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository)
+    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository, EcommerceOrderRepository $ecommerceOrderRepository)
     {
         $this->entityManager = $entityManager;
         $this->cartRepository = $cartRepository;
+        $this->ecommerceOrderRepository = $ecommerceOrderRepository;
     }
 
     public function createNewCart(SessionInterface $session){
@@ -81,6 +84,7 @@ class OrderService
         $order->setFacturationAddress($address);
         $order->setShipping($shipping);
         $order->setPaymentMethod($payment);
+        $order->setNumber($this->ecommerceOrderRepository->getLastOrderNumber() + 1);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();
