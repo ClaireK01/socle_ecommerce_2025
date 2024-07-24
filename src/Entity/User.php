@@ -69,9 +69,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $addresses;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: EcommerceOrder::class, cascade: ['persist'])]
-    private Collection $ecommerceOrders;
-
     public function __construct()
     {
         $this->session_ids = [];

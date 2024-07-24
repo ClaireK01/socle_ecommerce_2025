@@ -42,7 +42,7 @@ class GenerateFixtureCommand extends Command
     {
 
 //        $this->generateProduct();
-//        $this->generateAdress();
+        $this->generateAdress(6);
 //        $this->generatePaymentMethod();
 //        $this->generateShipping();
 
@@ -73,9 +73,9 @@ class GenerateFixtureCommand extends Command
 
     }
 
-    public function generateAdress()
+    public function generateAdress($id)
     {
-        $user = $this->em->getRepository(User::class)->find(4);
+        $user = $this->em->getRepository(User::class)->find($id);
 
         $entity = new Address();
         $entity->setAddress("50 rue du test");
