@@ -47,7 +47,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_order_edit')]
+    #[Route('/{id}/edit', name: 'admin_order_edit')]
     #[Route('/new', name: 'admin_order_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -69,13 +69,22 @@ class OrderController extends AbstractController
     }
 
     #[ParamConverter('order', class: EcommerceOrder::class)]
-    #[Route('/delete/{id}', name: 'admin_order_delete')]
+    #[Route('/{id}/delete', name: 'admin_order_delete')]
     public function deleteAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($order);
         $em->flush();
 
         return $this->redirectToRoute('admin_order_index');
+    }
+
+    #[ParamConverter('order', class: EcommerceOrder::class)]
+    #[Route('/{id}/show', name: 'admin_order_show')]
+    public function showAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $order,
+        ]);
     }
 
 }

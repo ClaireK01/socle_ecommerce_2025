@@ -45,7 +45,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_article_edit')]
+    #[Route('/{id}/edit', name: 'admin_article_edit')]
     #[Route('/new', name: 'admin_article_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -67,13 +67,23 @@ class ArticleController extends AbstractController
     }
 
     #[ParamConverter('article', class: Article::class)]
-    #[Route('/delete/{id}', name: 'admin_article_delete')]
+    #[Route('/{id}/delete', name: 'admin_article_delete')]
     public function deleteAction(Article $article, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($article);
         $em->flush();
 
         return $this->redirectToRoute('admin_article_index');
+    }
+
+
+    #[ParamConverter('article', class: Article::class)]
+    #[Route('/{id}/show', name: 'admin_article_show')]
+    public function showAction(Article $article, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $article,
+        ]);
     }
 
 }

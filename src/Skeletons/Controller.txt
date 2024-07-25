@@ -44,7 +44,7 @@ class {NAME}Controller extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_{name}_edit')]
+    #[Route('/{id}/edit', name: 'admin_{name}_edit')]
     #[Route('/new', name: 'admin_{name}_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -66,13 +66,22 @@ class {NAME}Controller extends AbstractController
     }
 
     #[ParamConverter('{name}', class: {NAME}::class)]
-    #[Route('/delete/{id}', name: 'admin_{name}_delete')]
+    #[Route('/{id}/delete', name: 'admin_{name}_delete')]
     public function deleteAction({NAME} ${name}, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove(${name});
         $em->flush();
 
         return $this->redirectToRoute('admin_{name}_index');
+    }
+
+    #[ParamConverter('{name}', class: {NAME}::class)]
+    #[Route('/{id}/show', name: 'admin_{name}_show')]
+    public function showAction({NAME} ${name}, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => ${name},
+        ]);
     }
 
 }

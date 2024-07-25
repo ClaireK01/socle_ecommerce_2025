@@ -45,7 +45,7 @@ class PaymentMethodController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_paymentmethod_edit')]
+    #[Route('/{id}/edit', name: 'admin_paymentmethod_edit')]
     #[Route('/new', name: 'admin_paymentmethod_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -67,7 +67,7 @@ class PaymentMethodController extends AbstractController
     }
 
     #[ParamConverter('paymentmethod', class: PaymentMethod::class)]
-    #[Route('/delete/{id}', name: 'admin_paymentmethod_delete')]
+    #[Route('/{id}/delete', name: 'admin_paymentmethod_delete')]
     public function deleteAction(PaymentMethod $paymentmethod, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($paymentmethod);
@@ -76,4 +76,12 @@ class PaymentMethodController extends AbstractController
         return $this->redirectToRoute('admin_paymentmethod_index');
     }
 
+    #[Route('/{id}/show', name: 'admin_paymentmethod_show')]
+    public function showAction(PaymentMethod $paymentmethod, Request $request, EntityManagerInterface $em, $id = null): Response
+    {
+
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $paymentmethod,
+        ]);
+    }
 }

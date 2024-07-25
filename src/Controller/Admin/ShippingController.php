@@ -44,7 +44,7 @@ class ShippingController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_shipping_edit')]
+    #[Route('/{id}/edit', name: 'admin_shipping_edit')]
     #[Route('/new', name: 'admin_shipping_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -66,13 +66,22 @@ class ShippingController extends AbstractController
     }
 
     #[ParamConverter('shipping', class: Shipping::class)]
-    #[Route('/delete/{id}', name: 'admin_shipping_delete')]
+    #[Route('/{id}/delete', name: 'admin_shipping_delete')]
     public function deleteAction(Shipping $shipping, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($shipping);
         $em->flush();
 
         return $this->redirectToRoute('admin_shipping_index');
+    }
+
+    #[ParamConverter('shipping', class: Shipping::class)]
+    #[Route('/{id}/show', name: 'admin_shipping_show')]
+    public function showAction(Shipping $shipping, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $shipping,
+        ]);
     }
 
 }

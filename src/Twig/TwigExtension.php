@@ -41,6 +41,7 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigFunction('getLastMessage', [$this, 'getLastMessage']),
             new TwigFunction('getShopCount', [$this, 'getShopCount']),
+            new TwigFunction('getAdminTable', [$this, 'getAdminTable']),
         ];
     }
 
@@ -126,10 +127,12 @@ class TwigExtension extends AbstractExtension
                 $row .= '<td>'. $line . '</td>';
             }
 
+            $pathShow = $this->router->generate(str_replace('index', 'show', $request->get('_route')), ['id' => $e->getId()]);
             $pathEdit = $this->router->generate(str_replace('index', 'edit', $request->get('_route')), ['id' => $e->getId()]);
             $pathDelete = $this->router->generate(str_replace('index', 'delete', $request->get('_route')), ['id' => $e->getId()]);
 
             $row .= "<td>";
+            $row .= "<a href='". $pathShow."'><button>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
             $row .= "<a href='". $pathEdit."'><button>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
             $row.=  "<a href='". $pathDelete."'><button>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
             $row .= "</td>";
@@ -140,4 +143,31 @@ class TwigExtension extends AbstractExtension
 
         return $string;
     }
-}
+
+        public function getAdminTable($entity, $request)
+        {
+            
+            $class = get_class($entity);
+            $array = (array) $entity;
+            $table = [];
+
+            foreach($array as $i=>$a){
+                $key = str_replace([$class, '*'], '',strip_tags($i));
+                if(is_string($a) || is_null($a)){
+                    $table[$key] = $a;
+                }else{
+                    if($key == 'translations'){
+                        $table[$this->translator->trans('header.title', [], 'admin')] = $entity->translate($request->getLocale())->getTitle();
+                        $table[$this->translator->trans('header.shortContent', [], 'admin')] = $entity->translate($request->getLocale())->getShortContent();
+                        $table[$this->translator->trans('header.content', [], 'admin')] = $entity->translate($request->getLocale())->getContent();
+                    }
+                }
+            }
+
+            unset($table['currentLocale']);
+            unset($table['defaultLocale']);
+            unset($table['newTranslations']);
+
+            return $table;
+        }
+    }

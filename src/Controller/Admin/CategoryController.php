@@ -44,7 +44,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_category_edit')]
+    #[Route('/{id}/edit', name: 'admin_category_edit')]
     #[Route('/new', name: 'admin_category_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -66,13 +66,22 @@ class CategoryController extends AbstractController
     }
 
     #[ParamConverter('category', class: Category::class)]
-    #[Route('/delete/{id}', name: 'admin_category_delete')]
+    #[Route('/{id}/delete', name: 'admin_category_delete')]
     public function deleteAction(Category $category, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($category);
         $em->flush();
 
         return $this->redirectToRoute('admin_category_index');
+    }
+
+    #[ParamConverter('product', class: Category::class)]
+    #[Route('/{id}/show', name: 'admin_product_show')]
+    public function showAction(Category $category, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $category,
+        ]);
     }
 
 }

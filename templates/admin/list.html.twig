@@ -12,10 +12,10 @@
 
         <table>
             <thead>
-                {{ properties|header|raw }}
+            {{ properties|header|raw }}
             </thead>
             <tbody>
-                {{ properties|list(class, pagination, app.request)|raw }}
+            {{ properties|list(class, pagination, app.request)|raw }}
             </tbody>
         </table>
     </div>

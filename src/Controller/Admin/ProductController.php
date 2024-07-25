@@ -23,11 +23,6 @@ class ProductController extends AbstractController
             'price',
         ];
 
-        $filterHeader = [
-            'title' => 'et.title',
-            'price' => 'e.price',
-        ];
-
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -51,7 +46,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_product_edit')]
+    #[Route('/{id}/edit', name: 'admin_product_edit')]
     #[Route('/new', name: 'admin_product_new')]
     public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
     {
@@ -73,13 +68,22 @@ class ProductController extends AbstractController
     }
 
     #[ParamConverter('product', class: Product::class)]
-    #[Route('/delete/{id}', name: 'admin_product_delete')]
+    #[Route('/{id}/delete', name: 'admin_product_delete')]
     public function deleteAction(Product $product, Request $request, EntityManagerInterface $em): Response
     {
         $em->remove($product);
         $em->flush();
 
         return $this->redirectToRoute('admin_product_index');
+    }
+
+    #[ParamConverter('product', class: Product::class)]
+    #[Route('/{id}/show', name: 'admin_product_show')]
+    public function showAction(Product $product, Request $request, EntityManagerInterface $em): Response
+    {
+        return $this->render('/admin/show.html.twig', [
+            'entity' => $product,
+        ]);
     }
 
 }
