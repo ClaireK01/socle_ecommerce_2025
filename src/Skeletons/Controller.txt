@@ -18,6 +18,9 @@ class {NAME}Controller extends AbstractController
     #[Route('/', name: 'admin_{name}_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+
+        $properties = [
+        ];
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -36,6 +39,8 @@ class {NAME}Controller extends AbstractController
         return $this->render('/admin/list.html.twig', [
             'controller_name' => 'AppController',
             'pagination' => $pagination,
+            'properties' => $properties,
+            'class' => {NAME}::class
         ]);
     }
 

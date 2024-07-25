@@ -18,6 +18,9 @@ class ShippingController extends AbstractController
     #[Route('/', name: 'admin_shipping_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $properties = [
+            'title',
+        ];
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -36,6 +39,8 @@ class ShippingController extends AbstractController
         return $this->render('/admin/list.html.twig', [
             'controller_name' => 'AppController',
             'pagination' => $pagination,
+            'properties' => $properties,
+            'class' => Shipping::class
         ]);
     }
 

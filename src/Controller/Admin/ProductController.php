@@ -18,6 +18,16 @@ class ProductController extends AbstractController
     #[Route('/', name: 'admin_product_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $properties = [
+            'title',
+            'price',
+        ];
+
+        $filterHeader = [
+            'title' => 'et.title',
+            'price' => 'e.price',
+        ];
+
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -36,6 +46,8 @@ class ProductController extends AbstractController
         return $this->render('/admin/list.html.twig', [
             'controller_name' => 'AppController',
             'pagination' => $pagination,
+            'properties' => $properties,
+            'class' => Product::class
         ]);
     }
 

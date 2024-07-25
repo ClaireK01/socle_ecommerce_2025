@@ -1,12 +1,25 @@
 {% trans_default_domain 'admin' %}
 
  <ul class="menu">
-        <a  class="{% if 'admin_article' in app.request.get('_route') %}selected{% endif %}"
-            href="{{ path('admin_article_index') }}">
+        <a  class="{% if 'admin_article' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_article_index') }}">
             <li><i class="fa-solid fa-newspaper"></i> {{ 'nav.article'|trans }}</li>
         </a>
-        <a  class="{% if 'admin_category' in app.request.get('_route') %}selected{% endif %}"
-         href="{{ path('admin_category_index') }}">
+        <a  class="{% if 'admin_category' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_category_index') }}">
             <li><i class="fa-solid fa-user-group"></i> {{ 'nav.category'|trans }}</li>
         </a>
+         <a  class="{% if 'admin_product' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_product_index') }}">
+             <li><i class="fa-solid fa-barcode"></i> {{ 'nav.product'|trans }}</li>
+         </a>
+
+         <a  class="{% if 'admin_paymentmethod' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_paymentmethod_index') }}">
+             <li><i class="fa-solid fa-credit-card"></i> {{ 'nav.paymentmethod'|trans }}</li>
+         </a>
+
+         <a  class="{% if 'admin_shipping' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_shipping_index') }}">
+             <li><i class="fa-solid fa-shipping-fast"></i> {{ 'nav.shipping'|trans }}</li>
+         </a>
+
+         <a  class="{% if 'admin_order' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_order_index') }}">
+             <li><i class="fa-solid fa-box"></i> {{ 'nav.order'|trans }}</li>
+         </a>
     </ul>

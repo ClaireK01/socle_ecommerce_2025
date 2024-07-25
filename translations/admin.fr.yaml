@@ -1,0 +1,37 @@
+all:
+  next: Suivant
+  previous: Précédent
+  backHome: Revenir à l'acceuil
+
+action:
+  add: Ajouter
+  delete: Supprimer
+  edit: Modifier
+  show: Voir
+  title: Title
+  content: Contenu
+  shortontent: Résumé
+
+
+nav:
+  category: Catégories
+  article: Articles
+  paymentmethod: Paiements
+  shipping: Livraisons
+  product: Produits
+  order: Commandes
+
+
+header:
+  title: Titre
+  content: Content
+  shortContent: Résumé
+  price: Prix
+  actions: Actions
+  number: Numéro de commande
+
+
+
+
+
+

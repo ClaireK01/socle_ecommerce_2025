@@ -18,6 +18,10 @@ class ArticleController extends AbstractController
     #[Route('/', name: 'admin_article_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $properties = [
+            'title',
+        ];
+
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -36,6 +40,8 @@ class ArticleController extends AbstractController
         return $this->render('/admin/list.html.twig', [
             'controller_name' => 'AppController',
             'pagination' => $pagination,
+            'properties' => $properties,
+            'class' => Article::class
         ]);
     }
 

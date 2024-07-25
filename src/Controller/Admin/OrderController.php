@@ -18,6 +18,12 @@ class OrderController extends AbstractController
     #[Route('/', name: 'admin_order_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+
+        $properties = [
+            'number' => 'number',
+        ];
+
+
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 
@@ -36,6 +42,8 @@ class OrderController extends AbstractController
         return $this->render('/admin/list.html.twig', [
             'controller_name' => 'AppController',
             'pagination' => $pagination,
+            'properties' => $properties,
+            'class' => EcommerceOrder::class
         ]);
     }
 
