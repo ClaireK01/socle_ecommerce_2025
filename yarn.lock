@@ -4111,6 +4111,11 @@ thunky@^1.0.2:
   resolved "https://registry.npmjs.org/thunky/-/thunky-1.1.0.tgz"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
 
+tinymce@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.npmjs.org/tinymce/-/tinymce-7.2.1.tgz"
+  integrity sha512-ADd1cvdIuq6NWyii0ZOZRuu+9sHIdQfcRNWBcBps2K8vy7OjlRkX6iw7zz1WlL9kY4z4L1DvIP+xOrVX/46aHA==
+
 tmp@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.2.1.tgz"

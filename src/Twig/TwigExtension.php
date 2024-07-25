@@ -42,6 +42,8 @@ class TwigExtension extends AbstractExtension
             new TwigFunction('getLastMessage', [$this, 'getLastMessage']),
             new TwigFunction('getShopCount', [$this, 'getShopCount']),
             new TwigFunction('getAdminTable', [$this, 'getAdminTable']),
+            new TwigFunction('vdump', [$this, 'vdump']),
+            new TwigFunction('die', [$this, 'die']),
         ];
     }
 
@@ -132,9 +134,9 @@ class TwigExtension extends AbstractExtension
             $pathDelete = $this->router->generate(str_replace('index', 'delete', $request->get('_route')), ['id' => $e->getId()]);
 
             $row .= "<td>";
-            $row .= "<a href='". $pathShow."'><button>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
-            $row .= "<a href='". $pathEdit."'><button>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
-            $row.=  "<a href='". $pathDelete."'><button>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
+            $row .= "<a href='". $pathShow."'><button class='btn-action'>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
+            $row .= "<a href='". $pathEdit."'><button class='btn-action'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
+            $row.=  "<a href='". $pathDelete."'><button class='btn-action'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
             $row .= "</td>";
             $row .= "</tr>";
 
@@ -169,5 +171,14 @@ class TwigExtension extends AbstractExtension
             unset($table['newTranslations']);
 
             return $table;
+        }
+
+
+        public function vdump($var){
+            VarDumper::dump($var);
+        }
+
+        public function die(){
+        die;
         }
     }

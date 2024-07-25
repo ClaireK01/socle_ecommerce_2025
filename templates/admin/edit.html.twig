@@ -2,8 +2,17 @@
 {% trans_default_domain 'admin' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">{{ 'action.edit'|trans }}</button>
-    {{ form_end(form) }}
+    <div class="form-content">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div>
+            <button type="submit">{{ 'action.edit'|trans }}</button>
+            <a href="{{ path(app.request.get('_route')|replace({'edit' : 'index'})) }}"><button>{{ "all.back"|trans }}</button></a>
+        </div>
+
+
+        {{ form_end(form) }}
+
+    </div>
+
 {% endblock %}

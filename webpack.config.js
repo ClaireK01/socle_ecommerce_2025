@@ -25,7 +25,7 @@ Encore
     .addEntry('js', './assets/js/main.js')
     .addEntry('js-socket', './assets/js/websocket/socket.js')
     .addStyleEntry('style', './assets/styles/main.css')
-    .addEntry('js-admin', './assets/js/app.js')
+    .addEntry('js-admin', './assets/js/admin.js')
     .addEntry('js-slider', './assets/js/slider.js')
     .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
 
@@ -82,6 +82,29 @@ Encore
     .copyFiles({
         from: './assets/img',
         to: 'images/[path][name].[ext]',
+    })
+
+    //tinyMCE files
+
+    .copyFiles({
+        from: './node_modules/tinymce/themes/silver',
+        to: '/themes/silver/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './node_modules/tinymce/models/dom',
+        to: '/models/dom/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './node_modules/tinymce/icons/default',
+        to: '/icons/default/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './node_modules/tinymce/skins/ui/oxide',
+        to: '/skins/ui/oxide/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './node_modules/tinymce/skins/content/default',
+        to: '/skins/content/default/[path][name].[ext]',
     })
 ;
 

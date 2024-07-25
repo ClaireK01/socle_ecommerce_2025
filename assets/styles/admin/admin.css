@@ -90,3 +90,65 @@ button:hover{
 .menu a.selected{
     box-shadow: inset -0.005em -0.005em 1em rgba(0, 0, 0, 0.89);
 }
+
+.btn-action{
+    margin-right: 1rem;
+}
+.table{
+    width: 90%;
+    text-align: center;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.table th, .table tr{
+    padding: 1rem 3rem;
+    border-bottom: lightgrey 1px solid;
+    height: 100px;
+}
+
+.tox-promotion, .tox-statusbar__branding{
+    display: none;
+}
+
+.form-content{
+    width: 75%;
+    margin: auto;
+    margin-top: 0;
+    padding-top: 2rem;
+}
+
+.form-div{
+   margin-bottom: 2rem;
+}
+
+.form-inp{
+    padding: 1rem;
+    border-radius: 10px;
+    border: rgba(0, 0, 0, 0.19) 1px solid;
+    width: 100%;
+}
+
+.form-lab{
+    font-size: 0.8rem;
+    color: lightgrey;
+}
+
+.nav-tabs{
+    display:flex !important;
+    list-style: none;
+}
+
+.nav-tabs li{
+    padding: 1rem 2rem;
+    color: lightgrey;
+}
+
+.tab-pane{
+    display: none;
+}
+
+.tab-pane.active{
+    display: block;
+}
+

@@ -1,6 +1,7 @@
 all:
   next: Suivant
   previous: Précédent
+  back: Retour
   backHome: Revenir à l'acceuil
 
 action:

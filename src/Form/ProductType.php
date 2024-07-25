@@ -29,6 +29,7 @@ class ProductType extends AbstractType
                     ]
                 ]
             ])
+            ->add('price')
         
         ;
     }

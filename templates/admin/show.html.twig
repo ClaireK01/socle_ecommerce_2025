@@ -5,7 +5,7 @@
     {% set table = getAdminTable(entity, app.request) %}
 
     <div class="container">
-        <table>
+        <table class="table table-show">
             <tbody>
                 {% for key , value in table %}
                     {% if key != "createdAt" and key != "deletedAt" and key != "updatedAt"%}
@@ -14,5 +14,9 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div>
+            <a href="{{ path(app.request.get('_route')|replace({'show' : 'index'})) }}"><button>{{ "all.back"|trans }}</button></a>
+        </div>
     </div>
 {% endblock %}
