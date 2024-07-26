@@ -30,11 +30,14 @@ class TvaType extends AbstractType
                     ]
                 ]
             ])
-            ->add('type', ChoiceType::class, [
+            ->add('rate', ChoiceType::class, [
                 'choices' => [
-                    '5.5%'=> Tva::TVA_55,
-                    '10%'=> Tva::TVA_10,
-                    '20%'=> Tva::TVA_20,
+                    '5.5%'=> 5.5,
+                    '10%'=> 10,
+                    '20%'=> 20,
+                ],
+                "attr" => [
+                    'id' => "tom-select-tva"
                 ],
                 'autocomplete' => true
             ])

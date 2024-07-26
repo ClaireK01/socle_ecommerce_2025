@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
 
 
 {% block body %}
@@ -6,22 +7,15 @@
     <div class="container my-5">
         <h1>{{ 'commerce.cart'|trans }}</h1>
         <hr>
+
+        {# transformer en tableau #}
         <div class="table-products">
             {% if cart %}
                 {% if cart.cardProducts|length > 0 %}
                     {% for c in cart.cardProducts %}
-                         <div class="product list-item">
-                             <div class="card-product-img"></div>
-                             <div class="card-product-line">
-                                 <p>{{ c.product.translate.title }}</p>
-                                 <p>{{ c.quantity }}</p>
-                                 <p>{{ c.product.price }}€</p>
-                                 <p>{{ c.product.price * c.quantity }}€</p>
-                                 <a class="btn btn-danger" href="{{ path('remove_from_cart', {'id' : c.id}) }}"><i class="fa-solid fa-trash"></i></a>
-                             </div>
-                         </div>
-                        <hr>
+                         {{ m.cartLine(c) }}
                     {% endfor %}
+                    {{ m.cartLineTotal(cart) }}
                 {% else %}
                         <p>{{ "commerce.empty"|trans }}</p>
                 {% endif %}

@@ -81,4 +81,41 @@ class Cart implements TimestampableInterface
     {
         $this->session_id = $session_id;
     }
+
+    public function getTotalHt(){
+        $total_ht = 0;
+        foreach ($this->getCardProducts() as $c){
+            /** @var CardProduct $c */
+            $total_ht  += $c->getFinalPriceHt();
+        }
+
+        return $total_ht;
+    }
+
+    public function getTotalTtc(){
+        $total_ttc = 0;
+        foreach ($this->getCardProducts() as $c){
+            /** @var CardProduct $c */
+            $total_ttc  += $c->getFinalPriceTtc();
+        }
+        return $total_ttc;
+    }
+
+    public function getTotalUnitaire(){
+        $total = 0;
+        foreach ($this->getCardProducts() as $c){
+            /** @var CardProduct $c */
+            $total  += $c->getPrice();
+        }
+        return $total;
+    }
+
+    public function getTotalQuantity(){
+        $total = 0;
+        foreach ($this->getCardProducts() as $c){
+            /** @var CardProduct $c */
+            $total  += $c->getQuantity();
+        }
+        return $total;
+    }
 }

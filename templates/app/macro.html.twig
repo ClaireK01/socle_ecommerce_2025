@@ -44,3 +44,30 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro cartLine(c) %}
+    <div class="product list-item">
+        <div class="card-product-img"></div>
+        <div class="card-product-line">
+            <p>{{ c.product.translate.title }}</p>
+            <p>{{ c.quantity }}</p>
+            <p>{{ c.price|number_format(2, ',', ' ') }}€</p>
+            <p>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</p>
+            <p>{{ c.finalPriceTtc|number_format(2, ',', ' ') }}€</p>
+        </div>
+    </div>
+    <hr>
+{% endmacro %}
+
+{% macro cartLineTotal(cart) %}
+    <div class="product list-item">
+        <div class="card-product-line">
+            <p>Total</p>
+            <p>{{ cart.totalQuantity }}</p>
+            <p>{{ cart.totalUnitaire|number_format(2, ',', ' ') }}€</p>
+            <p>{{ cart.totalHt|number_format(2, ',', ' ') }}€</p>
+            <p>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</p>
+        </div>
+    </div>
+    <hr>
+{% endmacro %}

@@ -39,6 +39,13 @@ tinymce.init({
 });
 
 var settings = {};
-new TomSelect('#product_categories', settings);
-new TomSelect('#product_tva', settings);
+if(document.querySelector('#tva_rate')){
+    new TomSelect('#tva_rate', settings);
+}
+if(document.querySelector('#product_categories')){
+    new TomSelect('#product_categories', settings);
+}
+if(document.querySelector('#product_tva')){
+    new TomSelect('#product_tva', settings);
+}
 

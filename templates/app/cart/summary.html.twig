@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
 
 
 {% block body %}
@@ -9,16 +10,7 @@
         <div class="table-products">
             {% if cart %}
                 {% for c in cart.cardProducts %}
-                    <div class="product list-item">
-                        <div class="card-product-img"></div>
-                        <div class="card-product-line">
-                            <p>{{ c.product.translate.title }}</p>
-                            <p>{{ c.quantity }}</p>
-                            <p>{{ c.product.price }}€</p>
-                            <p>{{ c.product.price * c.quantity }}€</p>
-                        </div>
-                    </div>
-                    <hr>
+                    {{ m.cartLine(c) }}
                 {% endfor %}
             {% endif %}
         </div>

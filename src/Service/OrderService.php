@@ -65,11 +65,11 @@ class OrderService
         $total_ht = 0;
 
 
-        foreach ($cart->getCardProducts() as $cp){
-            /** @var CardProduct $cp */
-            $total_ttc  += $cp->getPrice();
-            $total_ht  += $cp->getPrice();
-        }
+//        foreach ($cart->getCardProducts() as $cp){
+//            /** @var CardProduct $cp */
+//            $total_ttc  += $cp->getFinalPriceTtc();
+//            $total_ht  += $cp->getFinalPriceHt();
+//        }
 
 
         $order = new EcommerceOrder();
@@ -77,8 +77,8 @@ class OrderService
         foreach ($cart->getCardProducts() as $cp){
             $order->addCardProduct($cp);
         }
-        $order->setTotalPriceTtc($total_ttc);
-        $order->setTotalPriceHt($total_ht);
+        $order->setTotalPriceTtc($cart->getTotalTtc());
+        $order->setTotalPriceHt($cart->getTotalHt());
         $order->setStatus(EcommerceOrder::PENDING);
         $order->setShippingAddress($address);
         $order->setFacturationAddress($address);

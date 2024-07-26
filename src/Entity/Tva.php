@@ -37,6 +37,10 @@ class Tva implements TranslatableInterface
     #[ORM\Column(nullable: true)]
     private ?int $type = null;
 
+
+    #[ORM\Column(nullable: true)]
+    private ?int $rate = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -93,6 +97,16 @@ class Tva implements TranslatableInterface
         $this->type = $type;
 
         return $this;
+    }
+
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?int $rate): void
+    {
+        $this->rate = $rate;
     }
 
 }
