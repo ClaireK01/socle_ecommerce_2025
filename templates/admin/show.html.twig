@@ -9,7 +9,7 @@
             <tbody>
                 {% for key , value in table %}
                     {% if key != "createdAt" and key != "deletedAt" and key != "updatedAt"%}
-                        <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+                        <tr><td>{{ key }}</td><td>{{ value|raw }}</td></tr>
                     {% endif %}
                 {% endfor %}
             </tbody>

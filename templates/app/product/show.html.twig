@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            <div class="product-show">
+                <div class="product-img"></div>
+                <div class="product-descr">
+                    <h3>{{ product.translate.title }}</h3>
+                    <p>{{ product.translate.content|raw }}</p>
+                    <p class="price-tag"><span class="price-tag-num">{{ product.price }}</span><span class="price-tag-currency">€</span></p>
+                    <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">Ajouter au panier</button>
+                </div>
+            </div>
+
+            <div class="similar-products">
+                <h2>{{ "product.seealso"|trans }}</h2>
+                {{ m.slider("product", similarProducts) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% macro slider(type, array) %}
+    <div class="swiper-{{type}} swiper-container">
+        <div class="swiper-wrapper">
+            {% for entity in array%}
+                <div class="swiper-slide">
+                    {% if type == "product" %}
+                        {{ _self.cardProduct(entity) }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination-{{type}}"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+{% endmacro %}
+
+{% macro cardProduct(product) %}
+    <div class="card-product">
+        <div class="card-product-img"></div>
+        <div class="card-product-descr">
+            <p>{{ product.translate.title }}</p>
+            <p>{{ product.translate.shortContent }}</p>
+            <p>{{ product.price }}€</p>
+        </div>
+        <div>
+            <a class="btn btn-warning add-cart" href="{{ path('app_product_show', {'id' : product.id}) }}">Voir</a>
+            <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">Ajouter au panier</button>
+        </div>
+    </div>
+{% endmacro %}

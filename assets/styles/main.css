@@ -2,5 +2,5 @@
 @import "@fortawesome/fontawesome-free/css/solid.min.css";
 @import "@fortawesome/fontawesome-free/css/regular.min.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-@import "app.css";
-@import "profile.css";
+@import "app/app.css";
+@import "app/profile.css";

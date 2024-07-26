@@ -28,7 +28,9 @@
             {% endif %}
         </div>
 
-        <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+        {% if cart.cardProducts|length > 0 %}
+            <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

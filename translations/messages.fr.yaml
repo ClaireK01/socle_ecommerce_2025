@@ -29,4 +29,7 @@ message:
     error: Une erreur est survenue lors de votre commande. Veuillez réessayer plus tard.
     success: Votre commande a bien été confirmé. Vous recevrez un mail de confirmation sous peu.
 
+product:
+  seealso: Produits similaires
+
 

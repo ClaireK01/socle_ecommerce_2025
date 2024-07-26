@@ -1,0 +1,72 @@
+
+/********************************* swiper ******************************/
+.slider{
+    width:100%;
+    height: 100%
+}
+.slider img{
+    object-fit: cover;
+}
+
+.swiper-pagination-header{
+    position: absolute;
+    bottom: calc(100% - 90%) !important;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+}
+
+.swiper-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slider .swiper-slide{
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.swiper-button-next::after, .swiper-button-prev::after{
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+.swiper-button-prev{
+    /*border-radius: 0 25px 25px 0;*/
+}
+
+.swiper-button-next{
+    /*border-radius: 25px 0 0 25px;*/
+}
+
+.swiper-button-next, .swiper-button-prev{
+    /*background-color: var(--secondary-1);*/
+    color: black;
+    padding: 0 3rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+}
+
+.swiper-pagination-bullet-active{
+    /*background-color: var(--secondary-1);*/
+}
+
+.swiper-pagination-horizontal{
+    padding-top: 1rem;
+    text-align: center;
+}
+
+
+.slider{
+    width:100%;
+    height: 100%
+}
+
+.slider img{
+    object-fit: cover;
+}
+
+.swiper-container .card-product{
+    width: initial;
+}

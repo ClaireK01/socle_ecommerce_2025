@@ -3,7 +3,7 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container page-list">
         <div class="admin-actions">
             <a href="{{ path(app.request.get('_route')|replace({'index' : 'new'})) }}">
                 <button class="btn-add">{{ 'action.add'|trans }}</button>
@@ -18,7 +18,9 @@
             {{ properties|list(class, pagination, app.request)|raw }}
             </tbody>
         </table>
+        <div class="pagi">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
-
 
 {% endblock %}

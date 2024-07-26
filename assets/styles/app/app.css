@@ -1,3 +1,8 @@
+@import "../../../node_modules/swiper/swiper.css";
+@import "../../../node_modules/swiper/swiper-bundle.css";
+@import "swiper.css";
+@import "../_pagination.css";
+
 /************ header *********/
 
 .display-none{
@@ -8,12 +13,8 @@
     padding:7rem 0;
 }
 
-.slider{
-    width:100%;
-    height: 100%
-}
-.slider img{
-    object-fit: cover;
+button{
+    max-width: 11rem;
 }
 
 nav{
@@ -82,7 +83,6 @@ nav ul li{
 .short-content-message-bold{
     font-weight: bold;
 }
-
 
 /************* page message web socket ******************/
 
@@ -181,6 +181,7 @@ nav ul li{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 3rem;
 }
 
 .card-product{
@@ -209,7 +210,46 @@ nav ul li{
     align-items: center;
 }
 
-/************************ ecommerce ***************************/
+/************* page show product test ******************/
+
+
+.product-show{
+    display: flex;
+    width: 100%;
+    min-height: 50vh;
+    justify-content: space-between;
+}
+
+.product-img{
+    background-color: lightgrey;
+    min-width: 50%;
+    margin-bottom: 1rem;
+}
+
+.product-descr{
+    min-width: 45%;
+    padding-left: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.price-tag{
+    display: flex;
+    align-items: flex-start;
+    max-width: 12% ;
+}
+
+.price-tag-num{
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.similar-products{
+    padding-top: 4rem;
+}
+
+/************************ shop icon ***************************/
 
 .shop-icon-container{
     position: relative;
@@ -258,3 +298,4 @@ nav ul li{
     margin-top: 1rem;
     margin-right: 1rem;
 }
+

@@ -1,10 +1,6 @@
 // core version + navigation, pagination modules:
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-// import Swiper and modules styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 const swiper = new Swiper('.swiper', {
     // configure Swiper to use modules
@@ -22,3 +18,23 @@ const swiper = new Swiper('.swiper', {
         prevEl: '.swiper-button-prev',
     },
 });
+
+if(document.querySelector('.swiper-product')){
+    let btnPrevProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-prev');
+    let btnNextProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-next');
+    new Swiper('.swiper-product', {
+        // configure Swiper to use modules
+        modules: [Navigation, Pagination],
+        slidesPerView: 2,
+        autoplay:true,
+        loop: true,
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination-product',
+        },
+        navigation: {
+            nextEl: btnNextProduct,
+            prevEl: btnPrevProduct,
+        },
+    });
+}

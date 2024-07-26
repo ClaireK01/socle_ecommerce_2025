@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
 
 
 {% block body %}
     <div class="main">
-        <div class="container my-5 product-list">
-            {% for product in products %}
-                <div class="card-product">
-                    <div class="card-product-img"></div>
-                    <div class="card-product-descr" >
-                        <p>{{ product.translate.title }}</p>
-                        <p>{{ product.translate.shortContent }}</p>
-                        <p>{{ product.price }}€</p>
-                        <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">Ajouter au panier</button>
-                    </div>
-                </div>
-            {% endfor %}
+        <div class="container my-5 ">
+            <div class="product-list">
+                {% for product in products %}
+                    {{ m.cardProduct(product) }}
+                {% endfor %}
+            </div>
+
+            {{ knp_pagination_render(products) }}
         </div>
 
     </div>
