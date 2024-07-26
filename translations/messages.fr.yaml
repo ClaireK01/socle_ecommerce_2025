@@ -2,6 +2,8 @@ all:
   next: Suivant
   previous: Précédent
   backHome: Revenir à l'acceuil
+  show: Voir
+  read: Lire
 
 commerce:
   cart: Panier
@@ -20,6 +22,7 @@ commerce:
   pay: Payer
   checkoutForm: Paiement
   empty: Aucun produit dans votre panier
+  add: Ajouter au panier
 
 
 message:
@@ -32,4 +35,6 @@ message:
 product:
   seealso: Produits similaires
 
+article:
+  seealso: Articles similaires
 

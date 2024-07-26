@@ -67,6 +67,6 @@
     object-fit: cover;
 }
 
-.swiper-container .card-product{
+.swiper-container .card-product, .swiper-container .card-article{
     width: initial;
 }

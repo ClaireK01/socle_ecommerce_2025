@@ -5,13 +5,13 @@
 {% block body %}
     <div class="main">
         <div class="container my-5 ">
-            <div class="product-list">
-                {% for product in products %}
+            <div class="list">
+                {% for product in pagination %}
                     {{ m.cardProduct(product) }}
                 {% endfor %}
             </div>
 
-            {{ knp_pagination_render(products) }}
+            {{ knp_pagination_render(pagination) }}
         </div>
 
     </div>

@@ -38,3 +38,23 @@ if(document.querySelector('.swiper-product')){
         },
     });
 }
+
+if(document.querySelector('.swiper-article')){
+    let btnPrevProduct = document.querySelector('.swiper-article').querySelector('.swiper-button-prev');
+    let btnNextProduct = document.querySelector('.swiper-article').querySelector('.swiper-button-next');
+    new Swiper('.swiper-article', {
+        // configure Swiper to use modules
+        modules: [Navigation, Pagination],
+        slidesPerView: 2,
+        autoplay:true,
+        loop: true,
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination-article',
+        },
+        navigation: {
+            nextEl: btnNextProduct,
+            prevEl: btnPrevProduct,
+        },
+    });
+}

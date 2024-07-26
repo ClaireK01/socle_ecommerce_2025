@@ -5,6 +5,8 @@
                 <div class="swiper-slide">
                     {% if type == "product" %}
                         {{ _self.cardProduct(entity) }}
+                    {% elseif type == "article" %}
+                        {{ _self.cardArticle(entity) }}
                     {% endif %}
                 </div>
             {% endfor %}
@@ -24,8 +26,21 @@
             <p>{{ product.price }}€</p>
         </div>
         <div>
-            <a class="btn btn-warning add-cart" href="{{ path('app_product_show', {'id' : product.id}) }}">Voir</a>
-            <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">Ajouter au panier</button>
+            <a class="btn btn-warning add-cart" href="{{ path('app_product_show', {'id' : product.id}) }}">{{ "all.show"|trans }}</a>
+            <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">{{ "commerce.add"|trans }}</button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro cardArticle(article) %}
+    <div class="card-article">
+        <div class="card-article-img"></div>
+        <div>
+            <div class="card-article-descr">
+                <p>{{ article.translate.title }}</p>
+                <p>{{ article.translate.shortContent }}</p>
+                <a class="btn btn-warning" href="{{ path('app_article_show', {'id' : article.id}) }}">{{ "all.read"|trans }}</a>
+            </div>
         </div>
     </div>
 {% endmacro %}

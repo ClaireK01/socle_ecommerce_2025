@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5 ">
+            <div class="list">
+                {% for article in pagination %}
+                    {{ m.cardArticle(article) }}
+                {% endfor %}
+            </div>
+
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    </div>
+{% endblock %}

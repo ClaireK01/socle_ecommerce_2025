@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            <div class="article-show">
+                <div class="article-img"></div>
+                <div class="article-descr">
+                    <h3>{{ article.translate.title }}</h3>
+                    <p>{{ article.translate.content|raw }}</p>
+                </div>
+            </div>
+
+            <div class="similar">
+                <h2>{{ "article.seealso"|trans }}</h2>
+                {{ m.slider("article", similarArticles) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
