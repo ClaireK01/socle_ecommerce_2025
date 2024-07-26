@@ -21,6 +21,7 @@ nav:
   shipping: Livraisons
   product: Produits
   order: Commandes
+  tva: TVA
 
 
 header:

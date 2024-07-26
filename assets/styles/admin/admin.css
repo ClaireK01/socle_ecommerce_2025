@@ -2,6 +2,7 @@
 @import "@fortawesome/fontawesome-free/css/regular.min.css";
 @import "@fortawesome/fontawesome-free/css/solid.min.css";
 @import "../_pagination.css";
+@import "tom-select/dist/css/tom-select.css";
 
 :root{
     --main : #006622;

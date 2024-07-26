@@ -1,6 +1,7 @@
 //cle tinyMCE : m51d69rxpncc07ntwyxby0kmglvnuhvld8s6n40t8o4ec4ly
 
 import tinymce from "tinymce";
+import TomSelect from "tom-select";
 
 
 let items = document.querySelectorAll('.nav-item');
@@ -36,4 +37,8 @@ tinymce.init({
     ],
     ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
 });
+
+var settings = {};
+new TomSelect('#product_categories', settings);
+new TomSelect('#product_tva', settings);
 

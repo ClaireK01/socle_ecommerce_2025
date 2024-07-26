@@ -29,7 +29,6 @@ class ArticleType extends AbstractType
                     ]
                 ]
             ])
-        
         ;
     }
 

@@ -75,8 +75,8 @@ class CategoryController extends AbstractController
         return $this->redirectToRoute('admin_category_index');
     }
 
-    #[ParamConverter('product', class: Category::class)]
-    #[Route('/{id}/show', name: 'admin_product_show')]
+    #[ParamConverter('category', class: Category::class)]
+    #[Route('/{id}/show', name: 'admin_category_show')]
     public function showAction(Category $category, Request $request, EntityManagerInterface $em): Response
     {
         return $this->render('/admin/show.html.twig', [
