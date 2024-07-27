@@ -38,3 +38,10 @@ product:
 article:
   seealso: Articles similaires
 
+cart:
+  unitPriceHT: Prix unitaire HT
+  unitPrice: Prix unitaire TTC
+  product: Produit
+  priceTTC: Total TTC
+  priceHT: Total HT
+  quantity: Quantité

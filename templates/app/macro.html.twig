@@ -45,29 +45,58 @@
     </div>
 {% endmacro %}
 
+{% macro cartDisplay(cart) %}
+    {% if cart.cardProducts|length > 0 %}
+        <thead>
+        {{ _self.cartHeader() }}
+        </thead>
+        <tbody>
+        {% for c in cart.cardProducts %}
+            {{ _self.cartLine(c) }}
+        {% endfor %}
+        {{ _self.cartLineTotal(cart) }}
+        </tbody>
+    {% else %}
+        <p>{{ "commerce.empty"|trans }}</p>
+    {% endif %}
+{% endmacro %}
+{% macro cartHeader() %}
+    <tr class="product list-item">
+        <th></th>
+        <th>{{ "cart.product"|trans }}</th>
+        <th>{{ "cart.quantity"|trans }}</th>
+        <th>{{ "cart.unitPriceHT"|trans }}</th>
+        <th>{{ "cart.unitPrice"|trans }}</th>
+        <th>{{ "cart.priceHT"|trans }}</th>
+        <th>{{ "cart.priceTTC"|trans }}</th>
+        <th></th>
+    </tr>
+{% endmacro %}
+
 {% macro cartLine(c) %}
-    <div class="product list-item">
-        <div class="card-product-img"></div>
-        <div class="card-product-line">
-            <p>{{ c.product.translate.title }}</p>
-            <p>{{ c.quantity }}</p>
-            <p>{{ c.price|number_format(2, ',', ' ') }}€</p>
-            <p>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</p>
-            <p>{{ c.finalPriceTtc|number_format(2, ',', ' ') }}€</p>
-        </div>
-    </div>
-    <hr>
+    <tr class="product list-item">
+        <td>
+            <div class="card-product-img"></div>
+        </td>
+        <td>{{ c.product.translate.title }}</td>
+        <td>{{ c.quantity }}</td>
+        <td>{{ c.priceHt|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.price|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.finalPriceTtc|number_format(2, ',', ' ') }}€</td>
+        <td><a class="btn btn-danger" href="{{ path('remove_from_cart', {'id' : c.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+    </tr>
 {% endmacro %}
 
 {% macro cartLineTotal(cart) %}
-    <div class="product list-item">
-        <div class="card-product-line">
-            <p>Total</p>
-            <p>{{ cart.totalQuantity }}</p>
-            <p>{{ cart.totalUnitaire|number_format(2, ',', ' ') }}€</p>
-            <p>{{ cart.totalHt|number_format(2, ',', ' ') }}€</p>
-            <p>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</p>
-        </div>
-    </div>
-    <hr>
+    <tr class="product list-item">
+        <td></td>
+        <td>Total</td>
+        <td>{{ cart.totalQuantity }}</td>
+        <td>{{ cart.totalUnitaireHt|number_format(2, ',', ' ') }}€</td>
+        <td>{{ cart.totalUnitaireTtc|number_format(2, ',', ' ') }}€</td>
+        <td>{{ cart.totalHt|number_format(2, ',', ' ') }}€</td>
+        <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+        <td></td>
+    </tr>
 {% endmacro %}

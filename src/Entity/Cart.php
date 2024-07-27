@@ -101,11 +101,20 @@ class Cart implements TimestampableInterface
         return $total_ttc;
     }
 
-    public function getTotalUnitaire(){
+    public function getTotalUnitaireTtc(){
         $total = 0;
         foreach ($this->getCardProducts() as $c){
             /** @var CardProduct $c */
             $total  += $c->getPrice();
+        }
+        return $total;
+    }
+
+    public function getTotalUnitaireHt(){
+        $total = 0;
+        foreach ($this->getCardProducts() as $c){
+            /** @var CardProduct $c */
+            $total  += $c->getPriceHt();
         }
         return $total;
     }

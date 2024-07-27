@@ -7,13 +7,11 @@
     <div class="container my-5">
         <h1>{{ 'commerce.summary'|trans }}</h1>
         <hr>
-        <div class="table-products">
+        <table class="table-products">
             {% if cart %}
-                {% for c in cart.cardProducts %}
-                    {{ m.cartLine(c) }}
-                {% endfor %}
+                {{ m.cartDisplay(cart) }}
             {% endif %}
-        </div>
+        </table>
 
         <div class="order-infos">
             <div class="address card-order-infos">

@@ -52,10 +52,10 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\ManyToOne(targetEntity: PaymentMethod::class)]
     private $payment_method;
 
-    #[ORM\Column(type: 'integer', nullable:true)]
+    #[ORM\Column(type: 'float', nullable:true)]
     private $total_price_ttc;
 
-    #[ORM\Column(type: 'integer', nullable:true)]
+    #[ORM\Column(type: 'float', nullable:true)]
     private $total_price_ht;
 
 

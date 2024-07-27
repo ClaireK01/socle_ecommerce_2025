@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use App\Trait\CategoryTrait;
 use App\Trait\PictureTrait;
 use App\Trait\ProductTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\AssociationOverride;
 use Doctrine\ORM\Mapping\AssociationOverrides;
@@ -54,6 +55,10 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Tva $tva = null;
+
+    public function __construct(){
+        $this->categories = new ArrayCollection();
+    }
 
 
     public function getId(): ?int

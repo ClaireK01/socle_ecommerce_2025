@@ -58,12 +58,31 @@ nav ul li{
     object-fit: cover;
 }
 
+.cart-next{
+    margin-top: 3rem;
+}
+
 .list-item{
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border-collapse: collapse;
+}
+
+.list-item td, .list-item th{
+    text-align: center;
+    padding: 2rem 3rem;
+    border-bottom: 1px solid lightgrey;
+    height: 100px;
+    width: 25vh;
     display: flex;
     align-items: center;
 }
+
+.td .card-product-img{
+    margin: auto;
+}
+
 .contact-profile-pic{
     width: 60px;
     height: 60px;

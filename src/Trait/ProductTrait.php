@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait ProductTrait
 {
 
-    #[ORM\Column(name: "price",nullable: true)]
+    #[ORM\Column(name: "price", type: "float", nullable: true)]
     private $price;
 
     #[ORM\Column(type: 'boolean', nullable:true)]

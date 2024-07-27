@@ -33,7 +33,7 @@ class CardProduct
     #[ORM\Column(type: 'integer', nullable:true)]
     private $quantity;
 
-    #[ORM\Column(type: 'integer', nullable:true)]
+    #[ORM\Column(type: 'float', nullable:true)]
     private $price;
 
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cardProducts")]
@@ -96,9 +96,14 @@ class CardProduct
         return $this->price;
     }
 
+    public function getPriceHt()
+    {
+        return $this->price  - ( $this->product->getTva()->getRate() * $this->price / 100 );
+    }
+
     public function getFinalPriceTtc()
     {
-        return $this->getProduct()->getPrice() * $this->getQuantity();
+        return $this->price * $this->getQuantity();
     }
 
     public function getFinalPriceHt()

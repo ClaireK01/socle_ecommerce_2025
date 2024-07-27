@@ -42,9 +42,10 @@ class GenerateFixtureCommand extends Command
     {
 
 //        $this->generateProduct();
-        $this->generateAdress(6);
-//        $this->generatePaymentMethod();
-//        $this->generateShipping();
+//        $this->generateAdress(5);
+        $this->generateAdress(8);
+        $this->generatePaymentMethod();
+        $this->generateShipping();
 
         return Command::SUCCESS;
 

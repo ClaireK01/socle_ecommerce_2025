@@ -23,9 +23,9 @@ trait CategoryTrait
     private $categories;
 
     /**
-     * @return Collection<int, Category>
+     * @return ?Collection<int, Category>
      */
-    public function getCategories(): Collection
+    public function getCategories(): ?Collection
     {
         return $this->categories;
     }

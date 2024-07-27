@@ -9,21 +9,15 @@
         <hr>
 
         {# transformer en tableau #}
-        <div class="table-products">
+        <table class="table-products">
             {% if cart %}
-                {% if cart.cardProducts|length > 0 %}
-                    {% for c in cart.cardProducts %}
-                         {{ m.cartLine(c) }}
-                    {% endfor %}
-                    {{ m.cartLineTotal(cart) }}
-                {% else %}
-                        <p>{{ "commerce.empty"|trans }}</p>
-                {% endif %}
+               {{ m.cartDisplay(cart) }}
             {% endif %}
-        </div>
-
+        </table>
         {% if cart.cardProducts|length > 0 %}
-            <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+            <div class="cart-next">
+                <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+            </div>
         {% endif %}
     </div>
 </div>
