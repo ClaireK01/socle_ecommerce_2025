@@ -7,7 +7,7 @@
         <div class="container my-5 ">
             <div class="list">
                 {% for product in pagination %}
-                    {{ m.cardProduct(product) }}
+                    {{ m.cardProduct(product, cart) }}
                 {% endfor %}
             </div>
 

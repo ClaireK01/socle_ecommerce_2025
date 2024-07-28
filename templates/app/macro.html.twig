@@ -1,10 +1,10 @@
-{% macro slider(type, array) %}
+{% macro slider(type, array, cart) %}
     <div class="swiper-{{type}} swiper-container">
         <div class="swiper-wrapper">
             {% for entity in array%}
                 <div class="swiper-slide">
                     {% if type == "product" %}
-                        {{ _self.cardProduct(entity) }}
+                        {{ _self.cardProduct(entity, cart) }}
                     {% elseif type == "article" %}
                         {{ _self.cardArticle(entity) }}
                     {% endif %}
@@ -17,7 +17,7 @@
     </div>
 {% endmacro %}
 
-{% macro cardProduct(product) %}
+{% macro cardProduct(product, cart) %}
     <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_show', {'id' : product.id}) }}">
         <div class="card-product-img"></div>
         <div class="card-product-descr">
@@ -31,7 +31,7 @@
                     <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <input type="number" min="1" value="1" class="quantity" data-ecommerce-target="quantity">
+                    <input type="number" min="1" value="{{ getQuantityProductCart(cart, product) }}" class="quantity" data-ecommerce-target="quantity">
                     <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -86,7 +86,9 @@
 {% macro cartLine(c) %}
     <tr class="product list-item">
         <td>
-            <div class="card-product-img"></div>
+            <a href="{{ path('app_product_show', {'id' : c.product.id}) }}">
+                <div class="card-product-img"></div>
+            </a>
         </td>
         <td>{{ c.product.translate.title }}</td>
         <td>{{ c.quantity }}</td>

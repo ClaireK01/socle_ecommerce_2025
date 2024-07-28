@@ -21,7 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class EcommerceController extends AbstractController
 {
     #[Route('{_locale}/products/{id}/add', name: 'add_to_cart', methods: 'POST')]
-    public function addToCartAction(Product $product, Request $request, CardProductRepository $cardProductRepository, OrderService $orderService, CartRepository $cartRepository)
+    public function addToCartAction(Product $product, Request $request,
+                                    CardProductRepository $cardProductRepository, OrderService $orderService,
+                                    CartRepository $cartRepository, EntityManagerInterface $entityManager)
     {
         $session = $request->getSession();
         $quantity = json_decode($request->getContent())->quantity;
@@ -40,12 +42,21 @@ class EcommerceController extends AbstractController
             $cardProduct->setProduct($product);
             $cardProduct->setQuantity($quantity);
             $cardProduct->setPrice($product->getPrice());
+            $orderService->addCardProductToCart($cart, $cardProduct);
+
         }else{
             $cardProduct = $results[array_key_first($results)];
-            $cardProduct->setQuantity($quantity);
+            if($quantity < 1){
+                $cart->removeCardProduct($cardProduct);
+                $entityManager->remove($cardProduct);
+                $entityManager->flush();
+            }else{
+                $cardProduct->setQuantity($quantity);
+                $orderService->addCardProductToCart($cart, $cardProduct);
+            }
+
         }
 
-        $orderService->addCardProductToCart($cart, $cardProduct);
 
         return new JsonResponse(["cart" => $orderService->getCartInfos($cart)], 200);
     }

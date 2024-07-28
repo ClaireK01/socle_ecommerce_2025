@@ -17,7 +17,7 @@ export default class extends Controller{
             let url = element.dataset.add;
             let quantity = element.parentNode.querySelector('input[data-ecommerce-target]').value
             postData(url, {"quantity" : quantity}).then((data) => {
-                this.shopcountTarget.innerHTML = data.cart['total_quantity'];
+                this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
             });
         })
     }

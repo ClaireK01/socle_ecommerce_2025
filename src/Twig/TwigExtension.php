@@ -9,6 +9,7 @@ use App\Repository\CartRepository;
 use App\Repository\ConversationRepository;
 use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,6 +43,7 @@ class TwigExtension extends AbstractExtension
             new TwigFunction('getLastMessage', [$this, 'getLastMessage']),
             new TwigFunction('getShopCount', [$this, 'getShopCount']),
             new TwigFunction('getAdminTable', [$this, 'getAdminTable']),
+            new TwigFunction('getQuantityProductCart', [$this, 'getQuantityProductCart']),
             new TwigFunction('vdump', [$this, 'vdump']),
             new TwigFunction('die', [$this, 'die']),
         ];
@@ -171,6 +173,18 @@ class TwigExtension extends AbstractExtension
             unset($table['newTranslations']);
 
             return $table;
+        }
+
+        public function getQuantityProductCart($cart, $product){
+            if($cart){
+                foreach ($cart->getCardProducts() as $c){
+                    if($c->getProduct() == $product){
+                        return $c->getQuantity();
+                    }
+                }
+            }
+
+            return 1;
         }
 
 
