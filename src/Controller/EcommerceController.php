@@ -42,8 +42,7 @@ class EcommerceController extends AbstractController
             $cardProduct->setPrice($product->getPrice());
         }else{
             $cardProduct = $results[array_key_first($results)];
-            $newQuantity = $cardProduct->getQuantity() + $quantity;
-            $cardProduct->setQuantity($newQuantity);
+            $cardProduct->setQuantity($quantity);
         }
 
         $orderService->addCardProductToCart($cart, $cardProduct);

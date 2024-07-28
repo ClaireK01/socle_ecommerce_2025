@@ -227,8 +227,6 @@ nav ul li{
     flex-direction: column;
     align-items: center;
 }
-
-
 /************* page show article test ******************/
 
 
@@ -254,8 +252,6 @@ nav ul li{
     justify-content: space-between;
 }
 
-
-
 /************* page list product test ******************/
 
 .list{
@@ -266,6 +262,7 @@ nav ul li{
 }
 
 .card-product{
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -289,6 +286,55 @@ nav ul li{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.card-bottom{
+    text-align: center;
+    width: 50%;
+}
+
+
+.add-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.quantity-container{
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.card-product .add-container{
+    margin-top: 1rem;
+}
+
+
+.add-container input{
+    width: 2rem;
+    height: 2rem;
+}
+
+.btn-quant{
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background-color: #ffc107;
+    border-radius: 50px;
+    color: black;
 }
 
 /************* page show product test ******************/

@@ -20,14 +20,15 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
-    .addEntry('bootstrap_modal', './node_modules/bootstrap/js/dist/modal')
+    .addStyleEntry('style', './assets/styles/main.css')
     .addEntry('js', './assets/js/main.js')
     .addEntry('js-socket', './assets/js/websocket/socket.js')
-    .addStyleEntry('style', './assets/styles/main.css')
-    .addEntry('js-admin', './assets/js/admin.js')
-    .addEntry('js-slider', './assets/js/slider.js')
+    .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
+    .addEntry('bootstrap_modal', './node_modules/bootstrap/js/dist/modal')
+    //admin
     .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
+    .addEntry('js-slider', './assets/js/slider.js')
+    .addEntry('js-admin', './assets/js/admin.js')
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
