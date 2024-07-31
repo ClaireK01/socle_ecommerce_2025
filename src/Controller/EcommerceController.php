@@ -219,5 +219,19 @@ class EcommerceController extends AbstractController
             return $this->redirectToRoute("app_stripe", ['number' => $order->getNumber()]);
         }
 
+        return true ;
+
+    }
+
+    #[Route('{_locale}/cart/view/', name: 'ecommerce_cart_view', methods: ['GET'])]
+    public function cartViewAction(Request $request, CartRepository $cartRepository){
+
+        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+
+        $view =  $this->renderView('app/cart/cart_view.html.twig', [
+            'cart' => $cart,
+        ]);
+
+        return new JsonResponse(['view' => $view]);
     }
 }

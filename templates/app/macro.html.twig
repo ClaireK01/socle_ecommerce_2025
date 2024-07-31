@@ -91,7 +91,7 @@
             </a>
         </td>
         <td>{{ c.product.translate.title }}</td>
-        <td>{{ c.quantity }}</td>
+        <td><input data-ecommerce-target="quantity" type="number" class="qty" value="{{ c.quantity }}" data-url="{{ path('ecommerce_cart_view') }}" /></td>
         <td>{{ c.priceHt|number_format(2, ',', ' ') }}€</td>
         <td>{{ c.price|number_format(2, ',', ' ') }}€</td>
         <td>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</td>

@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 
-async function postData(url = "", donnees = {}) {
+async function postData(url = "", donnees = null, method = 'GET') {
     const response = await fetch(url, {
-        method: "POST",
+        method: method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(donnees),
+        body: donnees ? JSON.stringify(donnees) : null,
     });
     return response.json();
 }
@@ -16,7 +16,7 @@ export default class extends Controller{
         element.addEventListener('click', (e) => {
             let url = element.dataset.add;
             let quantity = element.parentNode.querySelector('input[data-ecommerce-target]').value
-            postData(url, {"quantity" : quantity}).then((data) => {
+            postData(url, {"quantity" : quantity},  'POST').then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
             });
         })
@@ -24,9 +24,11 @@ export default class extends Controller{
 
     quantityTargetConnected(element){
         element.addEventListener('input', (e) => {
-            if(document.querySelector('.price-tag-num') && element.dataset.show) {
-                this.changeQuantity(element)
-            }
+            let url = element.dataset.url;
+            postData(url).then((data) => {
+                //inserer view in .table-products
+                console.log(data.view)
+            });
         })
     }
 
@@ -44,9 +46,6 @@ export default class extends Controller{
             }
             if(val >= 1){
                 input.value = val
-                if(document.querySelector('.price-tag-num') && input.dataset.show){
-                    this.changeQuantity(input)
-                }
             }
         })
     }
