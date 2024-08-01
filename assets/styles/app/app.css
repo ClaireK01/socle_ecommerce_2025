@@ -436,3 +436,37 @@ input[type=number] {
     margin-right: 1rem;
 }
 
+
+/******** form ***********/
+
+.form-content{
+    width: 75%;
+    margin: auto;
+    margin-top: 0;
+    padding-top: 2rem;
+}
+
+.form-div{
+    margin-bottom: 2rem;
+}
+
+.form-inp, textarea{
+    padding: 1rem;
+    border-radius: 10px;
+    border: rgba(0, 0, 0, 0.19) 1px solid;
+    width: 100%;
+}
+
+.form-lab{
+    font-size: 0.8rem;
+    color: lightgrey;
+}
+
+.form-err{
+    font-size: 0.9rem;
+    color: #fa4242;
+}
+
+.lighten{
+    color: #9a9999;
+}

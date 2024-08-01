@@ -23,6 +23,8 @@ commerce:
   checkoutForm: Paiement
   empty: Aucun produit dans votre panier
   add: Ajouter au panier
+  profile:
+    addAddress: Ajouter une adresse
 
 
 message:
@@ -45,3 +47,7 @@ cart:
   priceTTC: Total TTC
   priceHT: Total HT
   quantity: Quantité
+
+form:
+  add: Ajouter
+  edit: Modifier

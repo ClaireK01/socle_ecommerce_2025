@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="main">
+        <div class="container my-5">
+            <h1>{{ 'commerce.profile.addAddress'|trans }}</h1>
+            <hr>
+
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+{#                {{ form_row(form.label) }}#}
+{#                {{ form_errors(form.label) }}#}
+
+{#                {{ form_row(form.address) }}#}
+{#                {{ form_errors(form.address) }}#}
+
+{#                {{ form_row(form.zipCode) }}#}
+{#                {{ form_errors(form.zipCode) }}#}
+
+{#                {{ form_row(form.city) }}#}
+{#                {{ form_errors(form.city) }}#}
+
+{#                {{ form_row(form.phoneNumber) }}#}
+{#                {{ form_errors(form.phoneNumber) }}#}
+
+{#                {{ form_row(form.infos) }}#}
+{#                {{ form_errors(form.infos) }}#}
+                <a href="{{ path('ecommerce_address') }}" class="btn btn-warning">{{ 'all.previous'|trans }}</a>
+                <button type="submit" class="btn btn-warning">{{ 'form.add'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -195,18 +195,19 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->addresses;
     }
 
-    public function addAddress(Address $addresse): self
+    public function addAddress(Address $address): self
     {
-        if (!$this->addresses->contains($addresse)) {
-            $this->addresses->add($addresse);
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeAddress(Address $addresse): self
+    public function removeAddress(Address $address): self
     {
-        $this->addresses->removeElement($addresse);
+        $this->addresses->removeElement($address);
 
         return $this;
     }

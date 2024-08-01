@@ -17,8 +17,11 @@
             <div class="address card-order-infos">
                 <span class="small-title">{{ 'commerce.address'|trans }}</span>
                 <h3>{{ address.label }}</h3>
-                <p>{{ address.address }}</p>
-                <p>{{ address.zipCode }}, {{ address.city|upper }}</p>
+                <div>
+                    <span><span class="lighten">{{ address.phone }}</span><br>
+                        {{ address.address }}<br>
+                        {{ address.code }}, {{ address.city|upper }}</span>
+                </div>
             </div>
             <div class="shipping card-order-infos">
                 <span class="small-title">{{ 'commerce.shipping'|trans }}</span>

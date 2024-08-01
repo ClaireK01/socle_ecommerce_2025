@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\CardProduct;
 use App\Entity\Product;
+use App\Form\AddressType;
+use App\Form\UserType;
 use App\Repository\AddressRepository;
 use App\Repository\CardProductRepository;
 use App\Repository\CartRepository;
@@ -16,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 
 class EcommerceController extends AbstractController
@@ -79,7 +83,7 @@ class EcommerceController extends AbstractController
         return $this->redirectToRoute('ecommerce_cart');
     }
 
-    #[Route('{_locale}/cart/', name: 'ecommerce_cart', methods: 'GET')]
+    #[Route('{_locale}/cart', name: 'ecommerce_cart', methods: 'GET')]
     public function cartAction(Request $request, OrderService $orderService, CartRepository $cartRepository)
     {
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
@@ -90,7 +94,7 @@ class EcommerceController extends AbstractController
     }
 
 
-    #[Route('{_locale}/cart/address/', name: 'ecommerce_address', methods: ['GET', 'POST'])]
+    #[Route('{_locale}/cart/address', name: 'ecommerce_address', methods: ['GET', 'POST'])]
     public function cartAddressAction(Request $request, OrderService $orderService, CartRepository $cartRepository)
     {
         $user = $this->getUser();
@@ -107,7 +111,30 @@ class EcommerceController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/cart/shipping/', name: 'ecommerce_shipping', methods: ['GET', 'POST'])]
+    #[Route('{_locale}/cart/address/add', name: 'ecommerce_address_add', methods: ['GET', 'POST'])]
+    public function cartAddressAddAction(Request $request, EntityManagerInterface $entityManager,RouterInterface $router)
+    {
+        $user = $this->getUser();
+        $address = new Address();
+
+        $form = $this->createForm(AddressType::class, $address);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $user->addAddress($address);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('ecommerce_address');
+        }
+
+        return $this->render('app/cart/form_addresses.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('{_locale}/cart/shipping', name: 'ecommerce_shipping', methods: ['GET', 'POST'])]
     public function cartShippingAction(Request $request, ShippingRepository $shippingRepository)
     {
         $user = $this->getUser();
@@ -131,7 +158,7 @@ class EcommerceController extends AbstractController
     }
 
 
-    #[Route('{_locale}/cart/payment/', name: 'ecommerce_payment', methods: ['GET', 'POST'])]
+    #[Route('{_locale}/cart/payment', name: 'ecommerce_payment', methods: ['GET', 'POST'])]
     public function cartPaymentAction(Request $request, PaymentMethodRepository $paymentMethodRepository)
     {
         $user = $this->getUser();
@@ -156,7 +183,7 @@ class EcommerceController extends AbstractController
     }
 
 
-    #[Route('{_locale}/cart/summary/', name: 'ecommerce_summary', methods: ['GET', 'POST'])]
+    #[Route('{_locale}/cart/summary', name: 'ecommerce_summary', methods: ['GET', 'POST'])]
     public function cartSummarytAction(Request $request, OrderService $orderService, CartRepository $cartRepository, ShippingRepository $shippingRepository,
                                        PaymentMethodRepository $paymentMethodRepository, AddressRepository $addressRepository)
     {
@@ -190,7 +217,7 @@ class EcommerceController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/cart/validate/', name: 'ecommerce_validate', methods: ['GET', 'POST'])]
+    #[Route('{_locale}/cart/validate', name: 'ecommerce_validate', methods: ['GET', 'POST'])]
     public function validateCartAction(Request $request, OrderService $orderService, CartRepository $cartRepository, ShippingRepository $shippingRepository,
                                        PaymentMethodRepository $paymentMethodRepository, AddressRepository $addressRepository){
 
@@ -223,7 +250,7 @@ class EcommerceController extends AbstractController
 
     }
 
-    #[Route('{_locale}/cart/view/', name: 'ecommerce_cart_view', methods: ['GET'])]
+    #[Route('{_locale}/cart/view', name: 'ecommerce_cart_view', methods: ['GET'])]
     public function cartViewAction(Request $request, CartRepository $cartRepository){
 
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);

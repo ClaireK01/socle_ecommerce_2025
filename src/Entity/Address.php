@@ -23,17 +23,25 @@ class Address
     private $id;
 
     #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $label;
 
     #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $address;
 
     #[ORM\Column(type: 'string', nullable:true)]
-    private $zip_code;
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $code;
 
 
     #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $city;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $phone;
 
     #[ORM\Column(type: 'text', nullable:true)]
     private $infos;
@@ -77,22 +85,6 @@ class Address
     public function setAddress($address): void
     {
         $this->address = $address;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getZipCode()
-    {
-        return $this->zip_code;
-    }
-
-    /**
-     * @param mixed $zip_code
-     */
-    public function setZipCode($zip_code): void
-    {
-        $this->zip_code = $zip_code;
     }
 
     /**
@@ -143,6 +135,37 @@ class Address
         $this->user = $user;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     */
+    public function setCode($code): void
+    {
+        $this->code = $code;
+    }
 
 
 }

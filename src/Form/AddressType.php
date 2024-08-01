@@ -15,7 +15,15 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
+            ->add('label')
+            ->add('address')
+            ->add('code')
+            ->add('city')
+            ->add('phone')
+            ->add('infos', TextareaType::class, [
+                'required' => false
+            ])
+
         ;
     }
 
