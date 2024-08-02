@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EcommerceOrderRepository;
+use App\Trait\EcommerceTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
@@ -18,13 +19,19 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 #[ORM\Entity(repositoryClass: EcommerceOrderRepository::class)]
 class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait;
+    use SoftDeletableTrait,TimestampableTrait, EcommerceTrait;
+
+    const STATES  = [ "pending" => 0, "payed" => 1, "confirmed" => 2,  'shipped' => 3, 'done' => 4, "canceled" => 5 ];
 
 
     const PENDING = 0;
-    const CONFIRMED = 1;
-    const PAYED = 2;
-    const CANCELED = 3;
+    const PAYED = 1;
+
+    const CONFIRMED = 2;
+
+    const SHIPPED = 3;
+    const DONE = 4;
+    const CANCELED = 5;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,7 +50,7 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\ManyToOne(targetEntity: Address::class)]
     private $facturation_address;
 
-    #[ORM\OneToMany(targetEntity: CardProduct::class, mappedBy: "order")]
+    #[ORM\OneToMany(mappedBy: "ecommerceOrder", targetEntity: CardProduct::class)]
     private $cardProducts;
 
     #[ORM\ManyToOne(targetEntity: Shipping::class)]
@@ -68,34 +75,6 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCardProducts(){
-        return $this->cardProducts;
-    }
-
-    public function addCardProduct(CardProduct $cardProduct): self
-    {
-        if (!$this->cardProducts->contains($cardProduct)) {
-            $this->cardProducts->add($cardProduct);
-            $cardProduct->setEcommerceOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCardProduct(CardProduct $cardProduct): self
-    {
-        $this->cardProducts->removeElement($cardProduct);
-
-        return $this;
-    }
-
-    public function setCardProducts($cardProducts)
-    {
-        $this->cardProducts = $cardProducts;
-
-        return $this;
     }
 
     /**

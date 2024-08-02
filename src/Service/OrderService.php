@@ -84,8 +84,8 @@ class OrderService
         $order->setFacturationAddress($address);
         $order->setShipping($shipping);
         $order->setPaymentMethod($payment);
-        $order->setNumber($this->ecommerceOrderRepository->getLastOrderNumber() + 1);
 
+        $order->setNumber($this->ecommerceOrderRepository->getLastOrderNumber() + 1);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 

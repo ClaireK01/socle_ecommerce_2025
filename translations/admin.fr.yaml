@@ -25,6 +25,7 @@ nav:
 
 
 header:
+  status: Statut
   title: Titre
   content: Content
   shortContent: Résumé
@@ -37,7 +38,31 @@ header:
     user:
       email: Email
 
-
+order:
+  states:
+    pending: En attente
+    payed: Payé
+    confirmed: Confirmé
+    canceled: Annulé
+    shipped: Envoyé
+    done: Terminé
+  shipping: Livraison
+  number: Numéro de commande
+  name: Nom
+  email: Email
+  phone: Numéro de téléphone
+  address: Adresse
+  city: Ville
+  product: Produits
+  quantity: Quantité
+  unitPriceHT: Prix unitaire HT
+  unitPrice: Prix unitaire TTC
+  priceHT: Prix HT
+  priceTTC: Prix TTC
+  status: Statut
+  details: Détails de la commande
+  payment: Paiement
+  changeState: Changer le statut
 
 
 

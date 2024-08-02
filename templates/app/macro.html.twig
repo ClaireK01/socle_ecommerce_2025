@@ -56,7 +56,7 @@
 {% endmacro %}
 
 {% macro cartDisplay(cart) %}
-    {% if cart.cardProducts|length > 0 %}
+    {% if cart != null and cart.cardProducts|length > 0 %}
         <thead>
         {{ _self.cartHeader() }}
         </thead>

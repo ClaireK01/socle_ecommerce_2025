@@ -10,11 +10,9 @@
 
         {# transformer en tableau #}
         <table class="table-products">
-            {% if cart %}
-               {{ m.cartDisplay(cart) }}
-            {% endif %}
+           {{ m.cartDisplay(cart) }}
         </table>
-        {% if cart.cardProducts|length > 0 %}
+        {% if cart != null and cart.cardProducts|length > 0 %}
             <div class="cart-next">
                 <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
             </div>

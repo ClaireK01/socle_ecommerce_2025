@@ -18,10 +18,9 @@ class OrderController extends AbstractController
     #[Route('/', name: 'admin_order_index')]
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-
-        //clé inutile, voir pour faire en sorte que fonction gere un tableau comme clé
         $properties = [
             'number',
+            'status',
             ['shippingAddress' => ['user' => ['email' => 'email'] ] ],
             ['shippingAddress' => ['firstName' => 'firstName'] ],
             ['shippingAddress' => ['lastName' => 'lastName'] ],
@@ -50,6 +49,50 @@ class OrderController extends AbstractController
             'class' => EcommerceOrder::class
         ]);
     }
+
+    #[ParamConverter('order', class: EcommerceOrder::class)]
+    #[Route('/{id}/show', name: 'admin_order_show')]
+    public function showAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
+    {
+
+       if($request->getMethod() == "POST"){
+           $state = $request->request->get('state') ?? null;
+
+           if($state){
+               if($order->getStatus() != EcommerceOrder::STATES['canceled']){
+                   //envoyer mails
+                   if($state == EcommerceOrder::STATES['confirmed']){
+                       if($order->getStatus() == EcommerceOrder::STATES['payed']) {
+                           $order->setStatus($state);
+                       }
+                   }elseif ($state == EcommerceOrder::STATES['shipped']){
+                       if($order->getStatus() == EcommerceOrder::STATES['confirmed']){
+                           $order->setStatus($state);
+                       }
+                   }elseif ($state == EcommerceOrder::STATES['done']){
+                       if($order->getStatus() == EcommerceOrder::STATES['shipped']){
+                           $order->setStatus($state);
+                       }
+                   }elseif ($state == EcommerceOrder::STATES['canceled']){
+                       $order->setStatus($state);
+                   }
+               }
+
+               $order->setStatus($state);
+               $em->persist($order);
+               $em->flush();
+           }
+
+           return $this->redirectToRoute('admin_order_index');
+
+       }
+
+        return $this->render('/admin/show_order.html.twig', [
+            'entity' => $order,
+        ]);
+    }
+
+
 
 //    #[Route('/{id}/edit', name: 'admin_order_edit')]
 //    #[Route('/new', name: 'admin_order_new')]
@@ -81,14 +124,4 @@ class OrderController extends AbstractController
 //
 //        return $this->redirectToRoute('admin_order_index');
 //    }
-
-    #[ParamConverter('order', class: EcommerceOrder::class)]
-    #[Route('/{id}/show', name: 'admin_order_show')]
-    public function showAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
-    {
-        return $this->render('/admin/show.html.twig', [
-            'entity' => $order,
-        ]);
-    }
-
 }

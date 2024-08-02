@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CartRepository;
+use App\Trait\EcommerceTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
@@ -20,7 +21,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart implements TimestampableInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, EcommerceTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,28 +45,6 @@ class Cart implements TimestampableInterface
         return $this->id;
     }
 
-    public function getCardProducts(){
-        return $this->cardProducts;
-    }
-
-    public function addCardProduct(CardProduct $cardProduct): self
-    {
-        if (!$this->cardProducts->contains($cardProduct)) {
-            $this->cardProducts->add($cardProduct);
-            $cardProduct->setCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCardProduct(CardProduct $cardProduct): self
-    {
-        $this->cardProducts->removeElement($cardProduct);
-        $cardProduct->setCart(null);
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
@@ -80,51 +59,5 @@ class Cart implements TimestampableInterface
     public function setSessionId($session_id): void
     {
         $this->session_id = $session_id;
-    }
-
-    public function getTotalHt(){
-        $total_ht = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total_ht  += $c->getFinalPriceHt();
-        }
-
-        return $total_ht;
-    }
-
-    public function getTotalTtc(){
-        $total_ttc = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total_ttc  += $c->getFinalPriceTtc();
-        }
-        return $total_ttc;
-    }
-
-    public function getTotalUnitaireTtc(){
-        $total = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total  += $c->getPrice();
-        }
-        return $total;
-    }
-
-    public function getTotalUnitaireHt(){
-        $total = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total  += $c->getPriceHt();
-        }
-        return $total;
-    }
-
-    public function getTotalQuantity(){
-        $total = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total  += $c->getQuantity();
-        }
-        return $total;
     }
 }

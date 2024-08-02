@@ -1,0 +1,58 @@
+{% extends "base_admin.html.twig" %}
+{% trans_default_domain 'admin' %}
+{% import 'admin/macro.html.twig' as m %}
+
+{% block body %}
+
+    <div class="container show-order">
+        <div class="order-details order-details-top">
+            <h2>{{ "order.details"|trans }}</h2>
+            <p><span class="bold">{{ "order.number"|trans }}</span> : {{ entity.number }}</p>
+            <p><span class="bold">{{ "order.name"|trans }}</span>  : {{ entity.shippingAddress.firstName }} {{ entity.shippingAddress.lastName|upper }}</p>
+            <p><span class="bold">{{ "order.email"|trans }} </span> : {{ entity.shippingAddress.user.email }}</p>
+            <p><span class="bold">{{ "order.phone"|trans }} </span> : {{ entity.shippingAddress.phone }}</p>
+            <p><span class="bold">{{ "order.address"|trans }}</span>  : {{ entity.shippingAddress.address }}</p>
+            <p><span class="bold">{{ "order.city"|trans }} </span> : {{ entity.shippingAddress.code }} {{ entity.shippingAddress.city|upper }}</p>
+        </div>
+
+        <table class="table">
+            {% if entity %}
+                {{ m.orderDisplay(entity) }}
+            {% endif %}
+        </table>
+
+        <div class="order-manager">
+            <div class="order-details order-state">
+                <h3>{{ "order.status"|trans }}</h3>
+                <form method="POST">
+                    <select id="state" name="state">
+                        {% for key, s in constant('App\\Entity\\EcommerceOrder::STATES') %}
+                            <option value="{{ s }}" {{ entity.status == s ? "selected" : '' }}>{{ ("order.states."~key)|trans }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-success">{{ "order.changeState"|trans }}</button>
+                </form>
+            </div>
+
+            <div class="order-details order-shipping">
+                <h3>{{ "order.address"|trans }}</h3>
+                <p>
+                    <span>{{ entity.shipping.translate.title }}</span><br>
+                    <span>{{ entity.shipping.price }} €</span>
+                </p>
+            </div>
+
+            <div class="order-details order-shipping">
+                <h3>{{ "order.payment"|trans }}</h3>
+                <p>
+                    <span>{{ entity.paymentMethod.translate.title }}</span><br>
+                </p>
+            </div>
+        </div>
+
+        <a href="{{ path(app.request.get('_route')|replace({'show' : 'index'})) }}"><button>{{ "all.back"|trans }}</button></a>
+
+    </div>
+
+    </div>
+{% endblock %}
