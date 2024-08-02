@@ -5,6 +5,7 @@
 {% block body %}
     <div class="main">
         <div class="container my-5 ">
+            <h2 class="title">{{ "commerce.product.see"|trans }}</h2>
             <div class="list">
                 {% for product in pagination %}
                     {{ m.cardProduct(product, cart) }}
@@ -13,6 +14,5 @@
 
             {{ knp_pagination_render(pagination) }}
         </div>
-
     </div>
 {% endblock %}

@@ -28,6 +28,14 @@ class Address
 
     #[ORM\Column(type: 'string', nullable:true)]
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $firstName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $lastName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $address;
 
     #[ORM\Column(type: 'string', nullable:true)]
@@ -165,6 +173,38 @@ class Address
     public function setCode($code): void
     {
         $this->code = $code;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
     }
 
 

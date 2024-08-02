@@ -25,6 +25,10 @@ commerce:
   add: Ajouter au panier
   profile:
     addAddress: Ajouter une adresse
+  product:
+    see: Voir les produits
+  article:
+    see: Voir les articles
 
 
 message:

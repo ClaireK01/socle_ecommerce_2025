@@ -48,6 +48,11 @@ nav ul li{
 .tag{
     font-size: 0.8rem;
 }
+
+.title{
+    padding-bottom: 2rem;
+}
+
 /***************************** image **********************/
 
 .image-container{
@@ -326,6 +331,8 @@ input.qty::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
+    text-align: center;
+    border: none;
 }
 
 .card-product .add-container{

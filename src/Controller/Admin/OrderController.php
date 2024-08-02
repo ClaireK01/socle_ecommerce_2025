@@ -19,8 +19,12 @@ class OrderController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
 
+        //clé inutile, voir pour faire en sorte que fonction gere un tableau comme clé
         $properties = [
-            'number' => 'number',
+            'number',
+            ['shippingAddress' => ['user' => ['id' => 'id'] ] ],
+            ['shippingAddress' => ['firstName' => 'firstName'] ],
+            ['shippingAddress' => ['lastName' => 'lastName'] ],
         ];
 
 
