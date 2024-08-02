@@ -22,7 +22,7 @@ class OrderController extends AbstractController
         //clé inutile, voir pour faire en sorte que fonction gere un tableau comme clé
         $properties = [
             'number',
-            ['shippingAddress' => ['user' => ['id' => 'id'] ] ],
+            ['shippingAddress' => ['user' => ['email' => 'email'] ] ],
             ['shippingAddress' => ['firstName' => 'firstName'] ],
             ['shippingAddress' => ['lastName' => 'lastName'] ],
         ];
@@ -51,36 +51,36 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_order_edit')]
-    #[Route('/new', name: 'admin_order_new')]
-    public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
-    {
-        $order = $id != null && $em->getRepository(Order::class)->find($id) ? $em->getRepository(Order::class)->find($id) : new Order();
+//    #[Route('/{id}/edit', name: 'admin_order_edit')]
+//    #[Route('/new', name: 'admin_order_new')]
+//    public function editAction(Request $request, EntityManagerInterface $em, $id = null): Response
+//    {
+//        $order = $id != null && $em->getRepository(Order::class)->find($id) ? $em->getRepository(Order::class)->find($id) : new Order();
+//
+//        $form = $this->createForm(OrderType::class, $order);
+//
+//        $form->handleRequest($request);
+//
+//        if($form->isSubmitted() && $form->isValid()){
+//            $em->persist($order);
+//            $em->flush();
+//            return $this->redirectToRoute('admin_order_index');
+//        }
+//        return $this->render('/admin/edit.html.twig', [
+//            'order' => $order,
+//            'form' => $form->createView()
+//        ]);
+//    }
 
-        $form = $this->createForm(OrderType::class, $order);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $em->persist($order);
-            $em->flush();
-            return $this->redirectToRoute('admin_order_index');
-        }
-        return $this->render('/admin/edit.html.twig', [
-            'order' => $order,
-            'form' => $form->createView()
-        ]);
-    }
-
-    #[ParamConverter('order', class: EcommerceOrder::class)]
-    #[Route('/{id}/delete', name: 'admin_order_delete')]
-    public function deleteAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
-    {
-        $em->remove($order);
-        $em->flush();
-
-        return $this->redirectToRoute('admin_order_index');
-    }
+//    #[ParamConverter('order', class: EcommerceOrder::class)]
+//    #[Route('/{id}/delete', name: 'admin_order_delete')]
+//    public function deleteAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
+//    {
+//        $em->remove($order);
+//        $em->flush();
+//
+//        return $this->redirectToRoute('admin_order_index');
+//    }
 
     #[ParamConverter('order', class: EcommerceOrder::class)]
     #[Route('/{id}/show', name: 'admin_order_show')]

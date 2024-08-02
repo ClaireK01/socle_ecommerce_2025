@@ -31,6 +31,12 @@ header:
   price: Prix
   actions: Actions
   number: Numéro de commande
+  shippingAddress:
+    lastName: Nom
+    firstName: Prénom
+    user:
+      email: Email
+
 
 
 

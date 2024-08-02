@@ -44,6 +44,7 @@ class TwigExtension extends AbstractExtension
             new TwigFunction('getShopCount', [$this, 'getShopCount']),
             new TwigFunction('getAdminTable', [$this, 'getAdminTable']),
             new TwigFunction('getQuantityProductCart', [$this, 'getQuantityProductCart']),
+            new TwigFunction('getRoute', [$this, 'getRoute']),
             new TwigFunction('vdump', [$this, 'vdump']),
             new TwigFunction('die', [$this, 'die']),
         ];
@@ -121,33 +122,37 @@ class TwigExtension extends AbstractExtension
             $translationReflection = null;
         }
         
-        foreach ($pagination as $e){
+        foreach ($pagination as $entity){
             
             $row = '<tr>';
-            foreach ($header as $h) {
-                $test = is_array($h) ? array_key_first($h) : $h;
+            foreach ($header as $val) {
+                $test = is_array($val) ? array_key_first($val) : $val;
                 if($translationReflection){
                     if(!in_array($test, ['title', 'content', 'shortContent'])){
                         $method = $reflection->getMethod('get' . ucfirst($test));
-                        $line =  $method->invoke($e);
+                        $line =  $method->invoke($entity);
                     }else{
                         $method = $translationReflection->getMethod('get' . ucfirst($test));
-                        $line =  $method->invoke($e->translate($request->getLocale()));
+                        $line =  $method->invoke($entity->translate($request->getLocale()));
                     }
                 }else{
-                    $line = $this->getLine($reflection, $h, $e);
+                    $line = $this->getLine($reflection, $val, $entity);
                 }
                 $row .= '<td>'. $line . '</td>';
             }
 
-            $pathShow = $this->router->generate(str_replace('index', 'show', $request->get('_route')), ['id' => $e->getId()]);
-            $pathEdit = $this->router->generate(str_replace('index', 'edit', $request->get('_route')), ['id' => $e->getId()]);
-            $pathDelete = $this->router->generate(str_replace('index', 'delete', $request->get('_route')), ['id' => $e->getId()]);
+            $pathShow = $this->getRoute(str_replace('index', 'show', $request->get('_route')), ['id' => $entity->getId()]);
+            $pathEdit = $this->getRoute(str_replace('index', 'edit', $request->get('_route')), ['id' => $entity->getId()]);
+            $pathDelete = $this->getRoute(str_replace('index', 'delete', $request->get('_route')), ['id' => $entity->getId()]);
+
+
 
             $row .= "<td>";
             $row .= "<a href='". $pathShow."'><button class='btn-action'>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
-            $row .= "<a href='". $pathEdit."'><button class='btn-action'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
-            $row.=  "<a href='". $pathDelete."'><button class='btn-action'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
+            if($pathEdit && $pathDelete){
+                $row .= "<a href='". $pathEdit."'><button class='btn-action'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
+                $row.=  "<a href='". $pathDelete."'><button class='btn-action'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
+            }
             $row .= "</td>";
             $row .= "</tr>";
 
@@ -160,13 +165,12 @@ class TwigExtension extends AbstractExtension
     public function getLine($reflection, $value, $entity)
     {
         if(is_array($value)){
-            $prop = array_key_first($value);
-            $method = $reflection->getMethod('get' . ucfirst($prop));
+            $key = array_key_first($value);
+            $method = $reflection->getMethod('get' . ucfirst($key));
             $e = $method->invoke($entity);
             if(is_object($e) && $class  = get_class($e)){
                 $reflection = new \ReflectionClass($class);
-                $prop = is_array($value) ? $prop : $value;
-                $value = is_array($value) ? $value[$prop] : $value;
+                $value = is_array($value) ? $value[$key] : $value;
                 return $this->getLine($reflection, $value, $e);
             }else{
                 return $e;
@@ -225,5 +229,13 @@ class TwigExtension extends AbstractExtension
 
         public function die(){
         die;
+        }
+
+        public function getRoute($route, $params = []){
+            try{
+                return $this->router->generate($route, $params);
+            } catch(\Exception $e){
+                return null;
+            }
         }
     }

@@ -5,9 +5,12 @@
 
     <div class="container page-list">
         <div class="admin-actions">
-            <a href="{{ path(app.request.get('_route')|replace({'index' : 'new'})) }}">
+            {% set route = getRoute( app.request.get('_route')|replace({'index' : 'new'}) ) %}
+            {% if route %}
+            <a href="{{ route }}">
                 <button class="btn-add">{{ 'action.add'|trans }}</button>
             </a>
+            {% endif %}
         </div>
 
         <table class="table table-edit">
