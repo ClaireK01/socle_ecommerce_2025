@@ -6,12 +6,32 @@
         <li><a href="{{ path('app_article_list') }}">Page d'article test</a></li>
         <li><a href="{{ path('app_product_list') }}">Page de product test</a></li>
         <li><a href="{{ path('app_contact') }}">Contact</a></li>
-        <div class="shop-icon-container">
-            <li><a href="{{ path('ecommerce_cart') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
-            <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
-        </div>
+
+
+        <li class="nav-language">
+            <div class="flag-selected">
+                {% if app.request.locale == 'fr' %}
+                    <span>{{ 'flags/france.svg'|svg|raw }}</span>
+                {% elseif app.request.locale == 'en' %}
+                    <span>{{ 'flags/uk.svg'|svg|raw }}</span>
+                {% endif %}
+            </div>
+            <ul class="flags">
+                {% if app.request.locale != 'fr' %}
+                    <li><a href="{{ path(app.request.get('_route'), {'_locale' : 'fr'}) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>
+                {% endif %}
+                {% if app.request.locale != 'en' %}
+                    <li><a href="{{ path(app.request.get('_route'), {'_locale' : 'en'}) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>
+                {% endif %}
+            </ul>
+        </li>
+
+            <div class="shop-icon-container">
+                <li><a href="{{ path('ecommerce_cart') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
+            </div>
         {% if app.user %}
-            <li><a href="{{ path('app_user') }}" class="btn btn-primary">Mon Profil</a></li>
+            <li><a href="{{ path('app_user') }}" class="btn btn-warning">Mon Profil</a></li>
             <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>
         {% else %}
             <li><a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a></li>

@@ -6,6 +6,12 @@
 
 /************ header *********/
 
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .display-none{
     display: none !important;
 }
@@ -20,7 +26,11 @@ button{
 
 a{
     text-decoration: none;
-    color: black;
+    color: var(--color-main);
+}
+
+a:hover{
+    color: var(--yellow-w)
 }
 
 nav{
@@ -28,10 +38,11 @@ nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background-color: rgba(60, 60, 60, 0.77);
+    background-color: var(--background-main) ;
 }
 
 nav ul{
+    color:var(--color-main);
     width: 50%;
     list-style: none;
     display: flex;
@@ -42,6 +53,33 @@ nav ul{
 
 nav ul li{
     margin: auto;
+}
+
+.nav-language{
+    position: relative;
+}
+
+.flag-selected{
+    display: inline-block;
+}
+
+.flag-selected:hover{
+    cursor: pointer;
+}
+
+.flag-selected:hover  + .flags, .flags:hover{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.flags{
+    position: absolute;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    max-height: 100%;
+    left: -120%;
+    display: none;
 }
 
 .logo{
@@ -57,6 +95,14 @@ nav ul li{
 
 .title{
     padding-bottom: 2rem;
+}
+
+footer{
+    color: var(--color-main);
+    width: 100%;
+    margin-top: auto;
+    background-color: var(--background-main);
+    padding: 2rem;
 }
 
 /***************************** image **********************/
@@ -502,3 +548,5 @@ input[type=number] {
     background-color: var(--background-error);
     border: solid 1px var(--error);
 }
+
+

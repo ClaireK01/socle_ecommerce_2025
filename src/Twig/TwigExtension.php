@@ -9,6 +9,7 @@ use App\Repository\CartRepository;
 use App\Repository\ConversationRepository;
 use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\VarDumper\VarDumper;
@@ -23,7 +24,8 @@ class TwigExtension extends AbstractExtension
 
     public function __construct(    private readonly ConversationRepository $conversationRepository, private readonly OrderService $orderService,
                                     private readonly CartRepository $cartRepository, private readonly TranslatorInterface $translator,
-                                    private readonly EntityManagerInterface $entityManager, private readonly RouterInterface $router
+                                    private readonly EntityManagerInterface $entityManager, private readonly RouterInterface $router,
+                                    private readonly ParameterBagInterface $parameterBag
     )
     {
 
@@ -34,6 +36,7 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigFilter('header', [$this, 'header']),
             new TwigFilter('list', [$this, 'list']),
+            new TwigFilter('svg', [$this, 'svg']),
         ];
     }
 
@@ -212,32 +215,43 @@ class TwigExtension extends AbstractExtension
         return $table;
     }
 
-        public function getQuantityProductCart($cart, $product){
-            if($cart){
-                foreach ($cart->getCardProducts() as $c){
-                    if($c->getProduct() == $product){
-                        return $c->getQuantity();
-                    }
+    public function svg(string $path)
+    {
+        $str = "";
+        $dir = $this->parameterBag->get("kernel.project_dir"). '/public/svg/'. $path;
+        if(file_exists($dir)){
+            $str = file_get_contents($dir);
+        }
+        return $str;
+    }
+
+    public function getQuantityProductCart($cart, $product){
+        if($cart){
+            foreach ($cart->getCardProducts() as $c){
+                if($c->getProduct() == $product){
+                    return $c->getQuantity();
                 }
             }
-
-            return 1;
         }
 
+        return 1;
+    }
 
-        public function vdump($var){
-            VarDumper::dump($var);
-        }
 
-        public function die(){
-        die;
-        }
+    public function vdump($var){
+        VarDumper::dump($var);
+    }
 
-        public function getRoute($route, $params = []){
-            try{
-                return $this->router->generate($route, $params);
-            } catch(\Exception $e){
-                return null;
-            }
+    public function die(){
+    die;
+    }
+
+    public function getRoute($route, $params = []){
+        try{
+            return $this->router->generate($route, $params);
+        } catch(\Exception $e){
+            return null;
         }
     }
+
+}

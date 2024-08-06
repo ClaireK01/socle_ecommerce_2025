@@ -16,10 +16,13 @@
     </head>
     <body data-controller="ecommerce">
         {% block header %}
-        <header>
-            {% include 'app/_inc/_menu.html.twig' %}
-        </header>
-    {% endblock %}
+            <header>
+                {% include 'app/_inc/_menu.html.twig' %}
+            </header>
+        {% endblock %}
         {% block body %}{% endblock %}
+        {% block footer %}
+            {% include 'app/_inc/_footer.html.twig' %}
+        {% endblock %}
     </body>
 </html>

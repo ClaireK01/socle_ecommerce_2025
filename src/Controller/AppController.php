@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AppController extends AbstractController
 {
-    #[Route('/', name: 'app_homepage')]
+    #[Route('/{_locale}/', name: 'app_homepage')]
     public function index(Request $request): Response
     {
         if($this->getUser()){
