@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "friendsofsymfony/user-bundle": "*",
+        "guzzlehttp/guzzle": "*",
         "knplabs/doctrine-behaviors": "^2.6",
         "knplabs/knp-paginator-bundle": "6.0.0",
         "phpdocumentor/reflection-docblock": "^5.3",

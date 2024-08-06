@@ -23,6 +23,10 @@
              <li><i class="fa-solid fa-coins"></i> {{ 'nav.tva'|trans }}</li>
          </a>
 
+         <a  class="{% if 'admin_contact' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_contact_index') }}">
+             <li><i class="fa-solid fa-mail-bulk"></i> {{ 'nav.contact'|trans }}</li>
+         </a>
+
          <a  class="{% if 'admin_order' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_order_index') }}">
              <li><i class="fa-solid fa-box"></i> {{ 'nav.order'|trans }}</li>
          </a>

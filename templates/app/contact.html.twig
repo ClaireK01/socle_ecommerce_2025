@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
+
+
+{% block body %}
+    <div class="container my-5">
+        {{ m.flashDisplay() }}
+            <div class="contact">
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="h-captcha" data-sitekey="{{ siteKey }}"></div>
+
+                <button type="submit" class="btn btn-warning">{{ 'all.send'|trans }}</button>
+                {{ form_end(form) }}
+
+            </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+{% endblock %}

@@ -10,4 +10,11 @@
     --h2 : 4.3rem;
     --h3 : 2.2rem;
     --h4 : 1.6rem;
+
+
+    --success : #59e079;
+    --background-success : rgba(184, 243, 202, 0.37);
+
+    --error : #e15353;
+    --background-error : rgba(241, 178, 178, 0.37);
 }

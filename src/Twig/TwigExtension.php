@@ -149,8 +149,10 @@ class TwigExtension extends AbstractExtension
 
             $row .= "<td>";
             $row .= "<a href='". $pathShow."'><button class='btn-action'>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
-            if($pathEdit && $pathDelete){
+            if($pathEdit){
                 $row .= "<a href='". $pathEdit."'><button class='btn-action'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
+            }
+            if($pathDelete) {
                 $row.=  "<a href='". $pathDelete."'><button class='btn-action'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
             }
             $row .= "</td>";

@@ -22,6 +22,7 @@ nav:
   product: Produits
   order: Commandes
   tva: TVA
+  contact: Contact
 
 
 header:
@@ -32,6 +33,8 @@ header:
   price: Prix
   actions: Actions
   number: Numéro de commande
+  firstName: Prénom
+  lastName: Nom
   shippingAddress:
     lastName: Nom
     firstName: Prénom

@@ -112,3 +112,13 @@
         <td></td>
     </tr>
 {% endmacro %}
+
+{% macro flashDisplay() %}
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for message in flashes %}
+            <div class="{{ label == "error" ? "flash-error" : "flash-success" }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endmacro %}

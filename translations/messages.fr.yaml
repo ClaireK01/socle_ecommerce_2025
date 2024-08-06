@@ -4,6 +4,8 @@ all:
   backHome: Revenir à l'acceuil
   show: Voir
   read: Lire
+  send: Envoyer
+  validate: Valider
 
 commerce:
   cart: Panier

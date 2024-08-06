@@ -1,6 +1,7 @@
 @import "../../../node_modules/swiper/swiper.css";
 @import "../../../node_modules/swiper/swiper-bundle.css";
 @import "swiper.css";
+@import "../_var.css";
 @import "../_pagination.css";
 
 /************ header *********/
@@ -15,6 +16,11 @@
 
 button{
     max-width: 11rem;
+}
+
+a{
+    text-decoration: none;
+    color: black;
 }
 
 nav{
@@ -476,4 +482,23 @@ input[type=number] {
 
 .lighten{
     color: #9a9999;
+}
+
+
+/************************** ***************************************/
+
+.flash-success, .flash-error{
+    padding: 1rem;
+    border-radius: 15px;
+}
+.flash-success{
+    color: var(--success);
+    background-color: var(--background-success);
+    border: solid 1px var(--success);
+}
+
+.flash-error{
+    color: var(--error);
+    background-color: var(--background-error);
+    border: solid 1px var(--error);
 }
