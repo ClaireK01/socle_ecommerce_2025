@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
+use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\VarDumper\VarDumper;
 
-#[Route('/profile')]
 class UserController extends AbstractController
 {
     private $em;
@@ -22,13 +22,14 @@ class UserController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'app_user')]
+    #[Route('{_locale}/profile', name: 'app_user')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
         if(!$user){
             $this->redirectToRoute('app_homepage');
         }
+
         $form = $this->createForm('App\Form\UserType', $user);
         $form->handleRequest($request);
 
@@ -39,6 +40,34 @@ class UserController extends AbstractController
 
         return $this->render('user/show.html.twig', [
             'form'=>$form->createView(),
+        ]);
+    }
+
+
+    #[Route('{_locale}/profile/messages', name: 'app_user_message')]
+    public function showMessagesAction(Request $request): Response
+    {
+        $user = $this->getUser();
+        if(!$user){
+            $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render('app/user/messages.html.twig', []);
+    }
+
+
+    #[Route('{_locale}/profile/orders', name: 'app_user_orders')]
+    public function showOrdersAction(Request $request, EcommerceOrderRepository $orderRepository): Response
+    {
+        $user = $this->getUser();
+        if(!$user){
+            $this->redirectToRoute('app_homepage');
+        }
+
+        $orders = $orderRepository->getUserOrder($user);
+
+        return $this->render('app/user/orders.html.twig', [
+            "orders" => $orders,
         ]);
     }
 

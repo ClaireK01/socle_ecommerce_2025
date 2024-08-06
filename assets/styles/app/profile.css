@@ -3,66 +3,20 @@
 }
 
 .profile-container{
-    display: flex;
+    margin-bottom: 8rem;
 }
 
 .profile-picture{
-    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
 }
 
 .profile-picture .image-container{
-    margin: auto;
-    width: 300px;
-    height: 300px;
-}
-
-.add-realisation{
-    background-color: lightgrey;
-    text-align: center;
-}
-
-.add-realisation i{
-    color: #606060;
-    padding: 5rem;
-    font-size: 6rem;
-}
-
-.add-realisation:hover{
-    cursor: pointer;
-    background-color: #606060;
-}
-
-.add-realisation:hover i{
-    color: lightgrey;
-}
-
-.realisation-container, .profile-container{
-    padding: 2rem 0;
-}
-
-
-.profile-container form{
-    width: 100%;
-    display: flex;
-}
-
-.profile-edit{
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.profile-edit .btn-submit{
-    margin: 2rem 0;
-}
-
-.form-input-username{
-    text-align: center;
-}
-
-.form-input{
-    margin-top: 1rem;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
 }
 
 .image-container .fa-pen{
@@ -71,4 +25,81 @@
     right: 1rem;
     cursor: pointer;
 }
+
+
+.user-menu{
+  list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5rem;
+}
+
+.user-menu a.selected {
+    background-color: lightgrey;
+    color: white !important;
+}
+
+.user-menu a{
+    border-bottom: solid 2px lightgrey;
+    padding: 2rem 1rem;
+    width: 40%;
+    text-align: center;
+    color: lightgrey;
+}
+
+.user-menu li:hover{
+    cursor: pointer;
+}
+
+
+/*.add-realisation{*/
+/*    background-color: lightgrey;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.add-realisation i{*/
+/*    color: #606060;*/
+/*    padding: 5rem;*/
+/*    font-size: 6rem;*/
+/*}*/
+
+/*.add-realisation:hover{*/
+/*    cursor: pointer;*/
+/*    background-color: #606060;*/
+/*}*/
+
+/*.add-realisation:hover i{*/
+/*    color: lightgrey;*/
+/*}*/
+
+/*.realisation-container, .profile-container{*/
+/*    padding: 2rem 0;*/
+/*}*/
+
+
+/*.profile-container form{*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*}*/
+
+/*.profile-edit{*/
+/*    margin: 0 auto;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*.profile-edit .btn-submit{*/
+/*    margin: 2rem 0;*/
+/*}*/
+
+/*.form-input-username{*/
+/*    text-align: center;*/
+/*}*/
+
+/*.form-input{*/
+/*    margin-top: 1rem;*/
+/*}*/
+
 

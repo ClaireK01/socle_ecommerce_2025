@@ -1,0 +1,26 @@
+{% extends 'app/user/base_user.html.twig' %}
+
+{% block user_content %}
+    <div>
+        <table class="table-products">
+            <thead>
+            <tr class="list-item">
+                <th>{{ "user.order.number" }}</th>
+                <th>{{ "user.order.status" }}</th>
+                <th>{{ "user.order.totalht" }}</th>
+                <th>{{ "user.order.totalttc" }}</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                    <tr class=" list-item">
+                        <td>{{ o.number }}</td>
+                        <td>{{ o.status }}</td>
+                        <td>{{ o.totalHT|number_format(2, ',', ' ') }}€</td>
+                        <td>{{ o.totalTTC|number_format(2, ',', ' ') }}€</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

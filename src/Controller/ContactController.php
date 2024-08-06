@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/contact')]
+#[Route('{_locale}/contact')]
 class ContactController extends AbstractController
 {
     private $em;

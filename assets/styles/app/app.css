@@ -3,6 +3,7 @@
 @import "swiper.css";
 @import "../_var.css";
 @import "../_pagination.css";
+@import "profile.css";
 
 /************ header *********/
 
@@ -450,6 +451,7 @@ input[type=number] {
 .shop-icon-container{
     position: relative;
     font-size: 1.3rem;
+    margin: auto;
 }
 
 .shop-count{

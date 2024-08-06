@@ -50,4 +50,13 @@ class EcommerceOrderRepository extends ServiceEntityRepository
         return $order ? $order->getNumber() : 0;
     }
 
+
+    public function getUserOrder($user){
+        return $this->createQueryBuilder('o')
+            ->join('o.shipping_address', 'a')
+            ->join('a.user', 'u')
+            ->where('u = :user')
+            ->setParameter('user', $user)->getQuery()->getResult();
+    }
+
 }

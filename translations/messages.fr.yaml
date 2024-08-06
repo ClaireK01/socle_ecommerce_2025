@@ -6,6 +6,7 @@ all:
   read: Lire
   send: Envoyer
   validate: Valider
+  contact: Contactez-nous!
 
 commerce:
   cart: Panier
@@ -57,3 +58,8 @@ cart:
 form:
   add: Ajouter
   edit: Modifier
+
+user:
+  infos: Information
+  message: Messages
+  orders: Mes commandes
