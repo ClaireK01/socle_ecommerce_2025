@@ -4,5 +4,5 @@
 <ul class="user-menu">
    <a class="{{ app.request.get("_route") == "app_user" ? "selected" : "" }}" href="{{ path('app_user') }}"><li>{{ "user.infos"|trans }}</li></a>
    <a href="{{ path('app_user_message') }}" class="{{ app.request.get("_route") == "app_user_message" ? "selected" : "" }}"><li>{{ "user.message"|trans }}</li></a>
-   <a href="{{ path('app_user_orders') }}" class="{{ app.request.get("_route") == "app_user_orders" ? "selected" : "" }}"><li>{{ "user.orders"|trans }}</li></a>
+   <a href="{{ path('app_user_orders') }}" class="{{ "app_user_order" in app.request.get("_route") ? "selected" : "" }}"><li>{{ "user.orders"|trans }}</li></a>
 </ul>

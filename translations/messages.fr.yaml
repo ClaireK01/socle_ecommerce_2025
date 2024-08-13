@@ -63,3 +63,10 @@ user:
   infos: Information
   message: Messages
   orders: Mes commandes
+  order:
+    number: Numero
+    status: Statut
+    totalht: Total HT
+    totalttc: Total TTC
+    action: Actions
+    street: Rue

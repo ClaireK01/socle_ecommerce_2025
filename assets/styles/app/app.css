@@ -497,6 +497,10 @@ input[type=number] {
     margin-right: 1rem;
 }
 
+.table-products{
+    margin: 3rem auto;
+}
+
 
 /******** form ***********/
 

@@ -66,6 +66,7 @@ order:
   details: Détails de la commande
   payment: Paiement
   changeState: Changer le statut
+  street: Rue
 
 
 

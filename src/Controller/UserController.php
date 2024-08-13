@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Conversation;
+use App\Entity\EcommerceOrder;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
@@ -57,7 +58,7 @@ class UserController extends AbstractController
 
 
     #[Route('{_locale}/profile/orders', name: 'app_user_orders')]
-    public function showOrdersAction(Request $request, EcommerceOrderRepository $orderRepository): Response
+    public function listOrdersAction(Request $request, EcommerceOrderRepository $orderRepository): Response
     {
         $user = $this->getUser();
         if(!$user){
@@ -68,6 +69,19 @@ class UserController extends AbstractController
 
         return $this->render('app/user/orders.html.twig', [
             "orders" => $orders,
+        ]);
+    }
+
+    #[Route('{_locale}/profile/orders/{id}/show', name: 'app_user_order_show')]
+    public function showOrdersAction(EcommerceOrder $order, Request $request, EcommerceOrderRepository $orderRepository): Response
+    {
+        $user = $this->getUser();
+        if(!$user){
+            $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render('app/user/order_show.html.twig', [
+            "order" => $order,
         ]);
     }
 

@@ -1,0 +1,32 @@
+{% extends 'app/user/base_user.html.twig' %}
+{% import 'admin/macro.html.twig' as m %}
+
+
+
+{% block user_content %}
+    <div class="order-infos">
+        <div class="address card-order-infos">
+            <span class="small-title">{{ 'commerce.address'|trans }}</span>
+            <h3>{{ order.shippingAddress.label }}</h3>
+            <div>
+                <span><span class="lighten">{{ order.shippingAddress.phone }}</span><br>
+                {{ order.shippingAddress.address }}<br>
+                {{ order.shippingAddress.code }}, {{ order.shippingAddress.city|upper }}</span>
+            </div>
+        </div>
+        <div class="shipping card-order-infos">
+            <span class="small-title">{{ 'commerce.shipping'|trans }}</span>
+            <h3>{{ order.shipping.translate.title }}</h3>
+            <p>{{ order.shipping.translate.shortContent }}</p>
+        </div>
+        <div class="payment card-order-infos">
+            <span class="small-title">{{ 'commerce.payment'|trans }}</span>
+            <h3>{{ order.paymentMethod.translate.title }}</h3>
+            <p>{{ order.paymentMethod.translate.shortContent }}</p>
+        </div>
+    </div>
+    <table class="table-products">
+        {{ m.orderDisplay(order) }}
+    </table>
+    <a href="{{ path('app_user_orders') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
+{% endblock %}

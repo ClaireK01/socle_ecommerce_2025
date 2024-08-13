@@ -22,6 +22,14 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     use SoftDeletableTrait,TimestampableTrait, EcommerceTrait;
 
     const STATES  = [ "pending" => 0, "payed" => 1, "confirmed" => 2,  'shipped' => 3, 'done' => 4, "canceled" => 5 ];
+    const STATES_LABEL  = [
+        "<span>En attente</span>" => 0,
+        "<span>Payé</span>" => 1,
+        "<span>Confirmé</span>" => 2,
+        "<span>Envoyé</span>" => 3,
+        "<span>Terminé</span>" => 4,
+        "<span>Annulé</span>" => 5
+    ];
 
 
     const PENDING = 0;
@@ -207,5 +215,8 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
         $this->number = $number;
     }
 
+    public function getStatusLabel(){
+        return array_search($this->status, self::STATES_LABEL) ?? "";
+    }
 
 }

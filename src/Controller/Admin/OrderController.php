@@ -20,7 +20,7 @@ class OrderController extends AbstractController
     {
         $properties = [
             'number',
-            'status',
+            'statusLabel',
             ['shippingAddress' => ['user' => ['email' => 'email'] ] ],
             ['shippingAddress' => ['firstName' => 'firstName'] ],
             ['shippingAddress' => ['lastName' => 'lastName'] ],

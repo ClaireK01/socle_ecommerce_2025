@@ -5,15 +5,9 @@
 {% block body %}
 
     <div class="container show-order">
-        <div class="order-details order-details-top">
-            <h2>{{ "order.details"|trans }}</h2>
-            <p><span class="bold">{{ "order.number"|trans }}</span> : {{ entity.number }}</p>
-            <p><span class="bold">{{ "order.name"|trans }}</span>  : {{ entity.shippingAddress.firstName }} {{ entity.shippingAddress.lastName|upper }}</p>
-            <p><span class="bold">{{ "order.email"|trans }} </span> : {{ entity.shippingAddress.user.email }}</p>
-            <p><span class="bold">{{ "order.phone"|trans }} </span> : {{ entity.shippingAddress.phone }}</p>
-            <p><span class="bold">{{ "order.address"|trans }}</span>  : {{ entity.shippingAddress.address }}</p>
-            <p><span class="bold">{{ "order.city"|trans }} </span> : {{ entity.shippingAddress.code }} {{ entity.shippingAddress.city|upper }}</p>
-        </div>
+
+        {{ m.orderDetails(entity) }}
+
 
         <table class="table">
             {% if entity %}

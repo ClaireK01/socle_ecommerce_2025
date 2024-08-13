@@ -1,5 +1,17 @@
 {% trans_default_domain 'admin' %}
 
+{% macro orderDetails(order) %}
+    <div class="order-details order-details-top">
+        <h2>{{ "order.details"|trans }}</h2>
+        <p><span class="bold">{{ "order.number"|trans }}</span> : {{ order.number }}</p>
+        <p><span class="bold">{{ "order.name"|trans }}</span>  : {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName|upper }}</p>
+        <p><span class="bold">{{ "order.email"|trans }} </span> : {{ order.shippingAddress.user.email }}</p>
+        <p><span class="bold">{{ "order.phone"|trans }} </span> : {{ order.shippingAddress.phone }}</p>
+        <p><span class="bold">{{ "order.street"|trans }}</span>  : {{ order.shippingAddress.address }}</p>
+        <p><span class="bold">{{ "order.city"|trans }} </span> : {{ order.shippingAddress.code }} {{ order.shippingAddress.city|upper }}</p>
+    </div>
+{% endmacro %}
+
 {% macro orderDisplay(order) %}
     {% if order.cardProducts|length > 0 %}
         <thead>
