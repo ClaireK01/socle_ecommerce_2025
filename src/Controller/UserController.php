@@ -28,7 +28,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-            $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_homepage');
         }
 
         $form = $this->createForm('App\Form\UserType', $user);
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-            $this->redirectToRoute('app_homepage');
+           return $this->redirectToRoute('app_homepage');
         }
 
         return $this->render('app/user/messages.html.twig', []);
@@ -62,7 +62,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-            $this->redirectToRoute('app_homepage');
+           return $this->redirectToRoute('app_homepage');
         }
 
         $orders = $orderRepository->getUserOrder($user);
@@ -77,7 +77,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-            $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_homepage');
         }
 
         return $this->render('app/user/order_show.html.twig', [
