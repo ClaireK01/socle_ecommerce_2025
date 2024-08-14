@@ -106,6 +106,32 @@ footer{
     padding: 2rem;
 }
 
+
+/********************* **************************************/
+
+.content{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0;
+    align-items: center;
+}
+
+.content.right{
+    flex-direction: row-reverse;
+}
+
+.content.right .content-img{
+    margin-left: 0;
+    margin-right: 5%;
+}
+
+.content-img{
+    min-height: 300px;
+    min-width: 45%;
+    background-color: lightgrey;
+    margin-left: 5%;
+}
+
 /***************************** image **********************/
 
 .image-container{

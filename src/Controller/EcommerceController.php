@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
-
+#[Route(requirements: ['_locale' => 'en|fr'])]
 class EcommerceController extends AbstractController
 {
     #[Route('{_locale}/products/{id}/add', name: 'add_to_cart', methods: 'POST')]
