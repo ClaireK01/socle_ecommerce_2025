@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Repository\CartRepository;
 use App\Repository\ProductRepository;
@@ -10,11 +11,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function Doctrine\ORM\QueryBuilder;
 
 class ProductController extends AbstractController
 {
-    #[Route('{_locale}/products/list', name: 'app_product_list')]
-    public function listAction(Request $request, ProductRepository $productRepository,
+    #[Route('{_locale}/categories/{id}/products/list', name: 'app_product_list')]
+    public function listAction(Category $category, Request $request, ProductRepository $productRepository,
+                               PaginatorInterface $paginator, CartRepository $cartRepository): Response
+    {
+        $page = $request->get('page') ?? 1;
+        $qb = $productRepository->createQueryBuilder("p");
+        $qb ->where(":cat MEMBER OF p.categories")
+            ->setParameter("cat", $category);
+
+        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+
+        //->where('e.deletedAt is null')
+        ;
+        $pagination = $paginator->paginate(
+            $qb,
+            $page,
+            10
+        );
+
+        return $this->render('app/product/list.html.twig', [
+            'category' => $category,
+            'pagination' => $pagination,
+            'cart' => $cart
+        ]);
+    }
+
+    #[Route('{_locale}/products/list/all', name: 'app_product_list_all')]
+    public function listAllAction(Request $request, ProductRepository $productRepository,
                                PaginatorInterface $paginator, CartRepository $cartRepository): Response
     {
         $page = $request->get('page') ?? 1;

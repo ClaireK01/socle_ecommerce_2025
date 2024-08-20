@@ -5,7 +5,7 @@
 {% block body %}
     <div class="main">
         <div class="container my-5 ">
-            <h2 class="title">{{ "commerce.product.see"|trans }}</h2>
+            <h2 class="title">{{ "commerce.product.listCat"|trans }} {{ category.translate.title}}</h2>
             <div class="list">
                 {% for product in pagination %}
                     {{ m.cardProduct(product, cart) }}

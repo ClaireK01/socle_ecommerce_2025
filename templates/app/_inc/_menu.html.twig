@@ -4,7 +4,7 @@
         <li><a href="{{ path('app_presentation') }}">A propos</a></li>
 {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
         <li><a href="{{ path('app_article_list') }}">Page d'article test</a></li>
-        <li><a href="{{ path('app_product_list') }}">Page de product test</a></li>
+        <li><a href="{{ path('app_category_list') }}">Page de category test</a></li>
         <li><a href="{{ path('app_contact') }}">Contact</a></li>
 
 
@@ -34,8 +34,8 @@
             <li><a href="{{ path('app_user') }}" class="btn btn-warning">Mon Profil</a></li>
             <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>
         {% else %}
-            <li><a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a></li>
-            <li><a href="{{ path('app_login') }}" class="btn btn-primary">Se Connecter</a></li>
+            <li><a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a></li>
+            <li><a href="{{ path('app_login') }}" class="btn btn-warning">Se Connecter</a></li>
         {% endif %}
     </ul>
 </nav>

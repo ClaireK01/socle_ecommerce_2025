@@ -13,13 +13,16 @@ use Symfony\Component\VarDumper\VarDumper;
 
 class ArticleController extends AbstractController
 {
-    #[Route('{_locale}/articles/list', name: 'app_article_list')]
+    #[Route('{_locale}/articles/list', name: 'app_article_list',
+            options: [
+                'breadcrumb' => ['name' => 'article.list']
+            ]
+    )]
     public function listAction(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
     {
         $page = $request->get('page') ?? 1;
         $qb = $articleRepository->createQueryBuilder("a");
             //->where('e.deletedAt is null')
-        ;
         $pagination = $paginator->paginate(
             $qb,
             $page,
@@ -31,7 +34,11 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/articles/{id}/show', name: 'app_article_show')]
+    #[Route('{_locale}/articles/{id}/show', name: 'app_article_show',
+            options: [
+                'breadcrumb' => ['name' => '%name%', 'parent' => 'app_article_list']
+            ]
+    )]
     public function showAction(Article $article, Request $request,  ArticleRepository $articleRepository): Response
     {
         $similar = $articleRepository->findAll();

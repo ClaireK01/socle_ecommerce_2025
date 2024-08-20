@@ -122,3 +122,25 @@
         {% endfor %}
     {% endfor %}
 {% endmacro %}
+
+
+{% macro cardCategory(category) %}
+    <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_list', {'id' : category.id}) }}">
+        <div class="card-product-img"></div>
+        <div class="card-product-descr">
+            <p>{{ category.translate.title }}</p>
+            <p>{{ category.translate.shortContent }}</p>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro breadcrumb(entity = null) %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('app_homepage') }}"><i class="fa-solid fa-home"></i></a></li>
+        {{ generateBreadcrumb(app.request, entity)|raw }}
+{#        {% if entity %}#}
+{#            <li class="breadcrumb-item"><a href="{{ path('app_homepage') }}">{{ entity.translate.title }}</a></li>#}
+{#        {% endif %}#}
+    </ul>
+{% endmacro %}
