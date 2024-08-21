@@ -52,6 +52,11 @@
     cursor: pointer;
 }
 
+.actions button{
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
 
 /*.add-realisation{*/
 /*    background-color: lightgrey;*/

@@ -9,6 +9,10 @@ use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\GeneratorInterface;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -114,5 +118,29 @@ class UserController extends AbstractController
             "conversation" => $conversation
         ]);
     }
+
+    #[Route('{_locale}/profile/{id}/invoice', name: 'app_user_invoice')]
+    public function generateInvoice(EcommerceOrder $order, Pdf $generator){
+
+//        if($this->getUser()){
+//            return $this->redirectToRoute('app_homepage');
+//        }
+
+        $user = $this->getUser();
+
+//        if($order->getShippingAddress()->getUser() != $user && $order->getFacturationAddress()->getUser() != $user){
+//            return $this->redirectToRoute('app_homepage');
+//        }
+
+       return new PdfResponse( $generator->getOutputFromHtml(
+                $this->renderView('app/user/invoice.html.twig', [
+                    'order' => $order
+                ]),
+            ),'invoice.pdf'
+
+       );
+
+    }
+
 
 }
