@@ -9,5 +9,6 @@ class Events{
     const USER_MESSAGE = "user.message";
     const CONVERSATION_MESSAGE_SENT = "conversation.message.sent";
     const CONVERSATION_OPENED = "conversation.opened";
+    const MAIL_ORDER = "mail.order";
 
 }

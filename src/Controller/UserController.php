@@ -121,23 +121,23 @@ class UserController extends AbstractController
 
     #[Route('{_locale}/profile/{id}/invoice', name: 'app_user_invoice')]
     public function generateInvoice(EcommerceOrder $order, Pdf $generator){
-
-//        if($this->getUser()){
-//            return $this->redirectToRoute('app_homepage');
-//        }
+        //Renvoyer une erreur plutot que redirection
 
         $user = $this->getUser();
 
-//        if($order->getShippingAddress()->getUser() != $user && $order->getFacturationAddress()->getUser() != $user){
-//            return $this->redirectToRoute('app_homepage');
-//        }
+        if(!$user){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        if($order->getShippingAddress()->getUser() != $user && $order->getFacturationAddress()->getUser() != $user){
+            return $this->redirectToRoute('app_homepage');
+        }
 
        return new PdfResponse( $generator->getOutputFromHtml(
                 $this->renderView('app/user/invoice.html.twig', [
                     'order' => $order
                 ]),
             ),'invoice.pdf'
-
        );
 
     }
