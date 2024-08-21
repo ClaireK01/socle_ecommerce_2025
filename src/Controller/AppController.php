@@ -19,7 +19,7 @@ class AppController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/about', name: 'app_presentation')]
+    #[Route('/{_locale}/about', name: 'app_presentation', options: ['breadcrumb' => ['name' => 'about']])]
     public function aboutAction(Request $request): Response
     {
         return $this->render('app/presentation.html.twig', [

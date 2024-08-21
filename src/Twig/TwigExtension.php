@@ -2,9 +2,11 @@
 
 namespace App\Twig;
 
+use App\Controller\ProductController;
 use App\Entity\Cart;
 use App\Entity\Conversation;
 use App\Entity\EcommerceOrder;
+use App\Entity\Product;
 use App\Repository\CartRepository;
 use App\Repository\ConversationRepository;
 use App\Service\OrderService;
@@ -51,6 +53,7 @@ class TwigExtension extends AbstractExtension
             new TwigFunction('vdump', [$this, 'vdump']),
             new TwigFunction('die', [$this, 'die']),
             new TwigFunction('generateBreadcrumb', [$this, 'generateBreadcrumb']),
+            new TwigFunction('hasBreadcrumb', [$this, 'hasBreadcrumb']),
         ];
     }
 
@@ -93,6 +96,10 @@ class TwigExtension extends AbstractExtension
     {
         return $var instanceof EcommerceOrder;
     }
+
+
+    //////////////////////////////////////////////////////// admin //////////////////////////////////////////////
+
 
     public function header($header){
 
@@ -216,29 +223,45 @@ class TwigExtension extends AbstractExtension
         return $table;
     }
 
+    public function getRoute($route, $params = []){
+        try{
+            return $this->router->generate($route, $params);
+        } catch(\Exception $e){
+            return null;
+        }
+    }
+
+
+    //////////////////////////////////////////////////////// breadcrumb //////////////////////////////////////////////
+
     public function generateBreadcrumb(Request $request, $entity = null){
         $finalBc = '';
-        //route
         $finalBc = $this->getCrumb($finalBc, $request->get("_route"), $request->getLocale(), $entity);
 
         return $finalBc;
     }
 
-    public function getCrumb($string, $route, $locale, $entity){
+    public function getCrumb($string, $routeName, $locale, $entity){
 
         $breadcrumb = '';
-        $route = $this->router->getRouteCollection()->get($route);
+        $route = $this->router->getRouteCollection()->get($routeName);
         if($route){
             $params = $route->getOption("breadcrumb");
-            if($params['name'] == "%name%"){
+            $routeParameters = [];
+            if($entity != null){
+                $routeParameters = ["id" => $entity->getId()];
+            }
+            $link = $this->router->generate($routeName, $routeParameters);
+
+            if($params['name'] == "%name%" && $entity){
                 $crumb = $entity->translate($locale)->getTitle();
             }else{
                 $crumb = $this->translator->trans("breadcrumb.".$params['name'], [], "messages", $locale);
             }
-            $breadcrumb = '<li class="breadcrumb-item">' . $crumb . '</li>' . $string ;
+            $breadcrumb = '<li class="breadcrumb-item"><a href="'. $link.'">' . $crumb . '</a></li>' . $string ;
 
             if(key_exists('parent', $params) && $params['parent'] != null){
-                return $this->getCrumb($breadcrumb, $params['parent'], $locale, null);
+                return $this->getCrumb($breadcrumb, $params['parent'], $locale, $this->getParentEntity($entity));
             }
         }
 
@@ -246,43 +269,19 @@ class TwigExtension extends AbstractExtension
          return $breadcrumb;
     }
 
-    public function generateBreadcrumbTest(Request $request, $entity = null){
-        $finalBc = '';
-        $parameters = ["id" => 1];
-        if($entity != null){
-            $parameters = ["id" => $entity->getId()];
+    public function getParentEntity($entity)
+    {
+        if($entity instanceof Product){
+            return $entity->getFirstCategory();
         }
-
-        //route
-        $routeName = $request->get("_route");
-        $route = $this->router->getRouteCollection()->get($routeName);
-        $key = $route->getOption("breadcrumb");
-        if($key){
-            if($key['name'] == 'name' && $entity){
-                $bc = $entity->translate($request->getLocale())->getTitle();
-            }else{
-                $bc = $this->translator->trans("breadcrumb.".$key['name'], [], "messages", $request->getLocale());
-            }            //referer
-            $referer = $request->headers->get('referer');
-            $refererPathInfo = Request::create($referer)->getPathInfo();
-            $routeInfos = $this->router->match($refererPathInfo);
-            $routeRef = $this->router->getRouteCollection()->get($routeInfos['_route']);
-            $keyRef = $routeRef->getOption("breadcrumb");
-            if($keyRef){
-                $bcRef = $this->translator->trans("breadcrumb." . $keyRef['name'], [], "messages", $request->getLocale());
-                if($routeInfos['_route'] != "app_homepage" && $routeInfos['_route'] != $routeName && $key['position'] > $keyRef["position"]){
-                    $link = $this->router->generate($routeInfos['_route'], $parameters);
-                    $finalBc .=  '<li class="breadcrumb-item"><a href="'. $link.'">' . $bcRef . "</a></li>";
-                }
-            }
-
-            $link = $this->router->generate($routeName, $parameters);
-            $finalBc .= '<li class="breadcrumb-item"><a href="'. $link.'">' .$bc. "</a></li>";
-        }
-
-        return $finalBc;
+        return null;
     }
 
+    public function hasBreadcrumb($name){
+        return $this->router->getRouteCollection()->get($name)->getOption('breadcrumb');
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function svg(string $path)
     {
@@ -304,14 +303,6 @@ class TwigExtension extends AbstractExtension
         }
 
         return 1;
-    }
-
-    public function getRoute($route, $params = []){
-        try{
-            return $this->router->generate($route, $params);
-        } catch(\Exception $e){
-            return null;
-        }
     }
 
     public function vdump($var){

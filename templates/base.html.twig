@@ -1,3 +1,12 @@
+{% import 'app/macro.html.twig' as m %}
+
+
+{% set entity = category is defined ? category :
+                article is defined ? article :
+                product is defined ? product :
+                null
+%}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,7 +20,6 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('style') }}
         {% endblock %}
-
         {% block javascripts %}{% endblock %}
     </head>
     <body data-controller="ecommerce">
@@ -20,7 +28,19 @@
                 {% include 'app/_inc/_menu.html.twig' %}
             </header>
         {% endblock %}
-        {% block body %}{% endblock %}
+
+        {% block slider %}{% endblock %}
+
+        <div class="main">
+            <div class="container my-5 ">
+                {% if hasBreadcrumb(app.request.get('_route')) %}
+                    {{ m.breadcrumb(entity) }}
+                {% endif %}
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+
         {% block footer %}
             {% include 'app/_inc/_footer.html.twig' %}
         {% endblock %}

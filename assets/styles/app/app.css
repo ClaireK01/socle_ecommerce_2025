@@ -98,6 +98,10 @@ nav ul li{
     padding-bottom: 2rem;
 }
 
+.breadcrumb{
+    margin-bottom: 4rem;
+}
+
 footer{
     color: var(--color-main);
     width: 100%;

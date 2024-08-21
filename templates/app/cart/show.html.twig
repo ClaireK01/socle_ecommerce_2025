@@ -3,8 +3,6 @@
 
 
 {% block body %}
-<div class="main">
-    <div class="container my-5">
         <h1>{{ 'commerce.cart'|trans }}</h1>
         <hr>
 
@@ -17,6 +15,4 @@
                 <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
             </div>
         {% endif %}
-    </div>
-</div>
 {% endblock %}

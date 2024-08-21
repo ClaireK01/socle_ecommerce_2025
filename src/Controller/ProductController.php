@@ -15,7 +15,7 @@ use function Doctrine\ORM\QueryBuilder;
 
 class ProductController extends AbstractController
 {
-    #[Route('{_locale}/categories/{id}/products/list', name: 'app_product_list')]
+    #[Route('{_locale}/categories/{id}/products/list', name: 'app_product_list', options: ['breadcrumb' => ['name' => '%name%', 'parent' => "app_category_list"]])]
     public function listAction(Category $category, Request $request, ProductRepository $productRepository,
                                PaginatorInterface $paginator, CartRepository $cartRepository): Response
     {
@@ -41,7 +41,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/products/list/all', name: 'app_product_list_all')]
+    #[Route('{_locale}/products/list/all', name: 'app_product_list_all', options: ['breadcrumb' => ['name' => '%name%', 'parent' => "app_category_list"]])]
     public function listAllAction(Request $request, ProductRepository $productRepository,
                                PaginatorInterface $paginator, CartRepository $cartRepository): Response
     {
@@ -63,7 +63,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/products/{id}/show', name: 'app_product_show')]
+    #[Route('{_locale}/products/{id}/show', name: 'app_product_show', options: ['breadcrumb' => ['name' => '%name%', 'parent' => 'app_product_list']])]
     public function showAction(Product $product, Request $request, ProductRepository $productRepository, CartRepository $cartRepository): Response
     {
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);

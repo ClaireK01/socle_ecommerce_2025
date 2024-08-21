@@ -3,19 +3,11 @@
 
 
 {% block body %}
-    <div class="main">
-        <div class="container my-5 ">
-            {{ m.breadcrumb() }}
-            <h2 class="title">{{ "commerce.article.see"|trans }}</h2>
-
-            <div class="list">
-                {% for article in pagination %}
-                    {{ m.cardArticle(article) }}
-                {% endfor %}
-            </div>
-
-            {{ knp_pagination_render(pagination) }}
+        <h2 class="title">{{ "commerce.article.see"|trans }}</h2>
+        <div class="list">
+            {% for article in pagination %}
+                {{ m.cardArticle(article) }}
+            {% endfor %}
         </div>
-
-    </div>
+        {{ knp_pagination_render(pagination) }}
 {% endblock %}

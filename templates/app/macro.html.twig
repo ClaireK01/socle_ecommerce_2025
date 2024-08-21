@@ -139,8 +139,5 @@
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('app_homepage') }}"><i class="fa-solid fa-home"></i></a></li>
         {{ generateBreadcrumb(app.request, entity)|raw }}
-{#        {% if entity %}#}
-{#            <li class="breadcrumb-item"><a href="{{ path('app_homepage') }}">{{ entity.translate.title }}</a></li>#}
-{#        {% endif %}#}
     </ul>
 {% endmacro %}

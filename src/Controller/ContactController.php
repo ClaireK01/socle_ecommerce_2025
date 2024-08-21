@@ -20,7 +20,7 @@ class ContactController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'app_contact')]
+    #[Route('/', name: 'app_contact', options: ['breadcrumb' => ['name' => 'contact']])]
     public function index(Request $request, KernelInterface $kernel, EntityManagerInterface $em): Response
     {
         $contact = new Contact();
