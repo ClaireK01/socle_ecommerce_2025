@@ -31,7 +31,7 @@ class SecurityEvent implements EventSubscriberInterface {
         $user = $event->getAuthenticationToken()->getUser();
 
         if (!isset($_COOKIE['user']) && $user instanceof User) {
-            setcookie('user', $user->getId());
+            setcookie('user', $user->getId(), 0 , '/');
         }
 
     }

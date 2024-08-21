@@ -43,7 +43,7 @@
 {% endmacro %}
 
 {% macro cardArticle(article) %}
-    <div class="card-article">
+    <div class="card-article"  data-ecommerce-target="link" data-link="{{ path('app_article_show', {'id' : article.id}) }}">
         <div class="card-article-img"></div>
         <div>
             <div class="card-article-descr">

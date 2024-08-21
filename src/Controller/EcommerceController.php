@@ -83,7 +83,7 @@ class EcommerceController extends AbstractController
         return $this->redirectToRoute('ecommerce_cart');
     }
 
-    #[Route('{_locale}/cart', name: 'ecommerce_cart', methods: 'GET')]
+    #[Route('{_locale}/cart', name: 'ecommerce_cart', options: ['breadcrumb' => ['name' => 'cart']], methods: 'GET')]
     public function cartAction(Request $request, OrderService $orderService, CartRepository $cartRepository)
     {
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);

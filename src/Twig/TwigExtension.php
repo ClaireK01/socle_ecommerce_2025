@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-use App\Controller\ProductController;
 use App\Entity\Cart;
 use App\Entity\Conversation;
 use App\Entity\EcommerceOrder;
@@ -231,7 +230,7 @@ class TwigExtension extends AbstractExtension
         }
     }
 
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////// breadcrumb //////////////////////////////////////////////
 
     public function generateBreadcrumb(Request $request, $entity = null){

@@ -349,8 +349,11 @@ footer{
     padding-bottom: 3rem;
 }
 
-.card-product{
+[data-link]:hover{
     cursor: pointer;
+}
+
+.card-product{
     display: flex;
     flex-direction: column;
     justify-content: space-between;

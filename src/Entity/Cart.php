@@ -31,6 +31,9 @@ class Cart implements TimestampableInterface
     #[ORM\Column(type: 'string', nullable:true)]
     private $session_id;
 
+    #[ORM\Column(type: 'datetime', nullable:true)]
+    private $expiration;
+
     #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CardProduct::class, cascade: ['persist'], orphanRemoval: false)]
     private $cardProducts;
 
@@ -59,5 +62,21 @@ class Cart implements TimestampableInterface
     public function setSessionId($session_id): void
     {
         $this->session_id = $session_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpiration()
+    {
+        return $this->expiration;
+    }
+
+    /**
+     * @param mixed $expiration
+     */
+    public function setExpiration($expiration): void
+    {
+        $this->expiration = $expiration;
     }
 }

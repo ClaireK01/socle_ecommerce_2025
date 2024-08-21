@@ -27,8 +27,11 @@ class OrderService
     }
 
     public function createNewCart(SessionInterface $session){
+        $date = new \DateTime();
+        $expire = $date->modify('+ 3 days');
         $cart = new Cart();
         $cart->setSessionId($session->getId());
+        $cart->setExpiration($expire);
 
         $this->entityManager->persist($cart);
         $this->entityManager->flush();

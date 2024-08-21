@@ -39,4 +39,14 @@ class CartRepository extends ServiceEntityRepository
         }
     }
 
+    public function getExpiredCart($date){
+
+        $qb = $this->createQueryBuilder('c');
+        $qb
+            ->where($qb->expr()->lte("c.expiration", ":date"))
+            ->setParameter("date", $date);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
