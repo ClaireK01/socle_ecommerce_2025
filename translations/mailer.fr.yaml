@@ -7,3 +7,11 @@ order:
     admin: "Une nouvelle commande à été passée sur votre site"
     pro: "Vous avez reçu une nouvelle commande !"
     client: "Votre commande a bien été prise en compte"
+
+majorder:
+  status:
+    title:
+      client: "Changement du statut de votre commande"
+    message:
+      client: "Le statut de votre commande vient d'être mise à jour : %statut% . Vous pouvez consulter on avancement à tout moment sur votre espace client."
+

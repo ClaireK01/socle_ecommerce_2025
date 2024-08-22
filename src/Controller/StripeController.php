@@ -69,11 +69,10 @@ class StripeController extends AbstractController
             }
 
             //envoie des mails
-            $sendTo = [
-                MailEvent::TYPES['client'] => $order->getShippingAddress()->getUser()->getEmail(),
-                MailEvent::TYPES['admin'] => $_ENV['MAILER_ADMIN']
-            ];
-            $dispatcher->dispatch(new MailEvent($sendTo,$request->getLocale(), $order), Events::MAIL_ORDER);
+            $event = new MailEvent($request->getLocale(), $order);
+            $event->addSendTo(MailEvent::TYPES['client'], $order->getShippingAddress()->getUser()->getEmail());
+            $event->addSendTo(MailEvent::TYPES['admin'], $_ENV['MAILER_ADMIN']);
+            $dispatcher->dispatch($event, Events::MAIL_ORDER);
 
             return $this->redirectToRoute('payment_stripe_success', [], Response::HTTP_SEE_OTHER);
 

@@ -3,11 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\EcommerceOrder;
+use App\Events\Events;
+use App\Events\MailEvent;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,35 +55,46 @@ class OrderController extends AbstractController
 
     #[ParamConverter('order', class: EcommerceOrder::class)]
     #[Route('/{id}/show', name: 'admin_order_show')]
-    public function showAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
+    public function showAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em, EventDispatcherInterface $dispatcher): Response
     {
 
        if($request->getMethod() == "POST"){
            $state = $request->request->get('state') ?? null;
+            $send = false;
+
 
            if($state){
                if($order->getStatus() != EcommerceOrder::STATES['canceled']){
-                   //envoyer mails
                    if($state == EcommerceOrder::STATES['confirmed']){
                        if($order->getStatus() == EcommerceOrder::STATES['payed']) {
                            $order->setStatus($state);
+                           $send = true;
                        }
                    }elseif ($state == EcommerceOrder::STATES['shipped']){
                        if($order->getStatus() == EcommerceOrder::STATES['confirmed']){
                            $order->setStatus($state);
+                           $send = true;
                        }
                    }elseif ($state == EcommerceOrder::STATES['done']){
                        if($order->getStatus() == EcommerceOrder::STATES['shipped']){
                            $order->setStatus($state);
+                           $send = true;
                        }
                    }elseif ($state == EcommerceOrder::STATES['canceled']){
                        $order->setStatus($state);
+                       $send = true;
                    }
                }
 
                $order->setStatus($state);
                $em->persist($order);
                $em->flush();
+
+               if($send){
+                   $event = new MailEvent($request->getLocale(), $order);
+                   $event->addSendTo(MailEvent::TYPES['client'], $order->getShippingAddress()->getUser()->getEmail());
+                   $dispatcher->dispatch($event, Events::MAIL_MAJ_CLIENT_ORDER);
+               }
            }
 
            return $this->redirectToRoute('admin_order_index');

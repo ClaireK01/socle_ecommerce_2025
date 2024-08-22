@@ -8,22 +8,16 @@ use \App\Entity\User;
 class MailEvent {
 
     const TYPES = ['client' => 1, 'admin' => 2, 'pro' => 3];
-    private array $emails; // array [type => email] (ex : 1 => client@gmail.com, 3 => pro@gmail.com]
-
     private string $locale;
+
+    private array $sendTo = [];
 
     private $entity;
 
-    public function __construct($emails, $locale, $entity = null)
+    public function __construct($locale, $entity = null)
     {
-        $this->emails = $emails;
         $this->locale = $locale;
         $this->entity = $entity;
-    }
-
-
-    public function getEmails(){
-        return $this->emails;
     }
 
     public function getLocale(){
@@ -38,6 +32,19 @@ class MailEvent {
     {
         return array_search($type, self::TYPES);
     }
+
+    public function addSendTo($type, $email){
+
+        $this->sendTo[$type] = $email;
+
+        return $this;
+    }
+
+    public function getSendTo(){
+        return $this->sendTo;
+    }
+
+
 
 
 }

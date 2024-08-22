@@ -2,6 +2,7 @@
 
 namespace App\Subscriber;
 
+use App\Entity\EcommerceOrder;
 use App\Events\Events;
 use App\Events\MailEvent;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,8 @@ class MailSubscriber implements EventSubscriberInterface {
     public static function getSubscribedEvents() : array
     {
         return  [
-            Events::MAIL_ORDER => "onMailOrder",
+            Events::MAIL_ORDER => "onOrder",
+            Events::MAIL_MAJ_CLIENT_ORDER => "onMajClientOrder",
         ];
     }
 
@@ -24,18 +26,14 @@ class MailSubscriber implements EventSubscriberInterface {
                                 private readonly  Environment $twig){}
 
 
-    public function onMailOrder(MailEvent $event){
+    public function onOrder(MailEvent $event){
 
         $order = $event->getEntity();
 
-        foreach ($event->getEmails() as $type => $email){
+        foreach ($event->getSendTo() as $type => $email){
 
             $message = $this->translator->trans("order.message." . $event->getLabelType($type), [], "mailer", $event->getLocale());
-            $title = $this->translator->trans(
-                "order.title." . $event->getLabelType($type),
-                $type == MailEvent::TYPES['client'] ? ['number' => $order->getNumber()] : [],
-                "mailer", $event->getLocale()
-            );
+            $title = $this->translator->trans("order.title." . $event->getLabelType($type), $type == MailEvent::TYPES['client'] ? ['number' => $order->getNumber()] : [], "mailer", $event->getLocale());
 
             $template = $this->twig->render('app/mail/order_notification.html.twig', [
                 'title' => $title,
@@ -44,6 +42,23 @@ class MailSubscriber implements EventSubscriberInterface {
             ]);
             $this->send($template, $email);
         }
+    }
+
+    public function onMajClientOrder(MailEvent $event){
+        /** @var EcommerceOrder $order */
+        $order = $event->getEntity();
+        $email = $event->getSendTo()[MailEvent::TYPES['client']];
+
+        $title = $this->translator->trans("majorder.status.title.client",  [], "mailer", $event->getLocale());
+        $message = $this->translator->trans("majorder.status.message.client", ['statut' => $order->getStatusLabel()], "mailer", $event->getLocale());
+
+        $template = $this->twig->render('app/mail/order_notification.html.twig', [
+            'title' => $title,
+            'message' => $message,
+            'order' => $order,
+        ]);
+
+        $this->send($template, $email);
     }
 
     public function send($template, $address){
