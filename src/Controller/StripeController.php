@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Cart;
 use App\Entity\EcommerceOrder;
+use App\Events\Events;
+use App\Events\MailEvent;
 use App\Repository\CartRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Service\OrderService;
@@ -11,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +40,7 @@ class StripeController extends AbstractController
 
     #[Route('/stripe/create-charge', name: 'app_stripe_charge', methods: ['POST'])]
     public function createCharge(Request $request, EcommerceOrderRepository $orderRepository, EntityManagerInterface $entityManager,
-                                 CartRepository $cartRepository, OrderService $orderService)
+                                 CartRepository $cartRepository, OrderService $orderService, EventDispatcherInterface $dispatcher)
     {
         $order = $request->request->get('order') ? $orderRepository->find($request->request->get('order')) : null ;
         $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
@@ -56,12 +59,21 @@ class StripeController extends AbstractController
                 "description" => "Binaryboxtuts Payment Test"
             ]);
 
+            //maj statut
             $order->setStatus(EcommerceOrder::PAYED);
             $entityManager->persist($order);
 
+            //suppression cart
             if($cart instanceof Cart){
                 $orderService->removeCart($cart);
             }
+
+            //envoie des mails
+            $sendTo = [
+                MailEvent::TYPES['client'] => $order->getShippingAddress()->getUser()->getEmail(),
+                MailEvent::TYPES['admin'] => $_ENV['MAILER_ADMIN']
+            ];
+            $dispatcher->dispatch(new MailEvent($sendTo,$request->getLocale(), $order), Events::MAIL_ORDER);
 
             return $this->redirectToRoute('payment_stripe_success', [], Response::HTTP_SEE_OTHER);
 

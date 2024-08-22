@@ -2,19 +2,14 @@
 
 namespace App\Subscriber;
 
-use App\Entity\ResourceId;
-use App\Entity\User;
 use App\Events\Events;
 use App\Events\MailEvent;
-use App\Events\UserWebSocketEvent;
-use App\Repository\ConversationRepository;
-use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\UserBundle\Mailer\MailerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class MailSubscriber implements EventSubscriberInterface {
 
@@ -25,35 +20,42 @@ class MailSubscriber implements EventSubscriberInterface {
         ];
     }
 
-    public function __construct(private readonly EntityManagerInterface $em, private readonly MailerInterface $mailer, private readonly TranslatorInterface $translator){}
+    public function __construct(private readonly EntityManagerInterface $em, private readonly MailerInterface $mailer, private readonly TranslatorInterface $translator,
+                                private readonly  Environment $twig){}
 
 
     public function onMailOrder(MailEvent $event){
-        $user = $event->getUser();
-        switch ($event->getType()){
 
-            case MailEvent::TYPES['client']:
-                $message = '';
-            case MailEvent::TYPES['pro']:
-                $message = '';
-            case MailEvent::TYPES['admin']:
-                $message = '';
-            default:
-                $message = '';
+        $order = $event->getEntity();
 
+        foreach ($event->getEmails() as $type => $email){
+
+            $message = $this->translator->trans("order.message." . $event->getLabelType($type), [], "mailer", $event->getLocale());
+            $title = $this->translator->trans(
+                "order.title." . $event->getLabelType($type),
+                $type == MailEvent::TYPES['client'] ? ['number' => $order->getNumber()] : [],
+                "mailer", $event->getLocale()
+            );
+
+            $template = $this->twig->render('app/mail/order_notification.html.twig', [
+                'title' => $title,
+                'message' => $message,
+                'order' => $order,
+            ]);
+            $this->send($template, $email);
         }
+    }
 
-        $email = (new TemplatedEmail())
+    public function send($template, $address){
+        $email = (new Email())
             ->from($_ENV['MAILER_SENDER'])
-            ->to($event->getUser()->getEmail())
+            ->to($address)
             ->priority(Email::PRIORITY_NORMAL)
             ->subject('ticket')
-            ->htmlTemplate('app/mail/order_notification.html.twig', [
+            ->html($template);
+//            ->attachFromPath($this->writer->getPath() . $pdf, 'Ticket.pdf', 'application/pdf'); //ajout de pdf
 
-            ]);
-//            ->attachFromPath($this->writer->getPath() . $pdf, //ajout de pdf
-//                $transaction->getDate()->format('Y-m-d_H:i:s') . '_Ticket.pdf', 'application/pdf');
-
+        $this->mailer->send($email);
     }
 
 }

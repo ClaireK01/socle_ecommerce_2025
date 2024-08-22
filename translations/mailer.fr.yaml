@@ -1,0 +1,9 @@
+order:
+  title:
+    admin: "Nouvelle commande"
+    pro: "Nouvelle commande"
+    client: "Commande n° %number%"
+  message:
+    admin: "Une nouvelle commande à été passée sur votre site"
+    pro: "Vous avez reçu une nouvelle commande !"
+    client: "Votre commande a bien été prise en compte"

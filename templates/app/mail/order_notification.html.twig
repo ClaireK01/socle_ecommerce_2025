@@ -1,11 +1,85 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ 'all.invoice'|trans }}</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+    </head>
+    <style>
+        table{
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
 
-<body>
+        td, th{
+            padding: 2rem;
+        }
 
-</body>
+        td{
+            border: solid lightgray 1px;
+        }
+
+        th{
+            background-color: lightgray;
+        }
+    </style>
+    <body>
+        <h2>{{ title }}</h2>
+        <div>
+            <p>{{ message }}</p>
+
+            <p>{{ 'commerce.summary'|trans }} : </p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>{{'user.order.label'|trans}}</th>
+                    <th>{{'user.order.quantity'|trans}}</th>
+                    <th>{{'user.order.priceHT'|trans}}</th>
+                    <th>{{'user.order.priceTTC'|trans}}</th>
+                    <th>{{'user.order.vta'|trans}}</th>
+                    <th>{{'user.order.finalPriceTTC'|trans}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for cp in order.cardProducts %}
+                        <td>{{cp.product.translate.title}}</td>
+                        <td>{{cp.quantity}}</td>
+                        <td>{{cp.priceHt|number_format(2, ',', ' ')}}€</td>
+                        <td>{{cp.price|number_format(2, ',', ' ')}}€</td>
+                        <td>{{cp.product.tva}}</td>
+                        <td>{{cp.finalPriceTtc|number_format(2, ',', ' ')}}€</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{{"user.order.totalht"|trans}}</strong></td>
+                    <td>{{order.totalPriceHt|number_format(2, ',', ' ')}}€</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{{"user.order.vta"|trans}}</strong></td>
+                    <td>{{(order.totalPriceTtc - order.totalPriceHt)|number_format(2, ',', ' ')}}€</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{{"user.order.total"|trans}}</strong></td>
+                    <td>{{order.totalPriceTtc|number_format(2, ',', ' ')}}€</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </body>
 </html>
