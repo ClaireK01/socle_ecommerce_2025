@@ -152,9 +152,13 @@ footer{
 
 .list-item{
     width: 100%;
-    display: flex;
-    align-items: center;
     border-collapse: collapse;
+}
+
+.contact.list-item{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .list-item td, .list-item th{
@@ -162,9 +166,6 @@ footer{
     padding: 2rem 3rem;
     border-bottom: 1px solid lightgrey;
     height: 100px;
-    width: 25vh;
-    display: flex;
-    align-items: center;
 }
 
 .td .card-product-img{

@@ -29,7 +29,7 @@
         {{ m.orderDisplay(order) }}
     </table>
     <div class="actions">
+        <a href="{{ path('app_user_orders') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
         <a href="{{ path('app_user_invoice', {'id' : order.id}) }}"><button class="btn btn-warning"><i class="fa-solid fa-file-download"></i> {{ 'all.downloadInvoice'|trans }}</button></a>
     </div>
-    <a href="{{ path('app_user_orders') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
 {% endblock %}

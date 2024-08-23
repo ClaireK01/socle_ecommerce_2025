@@ -22,16 +22,6 @@
 
             </div>
         </div>
-{#        <div class="shipping card-order-infos">#}
-{#            <span class="small-title">{{ 'commerce.shipping'|trans }}</span>#}
-{#            <h3>{{ order.shipping.translate.title }}</h3>#}
-{#            <p>{{ order.shipping.translate.shortContent }}</p>#}
-{#        </div>#}
-{#        <div class="payment card-order-infos">#}
-{#            <span class="small-title">{{ 'commerce.payment'|trans }}</span>#}
-{#            <h3>{{ order.paymentMethod.translate.title }}</h3>#}
-{#            <p>{{ order.paymentMethod.translate.shortContent }}</p>#}
-{#        </div>#}
     </div>
 
 
@@ -39,7 +29,6 @@
 {#    <table class="table-products">#}
 {#        {{ m.orderDisplay(order) }}#}
 {#    </table>#}
-    <div class="actions">
         <div class="address card-order-infos user-request">
             <form method="POST">
                 <select id="state" name="state">
@@ -50,6 +39,7 @@
                 <button type="submit" class="btn btn-success">{{ "order.changeState"|trans }}</button>
             </form>
         </div>
+    <div class="actions">
+        <a href="{{ path('app_user_request') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
     </div>
-    <a href="{{ path('app_user_request') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
 {% endblock %}
