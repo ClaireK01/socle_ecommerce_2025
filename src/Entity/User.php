@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Fos\BaseUser;
+use App\Trait\P2PUserTrait;
 use App\Trait\PictureTrait;
 use App\Trait\UserTrait;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -38,10 +39,7 @@ use Symfony\Component\VarDumper\VarDumper;
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
 
-    use UserTrait;
-    use PictureTrait;
-    use TimestampableTrait;
-    use SoftDeletableTrait;
+    use UserTrait, PictureTrait, TimestampableTrait, SoftDeletableTrait, P2PUserTrait;
 
     const CONNECTED = 1;
     const DISCONNECTED = 0;

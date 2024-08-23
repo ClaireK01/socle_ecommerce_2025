@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\EcommerceOrder;
+use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
 use App\Events\MailEvent;
 use App\Form\OrderType;
@@ -60,45 +61,10 @@ class OrderController extends AbstractController
 
        if($request->getMethod() == "POST"){
            $state = $request->request->get('state') ?? null;
-            $send = false;
-
-
            if($state){
-               if($order->getStatus() != EcommerceOrder::STATES['canceled']){
-                   if($state == EcommerceOrder::STATES['confirmed']){
-                       if($order->getStatus() == EcommerceOrder::STATES['payed']) {
-                           $order->setStatus($state);
-                           $send = true;
-                       }
-                   }elseif ($state == EcommerceOrder::STATES['shipped']){
-                       if($order->getStatus() == EcommerceOrder::STATES['confirmed']){
-                           $order->setStatus($state);
-                           $send = true;
-                       }
-                   }elseif ($state == EcommerceOrder::STATES['done']){
-                       if($order->getStatus() == EcommerceOrder::STATES['shipped']){
-                           $order->setStatus($state);
-                           $send = true;
-                       }
-                   }elseif ($state == EcommerceOrder::STATES['canceled']){
-                       $order->setStatus($state);
-                       $send = true;
-                   }
-               }
-
-               $order->setStatus($state);
-               $em->persist($order);
-               $em->flush();
-
-               if($send){
-                   $event = new MailEvent($request->getLocale(), $order);
-                   $event->addSendTo(MailEvent::TYPES['client'], $order->getShippingAddress()->getUser()->getEmail());
-                   $dispatcher->dispatch($event, Events::MAIL_MAJ_CLIENT_ORDER);
-               }
+               $dispatcher->dispatch(new EcommerceOrderEvent($order, $state, $request->getLocale()), Events::ORDER_STATE_CHANGED);
            }
-
            return $this->redirectToRoute('admin_order_index');
-
        }
 
         return $this->render('/admin/show_order.html.twig', [

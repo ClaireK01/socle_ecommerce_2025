@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\EcommerceOrder;
 use App\Entity\User;
+use App\Events\EcommerceOrderEvent;
+use App\Events\Events;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
@@ -14,6 +16,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\GeneratorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,7 +81,7 @@ class UserController extends AbstractController
     }
 
     #[Route('{_locale}/profile/orders/{id}/show', name: 'app_user_order_show')]
-    public function showOrdersAction(EcommerceOrder $order, Request $request, EcommerceOrderRepository $orderRepository): Response
+    public function showOrderAction(EcommerceOrder $order, Request $request, EcommerceOrderRepository $orderRepository): Response
     {
         $user = $this->getUser();
         if(!$user){
@@ -86,6 +89,38 @@ class UserController extends AbstractController
         }
 
         return $this->render('app/user/order_show.html.twig', [
+            "order" => $order,
+        ]);
+    }
+
+    #[Route('{_locale}/profile/request', name: 'app_user_request')]
+    public function listRequestAction(Request $request): Response
+    {
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render('app/user/requests.html.twig', []);
+    }
+
+    #[Route('{_locale}/profile/request/{id}/show', name: 'app_user_request_show')]
+    public function showRequestAction( EcommerceOrder $order, Request $request, EcommerceOrderRepository $orderRepository, EventDispatcherInterface $dispatcher): Response
+    {
+        $user = $this->getUser();
+        if(!$user || $order->getRequestReceiver() !== $user){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        if($request->getMethod() == 'POST' && $request->request->get("state")){
+            $state = $request->request->get('state') ?? null;
+            if($state){
+                $dispatcher->dispatch(new EcommerceOrderEvent($order, $state, $request->getLocale()), Events::ORDER_STATE_CHANGED);
+            }
+            return $this->redirectToRoute('app_user_request');
+        }
+
+        return $this->render('app/user/request_show.html.twig', [
             "order" => $order,
         ]);
     }

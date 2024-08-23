@@ -1,0 +1,55 @@
+{% extends 'app/user/base_user.html.twig' %}
+{% import 'admin/macro.html.twig' as m %}
+
+
+
+{% block user_content %}
+    <div class="order-infos">
+        <div class="address card-order-infos user-request">
+            <span class="small-title">{{ order.facturationAddress.user.username }}</span>
+            <h3>{{ order.firstCardProduct.product.translate.title }}</h3>
+            <div>
+                <span>
+                <span class="lighten">{{ order.shippingAddress.phone }}</span><br>
+                {{ "request.user"|trans }} : {{ order.facturationAddress.user.username }}<br>
+                {{ "request.mail"|trans }} : {{ order.facturationAddress.user.email }}<br>
+                {{ "request.date"|trans }} {{ order.createdAt|date('d/m/Y - H:i') }}<br>
+                {{ "cart.quantity"|trans }} : {{ order.firstCardProduct.quantity }}<br>
+                {{ "request.total"|trans }} : {{ order.firstCardProduct.finalPriceTtc|number_format(2, ',', ' ') }}€<br>
+                {{ "request.note"|trans }} : <span class="note-request"> {{ order.details ? order.details : 'request.nonotes'|trans}} </span>
+                </span>
+
+
+            </div>
+        </div>
+{#        <div class="shipping card-order-infos">#}
+{#            <span class="small-title">{{ 'commerce.shipping'|trans }}</span>#}
+{#            <h3>{{ order.shipping.translate.title }}</h3>#}
+{#            <p>{{ order.shipping.translate.shortContent }}</p>#}
+{#        </div>#}
+{#        <div class="payment card-order-infos">#}
+{#            <span class="small-title">{{ 'commerce.payment'|trans }}</span>#}
+{#            <h3>{{ order.paymentMethod.translate.title }}</h3>#}
+{#            <p>{{ order.paymentMethod.translate.shortContent }}</p>#}
+{#        </div>#}
+    </div>
+
+
+{# Affichage d'une commande en tableau #}
+{#    <table class="table-products">#}
+{#        {{ m.orderDisplay(order) }}#}
+{#    </table>#}
+    <div class="actions">
+        <div class="address card-order-infos user-request">
+            <form method="POST">
+                <select id="state" name="state">
+                    {% for key, s in constant('App\\Entity\\EcommerceOrder::STATES') %}
+                        <option value="{{ s }}" {{ order.status == s ? "selected" : '' }}>{{ ("order.states."~key)|trans }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-success">{{ "order.changeState"|trans }}</button>
+            </form>
+        </div>
+    </div>
+    <a href="{{ path('app_user_request') }}"><button class="btn btn-warning">{{ 'all.previous'|trans }}</button></a>
+{% endblock %}

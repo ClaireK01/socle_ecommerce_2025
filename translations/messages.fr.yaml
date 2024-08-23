@@ -70,6 +70,7 @@ user:
   infos: Information
   message: Messages
   orders: Mes commandes
+  request: Comissions
   order:
     number: Numero
     status: Statut
@@ -89,6 +90,15 @@ user:
     shipping: Adresse de Livraison
     billing: Adresse de facturation
 
+request:
+  total: Total
+  message: "Vous avez une nouvelle commission pour"
+  date: Le
+  user: Utilisateur
+  mail: Mail
+  note: Détails
+  nonotes: Pas de détails fournis
+
 breadcrumb:
   article:
     list: Articles
@@ -102,6 +112,16 @@ breadcrumb:
 
 invoice:
   invoice: Votre facture
+
+order:
+  changeState: Changer le statut
+  states:
+    pending: En attente
+    payed: Payé
+    confirmed: Confirmé
+    canceled: Annulé
+    shipped: Envoyé
+    done: Terminé
 
 
 

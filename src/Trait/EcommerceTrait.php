@@ -13,6 +13,14 @@ trait EcommerceTrait
         return $this->cardProducts;
     }
 
+    public function getFirstCardProduct(){
+        if($this->cardProducts[0]){
+            return $this->cardProducts[0];
+        }
+
+        return null;
+    }
+
     public function addCardProduct(CardProduct $cardProduct): self
     {
         if (!$this->cardProducts->contains($cardProduct)) {

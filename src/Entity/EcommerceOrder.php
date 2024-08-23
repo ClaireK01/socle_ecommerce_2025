@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EcommerceOrderRepository;
 use App\Trait\EcommerceTrait;
+use App\Trait\P2PRequestTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
@@ -15,11 +16,10 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 
 
-
 #[ORM\Entity(repositoryClass: EcommerceOrderRepository::class)]
 class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait, EcommerceTrait;
+    use SoftDeletableTrait,TimestampableTrait, EcommerceTrait, P2PRequestTrait;
 
     const STATES  = [ "pending" => 0, "payed" => 1, "confirmed" => 2,  'shipped' => 3, 'done' => 4, "canceled" => 5 ];
     const STATES_LABEL  = [
@@ -72,6 +72,9 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 
     #[ORM\Column(type: 'float', nullable:true)]
     private $total_price_ht;
+
+    #[ORM\Column(type: 'text', nullable:true)]
+    private $details;
 
 
     public function __construct()
@@ -217,6 +220,22 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 
     public function getStatusLabel(){
         return array_search($this->status, self::STATES_LABEL) ?? "";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * @param mixed $details
+     */
+    public function setDetails($details): void
+    {
+        $this->details = $details;
     }
 
 }
