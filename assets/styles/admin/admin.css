@@ -29,9 +29,15 @@ body a{
 
 .content{
     display: flex;
+    max-height: 100vh;
+    overflow: hidden;
 }
 
-button{
+body::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+}
+
+    button{
     border-radius: 10px;
     background-color: var(--secondary);
     padding: 1rem;
@@ -56,7 +62,9 @@ button:hover{
 
 .container{
     width: 100%;
+    max-height: 100%;
     padding: 1rem;
+    overflow: scroll;
 }
 
 .container .list{
@@ -64,6 +72,7 @@ button:hover{
 }
 
 .menu{
+    overflow: scroll;
     min-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -71,12 +80,10 @@ button:hover{
     list-style: none;
     min-width: 15vw;
     padding: 0;
-    margin: 0;
-}
-
-.menu{
+    overflow-x: hidden;
     margin: 0;
     text-decoration: none;
+    max-height: 100%;
 }
 
 .menu li{
