@@ -4,6 +4,8 @@ namespace App\Form;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,6 +30,19 @@ class CategoryType extends AbstractType
                         'field_type' => TextareaType::class,
                     ]
                 ]
+            ])
+            ->add('parent', EntityType::class, [
+                'class' => Category::class,
+                "placeholder" => "Categorie parente",
+                "query_builder" => function (CategoryRepository $r) {
+                    return $r->createQueryBuilder('c');
+                },
+                "autocomplete" => true,
+                'multiple' => false,
+                "attr" => [
+                    'id' => "tom-select-category"
+                ],
+                'required' => false,
             ])
         
         ;

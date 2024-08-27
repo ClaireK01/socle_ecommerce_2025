@@ -48,4 +48,7 @@ if(document.querySelector('#product_categories')){
 if(document.querySelector('#product_tva')){
     new TomSelect('#product_tva', settings);
 }
+if(document.querySelector('#category_parent')){
+    new TomSelect('#category_parent', settings);
+}
 

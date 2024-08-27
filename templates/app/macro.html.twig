@@ -141,3 +141,18 @@
         {{ generateBreadcrumb(app.request, entity)|raw }}
     </ul>
 {% endmacro %}
+
+{% macro subMenu(cat) %}
+    {% if cat.childrens|length > 0 %}
+        <li class="dropdown-right-selected">
+            <a href="#">{{ cat.translate.title }} <i class="fa-solid fa-caret-right"></i></a>
+            <ul class="dropdown-content-right">
+                {% for children in cat.childrens %}
+                    {{ _self.subMenu(children) }}
+                {% endfor %}
+            </ul>
+        </li>
+    {% else %}
+        <li class="dropdown-right-selected"><a href="#">{{ cat.translate.title }}</a></li>
+    {% endif %}
+{% endmacro %}

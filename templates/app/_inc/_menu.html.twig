@@ -1,27 +1,37 @@
+{% import 'app/macro.html.twig' as m %}
 <nav>
     <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>
-    <ul>
+    <ul class="menu">
         <li><a href="{{ path('app_presentation') }}">A propos</a></li>
 {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
         <li><a href="{{ path('app_article_list') }}">Page d'article test</a></li>
-        <li><a href="{{ path('app_category_list') }}">Page de category test</a></li>
+        <li class="dropdown"  data-controller="menu">
+            <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">Page de category test  <i class="fa-solid fa-caret-down"></i></a></span>
+            <ul class="dropdown-content">
+                {# generer sur twig #}
+                {% for cat in getCategories() %}
+                    {% if cat.parent is null %}
+                        {{ m.subMenu(cat) }}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
         <li><a href="{{ path('app_contact') }}">Contact</a></li>
 
-
-        <li class="nav-language">
-            <div class="flag-selected">
+        <li class="dropdown">
+            <div class="dropdown-selected">
                 {% if app.request.locale == 'fr' or app.request.locale is null %}
                     <span>{{ 'flags/france.svg'|svg|raw }}</span>
                 {% elseif app.request.locale == 'en' %}
                     <span>{{ 'flags/uk.svg'|svg|raw }}</span>
                 {% endif %}
             </div>
-            <ul class="flags">
+            <ul class="dropdown-content">
                 {% if app.request.locale != 'fr' %}
                     <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'fr'}) ) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>
                 {% endif %}
                 {% if app.request.locale != 'en' %}
-                    <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>
+                    <li> <a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>
                 {% endif %}
             </ul>
         </li>
