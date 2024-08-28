@@ -137,6 +137,9 @@ class TwigExtension extends AbstractExtension
         if($entity instanceof Product){
             return $entity->getFirstCategory();
         }
+        if($entity instanceof Category){
+            return $entity->getParent();
+        }
         return null;
     }
 

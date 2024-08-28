@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    kernel_subscriber:
+        class: App\Subscriber\KernelEventSubscriber
+        arguments: ["@security.token_storage"]
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

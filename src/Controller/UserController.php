@@ -146,8 +146,10 @@ class UserController extends AbstractController
         }else{
             $conversation = $conversations[0];
         }
-
-        setcookie('conversation', $conversation->getId(), 0, '/');
+        if (!isset($_COOKIE['conversation']) || $_COOKIE['conversation'] != $conversation->getId()) {
+            setcookie('conversation', $conversation->getId(), 0, '/');
+        }
+        
 
         return $this->render('user/conversation.html.twig', [
             "conversation" => $conversation
