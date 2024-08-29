@@ -19,6 +19,15 @@
     border-radius: 5px;
 }
 
+.profile{
+    margin-top: 0;
+    /*padding-top: 0;*/
+    text-align: center;
+    width: 100%;
+    position: relative;
+    padding: 1rem 0;
+}
+
 .image-container .fa-pen{
     position: absolute;
     bottom: 1rem;
@@ -65,6 +74,56 @@
     color: #969292;
     font-style: italic;
 }
+
+[data-profile-target=pen]{
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+[data-profile-target=editBtn] {
+    color: lightgrey;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.profile label{
+    display: none;
+}
+
+.profile input, .profile textarea{
+    border:none;
+    border-bottom: 1px solid lightgrey;
+    text-align: center;
+    display: none;
+}
+
+.profile.show-input input, .profile.show-input textarea{
+    display: block;
+}
+
+.profile.show-input .infos{
+    display: none;
+}
+
+.profile-edit.show-pen .pen{
+    display: block;
+}
+
+.profile-edit.show-pen .action{
+    display: none;
+}
+
+.profile-edit.show-actions .action{
+    display: flex;
+}
+
+.profile-edit.show-actions .pen{
+    display: none;
+}
+
+
 
 
 /*.add-realisation{*/

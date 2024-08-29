@@ -156,3 +156,16 @@
         <li class="dropdown-right-selected"><a href="#">{{ cat.translate.title }}</a></li>
     {% endif %}
 {% endmacro %}
+
+
+{% macro editProfileBtns() %}
+    <div class="profile-edit show-pen" data-profile-target="pen">
+        <div class="edit-btn pen">
+            <i class="fa-solid fa-pen"></i>
+        </div>
+        <div class="edit-btn action">
+            <i class="fa-solid fa-xmark" data-profile-target="cancel"></i>
+            <i class="fa-solid fa-check" data-profile-target="validate"></i>
+        </div>
+    </div>
+{% endmacro %}

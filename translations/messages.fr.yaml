@@ -71,6 +71,7 @@ user:
   message: Messages
   orders: Mes commandes
   request: Comissions
+  edit: Editer le profile
   order:
     number: Numero
     status: Statut

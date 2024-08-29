@@ -7,6 +7,7 @@ use App\Entity\EcommerceOrder;
 use App\Entity\User;
 use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
+use App\Form\UserType;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
@@ -15,8 +16,10 @@ use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\GeneratorInterface;
 use Knp\Snappy\Pdf;
+use Nette\Utils\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,17 +42,29 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $form = $this->createForm('App\Form\UserType', $user);
-        $form->handleRequest($request);
+        return $this->render('user/show.html.twig', []);
+    }
 
-        if($form->isSubmitted() && $form->isValid()){
-            $this->em->persist($user);
-            $this->em->flush();
+    #[Route('{_locale}/profile/{id}/edit', name: 'app_user_edit', methods: "POST")]
+    public function editProfile(User $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $content = json_decode($request->getContent(), true);
+        $field = array_key_first($content);
+        $form = $this->createForm('App\Form\UserType', $user, ['type' => UserType::TYPE['profile'], 'field' => $field]);
+        $form->submit($content);
+
+        if($form->isValid() && $this->isCsrfTokenValid($user->getId(), $content['token'])){
+            $entityManager->persist($user);
+            $entityManager->flush();
+            //get new field value as it is registered in the db
+            $reflexion = new \ReflectionClass(User::class);
+            $method = $reflexion->getMethod('get'.ucfirst($field));
+
+            return new JsonResponse(['data' => $method->invoke($user)], 200);
         }
 
-        return $this->render('user/show.html.twig', [
-            'form'=>$form->createView(),
-        ]);
+        return new JsonResponse(['Invalid data'], 201);
+
     }
 
 

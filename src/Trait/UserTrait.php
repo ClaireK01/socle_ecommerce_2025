@@ -64,7 +64,7 @@ trait UserTrait
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->username;
     }
 
     public function setSuperAdmin($role)

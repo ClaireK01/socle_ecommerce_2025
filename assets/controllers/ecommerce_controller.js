@@ -50,7 +50,7 @@ export default class extends Controller{
                 val = val + 1;
             }
             if(val >= 1){
-                input.value = val
+                input.value = val;
             }
         })
     }

@@ -18,23 +18,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
-    CONST TYPE = ['profile' => 1, "inscription" => 2, 'admin' => 3];
+    CONST TYPE = ["inscription" => 1, 'profile' => 2];
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if($options['type'] == self::TYPE['profile']){
-            $builder
-                ->add('email')
-                ->add('username', TextType::class, [
-                    'label_attr'=>[
-                        'style'=>'display: none;'
-                    ],
-                    'attr'=>[
-                        'style'=>'margin:2rem auto',
-                    ],
-                ])
-                ->add('description', TextareaType::class, [
-
-                ]);
+            $builder->add($options['field']);
         }
 
     }
@@ -44,6 +32,9 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'type' => null,
+            'field' => null,
+            'csrf_protection' => false,
+            'allow_extra_fields' => true,
         ]);
     }
 }
