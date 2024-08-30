@@ -4,7 +4,7 @@
 {% block user_content %}
     <form>
         <div class="profile-container" data-controller="profile" data-url="{{ path('app_user_edit', {'id' : app.user.id}) }}">
-            <span data-profile-target="editBtn">{{ 'user.edit'|trans }}</span>
+            <span data-profile-target="editBtn"></span>
             <div class="profile profile-picture">
                 {{ m.editProfileBtns() }}
                 <div class="image-container"></div>

@@ -4,6 +4,7 @@
 
 .profile-container{
     margin-bottom: 8rem;
+    position: relative ;
 }
 
 .profile-picture{
@@ -83,14 +84,46 @@
 }
 
 [data-profile-target=editBtn] {
-    color: lightgrey;
-    text-decoration: underline;
+    color: white;
+    background-color: lightgrey;
+    border-radius: 50px;
     cursor: pointer;
+    padding: 1.5rem 1.7rem;
+    position: absolute;
+    bottom: 0;
+    left:3rem;
+    z-index: 99;
 }
+
+.profile-container [data-profile-target=editBtn]:before{
+    content: "\f304";
+    font-family: serif, "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.profile-container.show [data-profile-target=editBtn]:before{
+    content: "\f00d";
+    font-family: serif, "Font Awesome 6 Free";
+    font-weight: 900;
+    : none;
+}
+
 
 .profile label{
     display: none;
 }
+
+/* les btn d'edit sont cacher quand PROFILE-CONTAINER n'est pas sur show */
+
+.profile-container .profile-edit{
+    display: block;
+}
+
+.profile-container.show .profile-edit{
+    display: block;
+}
+
+/* les input sont caché quand PROFILE n'est pas sur show-input */
 
 .profile input, .profile textarea{
     border:none;
@@ -107,6 +140,10 @@
     display: none;
 }
 
+.profile-edit .pen, .profile-edit .action{
+    display: none;
+}
+
 .profile-edit.show-pen .pen{
     display: block;
 }
@@ -117,6 +154,7 @@
 
 .profile-edit.show-actions .action{
     display: flex;
+    flex-direction: column;
 }
 
 .profile-edit.show-actions .pen{

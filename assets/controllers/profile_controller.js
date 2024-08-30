@@ -13,18 +13,25 @@ export default class extends Controller{
 
     editBtnTargetConnected(element){
         element.addEventListener('click', (e) => {
+            this.toggleClass(element.parentNode, "show");
             this.penTargets.forEach((el) => {
-                this.toggleClass(el.parentNode, "show-edit");
+                if(el.classList.contains('show-actions')){
+                    el.classList.remove('show-actions');
+                    el.parentNode.classList.remove('show-input');
+                    this.resetInput(el);
+                }else if(el.classList.contains('show-pen')){
+                    el.classList.remove('show-pen');
+                }else{
+                    this.toggleClass(el, "show-pen");
+                }
             })
         })
     }
 
     penTargetConnected(element){
         element.addEventListener('click', (e) => {
-            // let icons = element.querySelector('.edit-btn');
-            this.toggleClass(element, "show-actions");
-            this.toggleClass(element, "show-pen");
-            this.toggleClass(element.parentNode, 'show');
+            this.toggleClass(element, "show-pen", "show-actions");
+            this.toggleClass(element.parentNode, "show-input");
         })
     }
 
@@ -34,7 +41,7 @@ export default class extends Controller{
             let token = document.querySelector('[data-token]').dataset.token;
             let url = document.querySelector('.profile-container').dataset.url;
             let infoContainer = element.closest('.profile').querySelector('.infos');
-            let input = element.closest('.profile').querySelector('input') != undefined ? element.closest('.profile').querySelector('input') : element.closest('.profile').querySelector('textarea') ;
+            let input = this.getInput(element);
 
             data[input.name] = input.value;
             data["token"] = token;
@@ -49,11 +56,7 @@ export default class extends Controller{
 
     cancelTargetConnected(element) {
         element.addEventListener('click', (e) => {
-            let infoContainer = element.closest('.profile').querySelector('.infos');
-            let input = element.closest('.profile').querySelector('input') != undefined ? element.closest('.profile').querySelector('input') : element.closest('.profile').querySelector('textarea') ;
-
-            input.value = infoContainer.innerHTML;
-            this.toggleClass(element.closest('.profile-edit'), "show")
+           this.resetInput(element);
         });
     }
 
@@ -73,6 +76,17 @@ export default class extends Controller{
                 target.classList.add(original);
             }
         }
+    }
+
+    getInput(element){
+        return  element.closest('.profile').querySelector('input') != undefined ? element.closest('.profile').querySelector('input') :
+                element.closest('.profile').querySelector('textarea');
+    }
+
+    resetInput(element){
+        let infoContainer = element.closest('.profile').querySelector('.infos');
+        let input = this.getInput(element)
+        input.value = infoContainer.innerHTML;
     }
 
 
