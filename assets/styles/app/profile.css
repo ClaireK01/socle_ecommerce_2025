@@ -1,4 +1,4 @@
-.image-container{
+#profile-image-container{
     position: relative;
 }
 
@@ -14,7 +14,7 @@
     margin: 2rem auto;
 }
 
-.profile-picture .image-container{
+.profile-picture #profile-image-container{
     width: 100px;
     height: 100px;
     border-radius: 5px;
@@ -29,7 +29,7 @@
     padding: 1rem 0;
 }
 
-.image-container .fa-pen{
+#profile-image-container .fa-pen{
     position: absolute;
     bottom: 1rem;
     right: 1rem;
@@ -113,7 +113,7 @@
     display: none;
 }
 
-/* les btn d'edit sont cacher quand PROFILE-CONTAINER n'est pas sur show */
+/* les btns d'edit sont cacher quand PROFILE-CONTAINER n'est pas sur show */
 
 .profile-container .profile-edit{
     display: block;
@@ -140,8 +140,11 @@
     display: none;
 }
 
+/* les btns pen et action quand PROFILE-EDIT n'est pas sur show-pen ou show-input */
+
 .profile-edit .pen, .profile-edit .action{
     display: none;
+    color: lightgrey;
 }
 
 .profile-edit.show-pen .pen{
@@ -160,57 +163,4 @@
 .profile-edit.show-actions .pen{
     display: none;
 }
-
-
-
-
-/*.add-realisation{*/
-/*    background-color: lightgrey;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.add-realisation i{*/
-/*    color: #606060;*/
-/*    padding: 5rem;*/
-/*    font-size: 6rem;*/
-/*}*/
-
-/*.add-realisation:hover{*/
-/*    cursor: pointer;*/
-/*    background-color: #606060;*/
-/*}*/
-
-/*.add-realisation:hover i{*/
-/*    color: lightgrey;*/
-/*}*/
-
-/*.realisation-container, .profile-container{*/
-/*    padding: 2rem 0;*/
-/*}*/
-
-
-/*.profile-container form{*/
-/*    width: 100%;*/
-/*    display: flex;*/
-/*}*/
-
-/*.profile-edit{*/
-/*    margin: 0 auto;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-between;*/
-/*}*/
-
-/*.profile-edit .btn-submit{*/
-/*    margin: 2rem 0;*/
-/*}*/
-
-/*.form-input-username{*/
-/*    text-align: center;*/
-/*}*/
-
-/*.form-input{*/
-/*    margin-top: 1rem;*/
-/*}*/
-
 

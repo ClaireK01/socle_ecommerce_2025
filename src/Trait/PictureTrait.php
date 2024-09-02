@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping\ManyToMany;
 
 trait PictureTrait
 {
-
     #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity")]
     #[JoinTable(name: "entity_picture")]
     #[JoinColumn(name: "entity_id", referencedColumnName: "id")]
@@ -39,17 +38,21 @@ trait PictureTrait
         return $this;
     }
 
-    public function removePicture(Picture $picture): self
+    public function removePicture($picture): self
     {
-        $this->pictures->removeElement($picture);
+        if($picture instanceof Picture){
+            $this->pictures->removeElement($picture);
+        }
         return $this;
     }
 
     public function getFirstPicture(){
         if($this->pictures[0]){
-            return $this->pictures[0]->getPath();
+            return $this->pictures[0];
         }else{
-            return 'img/sans-img.jpg';
+            $pic = new Picture();
+            $pic->setPath(Picture::SANS_IMG);
+            return $pic;
         }
     }
 

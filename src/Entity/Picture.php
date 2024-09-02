@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
 class Picture
 {
+
+    const SANS_IMG = 'img/sans-img.jpg';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

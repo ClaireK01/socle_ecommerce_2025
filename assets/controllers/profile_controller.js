@@ -1,10 +1,15 @@
 import { Controller } from "@hotwired/stimulus";
 
-async function postData(url = "", donnees = null, method = 'GET') {
+async function postData(url = "", donnees = null, method = 'GET', header = null, file = false) {
+    let data = null;
+    if(!header){
+        header = { "Content-Type": "application/json" };
+    }
+    if(file){ data = donnees; }else{ data = donnees ? JSON.stringify(donnees) : null }
     const response = await fetch(url, {
         method: method,
-        headers: { "Content-Type": "application/json" },
-        body: donnees ? JSON.stringify(donnees) : null,
+        headers: header,
+        body: data,
     });
     return response.json();
 }
@@ -30,8 +35,26 @@ export default class extends Controller{
 
     penTargetConnected(element){
         element.addEventListener('click', (e) => {
-            this.toggleClass(element, "show-pen", "show-actions");
-            this.toggleClass(element.parentNode, "show-input");
+            if(element.parentNode.classList.contains('profile-picture')){
+                let data = {};
+                let url = element.parentNode.dataset.upload;
+                let input = this.getInput(element);
+                input.click();
+                input.addEventListener("change", (e) => {
+                    let file = e.target.files[0];
+                    let form = new FormData();
+                    form.append('pfp', file, file.name);
+                    data['pfp'] = file;
+                    postData(url, form, 'POST', {}, true).then((response) => { //IMPORTANT : laisser header vide pour faire passer le form, sinon marche pas
+                        let imgDiv =  document.getElementById('profile-image-container');
+                        imgDiv.style.backgroundImage = 'url("' + response.path + '")';
+                    })
+                })
+            }else{
+                this.toggleClass(element, "show-pen", "show-actions");
+                this.toggleClass(element.parentNode, "show-input");
+            }
+
         })
     }
 

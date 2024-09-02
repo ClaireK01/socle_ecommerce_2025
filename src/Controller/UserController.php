@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Conversation;
 use App\Entity\EcommerceOrder;
+use App\Entity\Picture;
 use App\Entity\User;
 use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
@@ -11,6 +12,7 @@ use App\Form\UserType;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
+use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -19,9 +21,11 @@ use Knp\Snappy\Pdf;
 use Nette\Utils\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -64,6 +68,37 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse(['Invalid data'], 201);
+    }
+
+    #[Route('{_locale}/profile/{id}/edit-picture', name: 'app_user_edit_picture', methods: "POST")]
+    public function editProfilePicture(User $user, Request $request, EntityManagerInterface $entityManager, FileService $fileService, KernelInterface $kernel): Response
+    {
+        $upload = new UploadedFile($_FILES['pfp']['tmp_name'], $_FILES['pfp']['name'], $_FILES['pfp']['type']);
+        $res = $fileService->uploadFile($upload);
+
+        if($res['path'] !== ''){
+            $originalPic = $user->getFirstPicture();
+            //en cas de requete double
+            if($originalPic->getPath() != $res['path']){
+                if($originalPic->getPath() !== Picture::SANS_IMG){
+                    $user->removePicture($originalPic);
+                    $path = $kernel->getProjectDir() . "/public/" . $originalPic->getPath();
+                    if(file_exists($path)){
+                        unlink($path);
+                    }
+                    $entityManager->remove($originalPic);
+                }
+
+                $pfp = new Picture();
+                $pfp->setPath($res['path']);
+                $user->addPicture($pfp);
+                $entityManager->persist($pfp);
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+        }
+
+        return new JsonResponse(['message' => $res['message'], 'path' => '../'.$res['path'] ], $res['status']);
 
     }
 

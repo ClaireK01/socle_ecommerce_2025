@@ -37,6 +37,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFilter('svg', [$this, 'svg']),
+            new TwigFilter("get_type", [$this, "get_type"]),
         ];
     }
 
@@ -189,6 +190,11 @@ class TwigExtension extends AbstractExtension
 
     public function die(){
         die;
+    }
+
+    public function get_type($var)
+    {
+        return gettype($var);
     }
 
 }
