@@ -4,6 +4,7 @@ namespace App\Form;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use App\Entity\Article;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,6 +29,12 @@ class ArticleType extends AbstractType
                         'field_type' => TextareaType::class,
                     ]
                 ]
+            ])
+            ->add('pictures', CollectionType::class, [
+                'entry_type' => PictureType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'mapped' => false,
             ])
         ;
     }

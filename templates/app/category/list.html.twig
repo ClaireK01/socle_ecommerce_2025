@@ -6,7 +6,9 @@
     <h2 class="title">{{ "commerce.category.see"|trans }}</h2>
     <div class="list">
         {% for category in pagination %}
-            {{ m.cardCategory(category) }}
+            {% if category.parent is null %}
+                {{ m.cardCategory(category) }}
+            {% endif %}
         {% endfor %}
     </div>
     {{ knp_pagination_render(pagination) }}

@@ -33,11 +33,12 @@ commerce:
     addAddress: Ajouter une adresse
   product:
     see: Produits
-    listCat: "Produits : "
+    listCat: "Produits "
   article:
     see: Articles
   category:
     see: Catégories
+    child: "Catégories"
 
 
 

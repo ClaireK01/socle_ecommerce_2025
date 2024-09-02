@@ -3,12 +3,22 @@
 
 
 {% block body %}
-    <h2 class="title">{{ "commerce.product.listCat"|trans }} {{ category.translate.title}}</h2>
-    <div class="list">
-        {% for product in pagination %}
-            {{ m.cardProduct(product, cart) }}
-        {% endfor %}
-    </div>
+    {% if category.childrens|length > 0 %}
+        <h2 class="title">{{ "commerce.category.child"|trans }}</h2>
+        <div class="list">
+            {% for cat in category.childrens %}
+                {{ m.cardCategory(cat) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if pagination|length > 0 %}
+        <h2 class="title">{{ "commerce.product.listCat"|trans }}</h2>
+        <div class="list">
+            {% for product in pagination %}
+                {{ m.cardProduct(product, cart) }}
+            {% endfor %}
+        </div>
+    {% endif %}
 
     {{ knp_pagination_render(pagination) }}
 {% endblock %}

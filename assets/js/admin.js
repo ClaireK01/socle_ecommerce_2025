@@ -2,6 +2,7 @@
 
 import tinymce from "tinymce";
 import TomSelect from "tom-select";
+import '../bootstrap';
 
 
 let items = document.querySelectorAll('.nav-item');
@@ -11,9 +12,7 @@ items.forEach((item) => {
             let tabs = document.querySelectorAll('.tab-pane');
             if(tabs){
                 let id = e.currentTarget.querySelector('a').href.split('#').pop();
-                console.log(id)
                 tabs.forEach((el) => {
-                    console.log(el.id)
                     if(el.id !== id){
                         el.classList.remove("active")
                     }else{

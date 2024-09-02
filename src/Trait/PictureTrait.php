@@ -12,9 +12,17 @@ use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 trait PictureTrait
 {
+    private $kernel;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity")]
     #[JoinTable(name: "entity_picture")]
     #[JoinColumn(name: "entity_id", referencedColumnName: "id")]
@@ -38,11 +46,19 @@ trait PictureTrait
         return $this;
     }
 
-    public function removePicture($picture): self
+    public function removePicture($picture, $delete = false): self
     {
         if($picture instanceof Picture){
             $this->pictures->removeElement($picture);
         }
+
+        if($delete){
+            $path = $this->kernel->getProjectDir() . "/public/" . $picture->getPath();
+            if(file_exists($path)){
+                unlink($path);
+            }
+        }
+
         return $this;
     }
 

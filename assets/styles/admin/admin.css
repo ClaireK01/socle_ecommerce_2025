@@ -172,6 +172,10 @@ button:hover{
     justify-content: flex-start;
 }
 
+[data-form-collection-target=collectionContainer]{
+    list-style: none;
+}
+
 /*********** order show ***************************/
 
 .order-details-top{

@@ -24,5 +24,11 @@ services:
         arguments: ["@security.token_storage"]
 
 
+    App\Trait\PictureTrait:
+        class: App\Trait\PictureTrait
+        arguments: [ "@http_kernel"]
+
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
