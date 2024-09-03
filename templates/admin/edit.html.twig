@@ -2,19 +2,12 @@
 {% trans_default_domain 'admin' %}
 
 {% block body %}
-    <div class="form-content">
+    <div class="form-content" data-controller="form-collection">
+
         {{ form_start(form) }}
 
-        {% if form.pictures is defined %}
-            <div    data-controller="form-collection"
-                    data-form-collection-index-value="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
-                    data-form-collection-prototype-value="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}">
-                <ul data-form-collection-target="collectionContainer"></ul>
-                <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>Add a picture</button>
-            </div>
-        {% endif %}
-
         {{ form_widget(form) }}
+
         <div>
             <button type="submit">{{ 'action.edit'|trans }}</button>
             <a href="{{ path(app.request.get('_route')|replace({'edit' : 'index'})) }}"><button>{{ "all.back"|trans }}</button></a>
@@ -22,7 +15,5 @@
 
 
         {{ form_end(form) }}
-
     </div>
-
 {% endblock %}

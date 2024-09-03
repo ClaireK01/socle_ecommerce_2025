@@ -23,7 +23,7 @@ trait PictureTrait
         $this->kernel = $kernel;
     }
 
-    #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity")]
+    #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity", cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[JoinTable(name: "entity_picture")]
     #[JoinColumn(name: "entity_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "picture_id", referencedColumnName: "id")]

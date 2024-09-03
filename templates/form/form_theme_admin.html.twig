@@ -27,9 +27,19 @@
 
 {%- block collection_widget -%}
     {% if prototype is defined and not prototype.rendered %}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+        {%- set prototype_html = form_row(prototype) -%}
+        {%- set attr = attr|merge({'data-prototype': prototype_html }) -%}
     {% endif %}
-    {{- block('form_widget') -}}
+
+    <div data-form-collection-index-value="{{ form|length > 0 ? form|last.vars.name + 1 : 0 }}"
+         data-form-collection-prototype-value="{{ attr['data-prototype']|e('html_attr') }}">
+        <ul data-form-collection-target="collectionContainer">
+            {% for child in form %}
+                <li>{{ form_row(child) }}</li>
+            {% endfor %}
+        </ul>
+        <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>Add a picture</button>
+    </div>
 {%- endblock collection_widget -%}
 
 {%- block textarea_widget -%}

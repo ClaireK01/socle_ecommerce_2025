@@ -8,21 +8,47 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('style-admin') }}
         {% endblock %}
-
         {% block javascripts %}
             {{ encore_entry_script_tags('js-admin') }}
+            {{ encore_entry_script_tags('manager-js') }}
         {% endblock %}
     </head>
     <body>
-    {% block header %}
-        {% include 'admin/_header.html.twig' %}
-    {% endblock %}
-
-    <div class="content">
-        {% include 'admin/_menu.html.twig' %}
-        {% block body %}
+        {% block header %}
+            {% include 'admin/_header.html.twig' %}
         {% endblock %}
-    </div>
 
+        <div class="content">
+            {% include 'admin/_menu.html.twig' %}
+            {% block body %}
+            {% endblock %}
+        </div>
+        <!-- Button trigger modal -->
+        <div class="modal-background"></div>
+        <div class="modal-file">
+            <div>
+                <iframe id="myframe" src="{{ path('file_manager', {module:1, conf:'button'}) }}" width="100%" height="500" frameborder="0"></iframe>
+                <button id="btn-upload">Valider</button>
+                <button id="btn-close" class="btn btn-danger">Fermer</button>
+            </div>
+        </div>
     </body>
+    <script>
+        //mettre dans stimulus controller js
+        document.getElementById('myframe').addEventListener('load', function () {
+            document.getElementById('btn-upload').addEventListener('click',function (e) {
+                var iframe = document.getElementById('myframe');
+                var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+                var select = innerDoc.querySelector('input:checked').closest('.file-wrapper.img').querySelector('.select');
+                if(select){
+                    document.getElementById(document.querySelector('.modal-file').dataset.input).value = select.dataset.path;
+                }
+                document.querySelector('body').classList.remove('show-modal');
+            });
+
+            document.getElementById("btn-close").addEventListener('click', function (e){
+                document.querySelector('body').classList.remove('show-modal');
+            })
+        });
+    </script>
 </html>

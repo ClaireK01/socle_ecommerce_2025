@@ -34,7 +34,6 @@ class ArticleType extends AbstractType
                 'entry_type' => PictureType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'mapped' => false,
             ])
         ;
     }

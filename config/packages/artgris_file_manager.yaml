@@ -1,6 +1,13 @@
 artgris_file_manager:
   conf:
     default:
-      dir: '%kernel.project_dir%/public/uploads'
+      dir: '%kernel.project_dir%/public/uploads/file_manager'
+      type: 'image'
+      accept: '.jpeg, .jpg, .svg, .png'
+      upload:
+        max_file_size: 1048576
     button:
-      dir: "%kernel.project_dir%/public/uploads"
+      dir: "%kernel.project_dir%/public/uploads/file_manager"
+      accept: '.jpeg, .jpg, .svg, .png'
+      upload:
+        max_file_size: 1048576
