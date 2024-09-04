@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Picture
 {
 
-    const SANS_IMG = 'img/sans-img.jpg';
+    const SANS_IMG = 'build/images/sans-img.jpg';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

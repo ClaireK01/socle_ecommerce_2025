@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="product-show">
-        <div class="product-img"></div>
+        <div class="product-img" style="background-image: url({{ asset(product.firstPicture.path) }})"></div>
         <div class="product-descr">
             <h3>{{ product.translate.title }}</h3>
             <p>{{ product.translate.content|raw }}</p>

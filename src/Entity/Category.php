@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use App\Trait\PictureTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
@@ -20,7 +21,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category implements TranslatableInterface, SoftDeletableInterface, TimestampableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait,TranslatableTrait;
+    use SoftDeletableTrait,TimestampableTrait,TranslatableTrait, PictureTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

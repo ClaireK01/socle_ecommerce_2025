@@ -13,7 +13,6 @@ export default class extends Controller {
         const item = document.createElement('li');
         let pr = event.target.parentNode.dataset.formCollectionPrototypeValue;
         // item.innerHTML = this.prototypeValue.replace(/__name__/g, this.indexValue);
-        //si indexValue = 0 -> aller chercher le nombre de path
         let value = this.indexValue;
         if(value <= 0){
             value = document.querySelectorAll('[data-path]').length;

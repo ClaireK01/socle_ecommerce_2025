@@ -4,7 +4,7 @@
 
 {% block body %}
         <div class="article-show">
-            <div class="article-img"></div>
+            <div class="article-img" style="background-image: url({{ asset(article.firstPicture.path) }})"></div>
             <div class="article-descr">
                 <h3>{{ article.translate.title }}</h3>
                 <p>{{ article.translate.content|raw }}</p>

@@ -19,7 +19,7 @@
 
 {% macro cardProduct(product, cart) %}
     <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_show', {'id' : product.id}) }}">
-        <div class="card-product-img"></div>
+        <div class="card-product-img" style="background-image: url({{ asset(product.firstPicture.path) }})"></div>
         <div class="card-product-descr">
             <p>{{ product.translate.title }}</p>
             <p>{{ product.translate.shortContent }}</p>
@@ -44,7 +44,7 @@
 
 {% macro cardArticle(article) %}
     <div class="card-article"  data-ecommerce-target="link" data-link="{{ path('app_article_show', {'id' : article.id}) }}">
-        <div class="card-article-img"></div>
+        <div class="card-article-img" style="background-image: url('{{ asset(article.firstPicture.path) }}')"></div>
         <div>
             <div class="card-article-descr">
                 <p>{{ article.translate.title }}</p>
@@ -126,7 +126,7 @@
 
 {% macro cardCategory(category) %}
     <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_list', {'id' : category.id}) }}">
-        <div class="card-product-img"></div>
+        <div class="card-product-img" style="background-image: url({{ asset(category.firstPicture.path) }})"></div>
         <div class="card-product-descr">
             <p>{{ category.translate.title }}</p>
             <p>{{ category.translate.shortContent }}</p>
