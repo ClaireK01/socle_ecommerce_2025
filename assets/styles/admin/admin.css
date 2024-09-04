@@ -207,6 +207,22 @@ button:hover{
     list-style: none;
 }
 
+[data-form-collection-target=collectionContainer] label{
+    display: none;
+}
+
+.picture-preview{
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.picture-preview img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
 /*********** order show ***************************/
 
 .order-details-top{

@@ -22,7 +22,7 @@ class PictureType extends AbstractType
         $builder
             ->add('path', TextType::class, [
                 'attr' =>[
-//                    "hidden" => true,
+                    "hidden" => true,
                     "data-path" => "1"
                 ],
                 'label_attr' =>[
@@ -30,7 +30,7 @@ class PictureType extends AbstractType
                 ],
             ])
             ->add('addFile', ButtonType::class, [
-                'label' => "Cliquez pour ajouter",
+                'label' => "Choisir",
                 'attr' => [
                     'data-form-collection-target' => "fileManager",
                     'data-url' => $this->router->generate("file_manager", ['conf' => 'default', 'json' => true]),

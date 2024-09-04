@@ -33,7 +33,7 @@ export default class extends Controller {
 
     deleteFormTargetConnected(element) {
         element.addEventListener("click", (e) => {
-            let form = element.parentNode.parentNode.parentNode;
+            let form = element.parentNode.parentNode.parentNode.parentNode; //degeu, utiliser closest
             form.parentNode.removeChild(form)
         })
     }
