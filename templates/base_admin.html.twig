@@ -13,7 +13,7 @@
             {{ encore_entry_script_tags('manager-js') }}
         {% endblock %}
     </head>
-    <body>
+    <body  data-controller="form-collection">
         {% block header %}
             {% include 'admin/_header.html.twig' %}
         {% endblock %}
@@ -27,42 +27,10 @@
         <div class="modal-background"></div>
         <div class="modal-file">
             <div>
-                <iframe id="myframe" src="{{ path('file_manager', {module:1, conf:'button'}) }}" width="100%" height="500" frameborder="0"></iframe>
+                <iframe id="myframe" data-form-collection-target="frame" src="{{ path('file_manager', {module:1, conf:'button'}) }}" width="100%" height="500" frameborder="0"></iframe>
                 <button id="btn-upload">Valider</button>
-                <button id="btn-close" class="btn">Fermer</button>
+                <button id="btn-close" class="btn" {{ stimulus_action('form-collection', 'closeFrameElement') }}>Fermer</button>
             </div>
         </div>
     </body>
-    <script>
-        //mettre dans stimulus controller js
-        document.getElementById('myframe').addEventListener('load', function () {
-            document.getElementById('btn-upload').addEventListener('click',function (e) {
-                let iframe = document.getElementById('myframe');
-                let innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-                let select = innerDoc.querySelector('input:checked').closest('.file-wrapper.img').querySelector('.select');
-                if(select){
-                    let pathInput = document.getElementById(document.querySelector('.modal-file').dataset.input);
-                    pathInput.value = select.dataset.path;
-
-                    let li = pathInput.closest("li");
-                    let img = li.querySelector('.picture-preview') ? li.querySelector('.picture-preview').querySelector('img') : null;
-                    if(img){
-                        img.src =  select.dataset.path
-                    }else{
-                        let div = document.createElement('div');
-                        div.classList.add('picture-preview');
-                        img = document.createElement('img');
-                        img.src =  select.dataset.path
-                        li.prepend(div);
-                        div.appendChild(img);
-                    }
-                }
-                document.querySelector('body').classList.remove('show-modal');
-            });
-
-            document.getElementById("btn-close").addEventListener('click', function (e){
-                document.querySelector('body').classList.remove('show-modal');
-            })
-        });
-    </script>
 </html>
