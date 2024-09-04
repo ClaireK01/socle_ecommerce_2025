@@ -14,7 +14,12 @@ export default class extends Controller {
         let pr = event.target.parentNode.dataset.formCollectionPrototypeValue;
         // item.innerHTML = this.prototypeValue.replace(/__name__/g, this.indexValue);
         //si indexValue = 0 -> aller chercher le nombre de path
-        item.innerHTML = pr.replace(/__name__/g, this.indexValue);
+        let value = this.indexValue;
+        if(value <= 0){
+            value = document.querySelectorAll('[data-path]').length;
+            this.indexValue = value;
+        }
+        item.innerHTML = pr.replace(/__name__/g, value);
         this.collectionContainerTarget.appendChild(item);
         this.indexValue++;
     }
@@ -28,9 +33,8 @@ export default class extends Controller {
     }
 
     deleteFormTargetConnected(element) {
-        console.log('co')
         element.addEventListener("click", (e) => {
-            let form = element.parentNode.parentNode;
+            let form = element.parentNode.parentNode.parentNode;
             form.parentNode.removeChild(form)
         })
     }
