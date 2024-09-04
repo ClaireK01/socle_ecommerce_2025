@@ -47,7 +47,7 @@ export default class extends Controller {
             let innerDoc = (element.contentDocument) ? element.contentDocument : element.contentWindow.document;
             let select = innerDoc.querySelector('input:checked').closest('.file-wrapper.img').querySelector('.select');
             if (select) {
-                //update path data
+                //update path data - modal file contains the id of the path input to replace, set in fileManagertTarget
                 let pathInput = document.getElementById(document.querySelector('.modal-file').dataset.input);
                 pathInput.value = select.dataset.path;
                 //update img src
