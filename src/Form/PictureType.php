@@ -30,17 +30,19 @@ class PictureType extends AbstractType
                 ],
             ])
             ->add('addFile', ButtonType::class, [
-                'label' => "Choisir",
+                'label' => "<i class='fa-solid fa-pen'></i>",
                 'attr' => [
                     'data-form-collection-target' => "fileManager",
                     'data-url' => $this->router->generate("file_manager", ['conf' => 'default', 'json' => true]),
                 ],
+                'label_html' => true,
             ])
             ->add('deleteFile', ButtonType::class, [
-                'label' => "Supprimer",
+                'label' => "<i class='fa-solid fa-trash'></i>",
                 'attr' => [
                     'data-form-collection-target' => "deleteForm",
                 ],
+                'label_html' => true,
             ])
         ;
     }

@@ -60,7 +60,7 @@ body.show-modal .modal-file{
 
 .content{
     display: flex;
-    max-height: 100vh;
+    /*max-height: 100vh;*/
     overflow: scroll;
 }
 
@@ -103,15 +103,15 @@ button:hover{
 }
 
 .menu{
-    overflow: scroll;
-    min-height: 90vh;
+    /*overflow: scroll;*/
+    /*min-height: 90vh;*/
     display: flex;
     flex-direction: column;
     background-color: var(--secondary);
     list-style: none;
     min-width: 15vw;
     padding: 0;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
     margin: 0;
     text-decoration: none;
     max-height: 100%;
@@ -209,6 +209,32 @@ button:hover{
 
 [data-form-collection-target=collectionContainer] label{
     display: none;
+}
+
+[data-form-collection-target=collectionContainer] li{
+    position: relative;
+    max-width: 30%;
+}
+
+[data-form-collection-target=collectionContainer] li .form-div div{
+    display: flex;
+}
+
+/*[data-form-collection-target=fileManager] {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    !*background-color: #cb3434;*!*/
+/*    !*color: white;*!*/
+/*}*/
+
+[data-form-collection-target=deleteForm]{
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 65%;*/
+    margin-left: 2rem;
+    background-color: #cb3434;
+    color: white;
 }
 
 .picture-preview{
