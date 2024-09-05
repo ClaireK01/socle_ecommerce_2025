@@ -9,7 +9,6 @@
 :root{
     --main : #006622;
     --secondary : #00802b;
-
     --font-main : Roboto
 }
 
@@ -51,11 +50,12 @@ body.show-modal .modal-file{
     top: 20%;
     left: 30%;
     width: 50%;
-    height: 50%;
-    background-color: #e8e8e8;
+    background-color: white;
     border-radius: 10px;
     z-index: 999;
     margin: auto;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
 }
 
 .content{
@@ -214,10 +214,14 @@ button:hover{
 [data-form-collection-target=collectionContainer] li{
     position: relative;
     max-width: 30%;
+    display: flex;
+    align-items: center;
 }
 
 [data-form-collection-target=collectionContainer] li .form-div div{
     display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
 }
 
 /*[data-form-collection-target=fileManager] {*/
@@ -229,10 +233,7 @@ button:hover{
 /*}*/
 
 [data-form-collection-target=deleteForm]{
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 65%;*/
-    margin-left: 2rem;
+    margin-top: 1rem;
     background-color: #cb3434;
     color: white;
 }

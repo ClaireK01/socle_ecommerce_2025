@@ -109,6 +109,7 @@ nav ul li{
     padding: 1rem 2rem;
     position: relative;
     display: flex;
+    min-width: 100%;
 }
 
 .dropdown-right-selected a{
