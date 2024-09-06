@@ -5,3 +5,4 @@ parameters:
   zipcode: 69100
   siret: 362 521 879 00034
   mention: "Société au capital de 5 000€ - 87474858595M17 - SIRET : 362 521 879 00034 - Num TVA : FR 78 48 592 456 111 475"
+  locales: fr|en

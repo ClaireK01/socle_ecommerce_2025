@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
 {
-    #[Route('{_locale}/categories/list', name: 'app_category_list', options: ['breadcrumb' => ['name' => 'category.list']])]
+    #[Route('{_locale}/categories/list', name: 'app_category_list', options: ["sitemap" => true, 'breadcrumb' => ['name' => 'category.list']])]
     public function listAction(Request $request, CategoryRepository $categoryRepository,
                                PaginatorInterface $paginator, CartRepository $cartRepository): Response
     {

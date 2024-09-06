@@ -10,6 +10,7 @@ all:
   aboutus: Qui sommes-nous ?
   invoice: Facture
   downloadInvoice: Télécharger la facture
+  sitemap: Carte du site
 
 commerce:
   cart: Panier
@@ -111,6 +112,7 @@ breadcrumb:
   contact: Page de contact
   about: A propos
   cart: Panier
+  sitemap: Carte du site
 
 invoice:
   invoice: Votre facture
