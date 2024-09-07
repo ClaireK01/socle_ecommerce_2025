@@ -81,13 +81,7 @@ class TwigExtension extends AbstractExtension
     }
 
     public function getShopCount($session){
-        $cart = $this->cartRepository->findOneBy(['session_id' => $session->getId()]);
-
-        if($cart instanceof Cart){
-            return $this->orderService->getCartInfos($cart)['total_quantity'] ?? 0;
-        }
-
-        return 0;
+         return $session->get('shopCount') ?? 0;
     }
 
 

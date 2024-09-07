@@ -43,7 +43,8 @@ class StripeController extends AbstractController
                                  CartRepository $cartRepository, OrderService $orderService, EventDispatcherInterface $dispatcher)
     {
         $order = $request->request->get('order') ? $orderRepository->find($request->request->get('order')) : null ;
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
+
 
         if(!$order || $order->getStatus() != EcommerceOrder::PENDING){
             return $this->redirectToRoute('payment_stripe_cancel');

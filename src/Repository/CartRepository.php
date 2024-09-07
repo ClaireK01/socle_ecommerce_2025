@@ -49,4 +49,18 @@ class CartRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getActiveCartUser($user){
+        $qb = $this->createQueryBuilder('c')
+                    ->join('c.user_session', 's');
+
+        $qb
+            ->where($qb->expr()->eq('s.user', ':user'))
+            ->setParameters(['user' => $user])
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults(1)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

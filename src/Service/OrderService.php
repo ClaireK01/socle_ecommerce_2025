@@ -7,6 +7,8 @@ namespace App\Service;
 use App\Entity\CardProduct;
 use App\Entity\Cart;
 use App\Entity\EcommerceOrder;
+use App\Entity\User;
+use App\Entity\UserSession;
 use App\Repository\CartRepository;
 use App\Repository\EcommerceOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,15 +28,21 @@ class OrderService
         $this->ecommerceOrderRepository = $ecommerceOrderRepository;
     }
 
-    public function createNewCart(SessionInterface $session){
+    public function createNewCart(SessionInterface $session, $user = null){
         $date = new \DateTime();
         $expire = $date->modify('+ 3 days');
         $cart = new Cart();
-        $cart->setSessionId($session->getId());
         $cart->setExpiration($expire);
-
+        if($user instanceof User){
+            $userSession = new UserSession();
+            $userSession->setUser($user);
+            $userSession->setSessionId($session->getId());
+            $cart->setUserSession($userSession);
+        }
         $this->entityManager->persist($cart);
         $this->entityManager->flush();
+
+        $session->set("cart", $cart->getId());
 
         return $cart;
     }

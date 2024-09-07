@@ -31,10 +31,12 @@ class EcommerceController extends AbstractController
     {
         $session = $request->getSession();
         $quantity = json_decode($request->getContent())->quantity;
-        $cart = $cartRepository->findOneBy(['session_id' => $session->getId()]);
-
-        if(empty($cart)){
-            $cart = $orderService->createNewCart($session);
+        $cart = null;
+        if($cartId = $session->get('cart')){
+            $cart = $cartRepository->find($cartId);
+        }
+        if(!$cart){
+            $cart = $orderService->createNewCart($session, $this->getUser());
         }
         $results = array_filter($cart->getCardProducts()->toArray(), function ($cp) use ($product, $quantity){
             /** @var CardProduct $cp  */
@@ -61,24 +63,30 @@ class EcommerceController extends AbstractController
 
         }
 
+        $cartInfos = $orderService->getCartInfos($cart);
+        $session->set('shopCount', $cartInfos['total_quantity']);
 
-        return new JsonResponse(["cart" => $orderService->getCartInfos($cart)], 200);
+        return new JsonResponse(["cart" => $cartInfos], 200);
     }
 
     #[Route('{_locale}/products/{id}/remove', name: 'remove_from_cart', methods: 'GET')]
-    public function removeFromCart(CardProduct $cardProduct, Request $request, EntityManagerInterface $em, CartRepository $cartRepository)
+    public function removeFromCart(CardProduct $cardProduct, Request $request, EntityManagerInterface $em,
+                                   CartRepository $cartRepository, OrderService $orderService)
     {
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
-        foreach ($cart->getCardProducts() as $c){
-            if($cardProduct == $c){
-                $cart->removeCardProduct($c);
-                break;
+        if($cart){
+            foreach ($cart->getCardProducts() as $c){
+                if($cardProduct == $c){
+                    $cart->removeCardProduct($c);
+                    $em->remove($cardProduct);
+                    break;
+                }
             }
+            $em->persist($cart);
+            $em->flush();
+            $request->getSession()->set('shopCount', $orderService->getCartInfos($cart)['total_quantity']);
         }
-
-        $em->persist($cart);
-        $em->flush();
 
         return $this->redirectToRoute('ecommerce_cart');
     }
@@ -86,7 +94,7 @@ class EcommerceController extends AbstractController
     #[Route('{_locale}/cart', name: 'ecommerce_cart', options: ['breadcrumb' => ['name' => 'cart']], methods: 'GET')]
     public function cartAction(Request $request, OrderService $orderService, CartRepository $cartRepository)
     {
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
         return $this->render('app/cart/show.html.twig', [
             'cart' => $cart,
@@ -205,7 +213,7 @@ class EcommerceController extends AbstractController
         $payment = $paymentMethodRepository->find($paymentId);
 
         $user = $this->getUser();
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
 
         return $this->render('app/cart/summary.html.twig', [
@@ -221,7 +229,7 @@ class EcommerceController extends AbstractController
     public function validateCartAction(Request $request, OrderService $orderService, CartRepository $cartRepository, ShippingRepository $shippingRepository,
                                        PaymentMethodRepository $paymentMethodRepository, AddressRepository $addressRepository){
 
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
 
         if(!$addressId = $request->getSession()->get('address')){
@@ -253,7 +261,7 @@ class EcommerceController extends AbstractController
     #[Route('{_locale}/cart/view', name: 'ecommerce_cart_view', methods: ['GET'])]
     public function cartViewAction(Request $request, CartRepository $cartRepository){
 
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
         $view =  $this->renderView('app/cart/cart_view.html.twig', [
             'cart' => $cart,

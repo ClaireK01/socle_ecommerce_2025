@@ -67,12 +67,16 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $addresses;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSession::class, orphanRemoval: true)]
+    private Collection $userSessions;
+
     public function __construct()
     {
         $this->session_ids = [];
         $this->conversations = new ArrayCollection();
         $this->resourceIds = new ArrayCollection();
         $this->address = new ArrayCollection();
+        $this->userSessions = new ArrayCollection();
     }
 
     public function isVerified(): bool
@@ -206,6 +210,36 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function removeAddress(Address $address): self
     {
         $this->addresses->removeElement($address);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserSession>
+     */
+    public function getUserSessions(): Collection
+    {
+        return $this->userSessions;
+    }
+
+    public function addUserSession(UserSession $userSession): static
+    {
+        if (!$this->userSessions->contains($userSession)) {
+            $this->userSessions->add($userSession);
+            $userSession->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSession(UserSession $userSession): static
+    {
+        if ($this->userSessions->removeElement($userSession)) {
+            // set the owning side to null (unless already changed)
+            if ($userSession->getUser() === $this) {
+                $userSession->setUser(null);
+            }
+        }
 
         return $this;
     }
