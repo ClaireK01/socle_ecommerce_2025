@@ -24,7 +24,8 @@ class ProductController extends AbstractController
         $qb ->where(":cat MEMBER OF p.categories")
             ->setParameter("cat", $category);
 
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
+
 
         //->where('e.deletedAt is null')
         ;
@@ -47,7 +48,7 @@ class ProductController extends AbstractController
     {
         $page = $request->get('page') ?? 1;
         $qb = $productRepository->createQueryBuilder("p");
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
         //->where('e.deletedAt is null')
         ;
@@ -66,7 +67,7 @@ class ProductController extends AbstractController
     #[Route('{_locale}/products/{id}/show', name: 'app_product_show', options: ["sitemap" => true, 'breadcrumb' => ['name' => '%name%', 'parent' => 'app_product_list']])]
     public function showAction(Product $product, Request $request, ProductRepository $productRepository, CartRepository $cartRepository): Response
     {
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
         $similars = $productRepository->findAll();
 
         return $this->render('app/product/show.html.twig', [

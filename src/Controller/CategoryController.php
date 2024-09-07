@@ -19,7 +19,7 @@ class CategoryController extends AbstractController
     {
         $page = $request->get('page') ?? 1;
         $qb = $categoryRepository->createQueryBuilder("p");
-        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
         //->where('e.deletedAt is null')
         ;
@@ -38,7 +38,7 @@ class CategoryController extends AbstractController
 //    #[Route('{_locale}/categories/{id}/show', name: 'app_category_show')]
 //    public function showAction(Category $category, Request $request, CategoryRepository $categoryRepository, CartRepository $cartRepository): Response
 //    {
-//        $cart = $cartRepository->findOneBy(['session_id' => $request->getSession()->getId()]);
+//                $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 //        $similars = $categoryRepository->findAll();
 //
 //        return $this->render('app/category/show.html.twig', [

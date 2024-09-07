@@ -68,6 +68,8 @@ class StripeController extends AbstractController
             if($cart instanceof Cart){
                 $orderService->removeCart($cart);
             }
+            $request->getSession()->remove('cart_id');
+            $request->getSession()->remove('shopCount');
 
             //envoie des mails
             $event = new MailEvent($request->getLocale(), $order);
