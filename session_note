@@ -5,3 +5,8 @@ CREATE TABLE `sessions` (
     `sess_time` INTEGER UNSIGNED NOT NULL,
     INDEX `sessions_sess_lifetime_idx` (`sess_lifetime`)
 ) COLLATE utf8mb4_bin, ENGINE = InnoDB;
+
+
+A mettre dans le .env.locale pour generer pdf en local (remplacer par chemin du dossier) :
+WKHTMLTOPDF_PATH=C:\.perso\symfony\socle_perso\wkhtmltopdf\wkhtmltopdf
+WKHTMLTOIMAGE_PATH=C:\.perso\symfony\socle_perso\wkhtmltopdf\wkhtmltopdf

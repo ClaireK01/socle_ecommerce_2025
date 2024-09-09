@@ -63,9 +63,10 @@ class SecurityEventSubscriber implements EventSubscriberInterface {
                             $userSession->setSessionId($session->getId());
                             $cart->setUserSession($userSession);
                             $this->entityManager->persist($cart);
-                            if($activeCart){
-                                $this->orderService->removeCart($activeCart);
-                            }
+                        }
+
+                        if($activeCart && $activeCart !== $cart){
+                            $this->orderService->removeCart($activeCart);
                         }
                     }
                 }
