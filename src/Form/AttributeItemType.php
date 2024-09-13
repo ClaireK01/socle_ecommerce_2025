@@ -30,6 +30,7 @@ class AttributeItemType extends AbstractType
                 'label' => "<i class='fa-solid fa-trash'></i>",
                 'attr' => [
                     'data-form-collection-target' => "deleteForm",
+                    "data-path" => "1"
                 ],
                 'label_html' => true,
             ])

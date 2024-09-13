@@ -78,13 +78,9 @@ export default class extends Controller {
     }
 
     tabsTargetConnected(element) {
-        console.log(element)
-
         element.addEventListener('click', (e) => {
             e.preventDefault();
-            // let tabs = document.querySelectorAll('.tab-pane');
             let tabPanes = element.closest('.a2lix_translations').querySelectorAll('.tab-pane');
-            console.log(tabPanes)
 
             if (tabPanes) {
                 let id = e.currentTarget.querySelector('a').href.split('#').pop();

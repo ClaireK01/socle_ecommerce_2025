@@ -6,6 +6,7 @@ use App\Repository\ProductAttributeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 
 
 #[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]
-class ProductAttribute implements TranslatableInterface
+class ProductAttribute implements TranslatableInterface, SoftDeletableInterface
 {
     use SoftDeletableTrait,TimestampableTrait,TranslatableTrait;
 
@@ -26,7 +27,7 @@ class ProductAttribute implements TranslatableInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToMany(mappedBy: 'productAttribute', targetEntity: AttributeItem::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'productAttribute', targetEntity: AttributeItem::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $attributeItems;
 
     public function __construct()

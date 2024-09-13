@@ -26,10 +26,10 @@ class AttributeItemTranslation implements TranslationInterface
     #[ORM\Column(name:"title", type: 'string')]
         protected $title;
 
-    #[ORM\Column(name:"shortContent", type: 'text')]
+    #[ORM\Column(name:"shortContent", type: 'text', nullable: true)]
     protected $shortContent;
 
-    #[ORM\Column(name:"content", type: 'text')]
+    #[ORM\Column(name:"content", type: 'text', nullable: true)]
     protected $content;
 
     public function getId(): ?int

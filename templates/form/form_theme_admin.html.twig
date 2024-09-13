@@ -1,4 +1,3 @@
-{% trans_default_domain 'admin' %}
 {%- block form_widget -%}
     {% if compound %}
         {{- block('form_widget_compound') -}}
@@ -44,7 +43,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>{{ "action.add"|trans }}</button>
+        <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>Add</button>
     </div>
 {%- endblock collection_widget -%}
 

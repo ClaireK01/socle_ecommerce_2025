@@ -34,6 +34,7 @@ class ProductAttributeType extends AbstractType
                 'entry_type' => AttributeItemType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
             ])
         
         ;

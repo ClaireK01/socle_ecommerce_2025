@@ -17,7 +17,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 #[ORM\Entity(repositoryClass: AttributeItemRepository::class)]
 class AttributeItem implements TranslatableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait,TranslatableTrait;
+    use TimestampableTrait,TranslatableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

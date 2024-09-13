@@ -43,14 +43,13 @@ class CardProduct
     #[ORM\ManyToOne(targetEntity: EcommerceOrder::class, inversedBy: "cardProducts")]
     private $ecommerceOrder;
 
-    #[ORM\ManyToMany(targetEntity: AttributeItem::class)]
-    private Collection $attributeItems;
+    #[ORM\OneToMany(mappedBy: 'cardProduct', targetEntity: CardAttribute::class, orphanRemoval: true)]
+    private Collection $cardAttributes;
 
     public function __construct(){
         $this->products = new ArrayCollection();
-        $this->attributeItems = new ArrayCollection();
+        $this->cardAttributes = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -157,25 +156,31 @@ class CardProduct
     }
 
     /**
-     * @return Collection<int, AttributeItem>
+     * @return Collection<int, CardAttribute>
      */
-    public function getAttributeItems(): Collection
+    public function getCardAttributes(): Collection
     {
-        return $this->attributeItems;
+        return $this->cardAttributes;
     }
 
-    public function addAttributeItem(AttributeItem $attributeItem): static
+    public function addCardAttribute(CardAttribute $cardAttribute): static
     {
-        if (!$this->attributeItems->contains($attributeItem)) {
-            $this->attributeItems->add($attributeItem);
+        if (!$this->cardAttributes->contains($cardAttribute)) {
+            $this->cardAttributes->add($cardAttribute);
+            $cardAttribute->setCardProduct($this);
         }
 
         return $this;
     }
 
-    public function removeAttributeItem(AttributeItem $attributeItem): static
+    public function removeCardAttribute(CardAttribute $cardAttribute): static
     {
-        $this->attributeItems->removeElement($attributeItem);
+        if ($this->cardAttributes->removeElement($cardAttribute)) {
+            // set the owning side to null (unless already changed)
+            if ($cardAttribute->getCardProduct() === $this) {
+                $cardAttribute->setCardProduct(null);
+            }
+        }
 
         return $this;
     }
