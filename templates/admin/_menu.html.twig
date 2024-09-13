@@ -10,6 +10,12 @@
          <a  class="{% if 'admin_product' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_product_index') }}">
              <li><i class="fa-solid fa-barcode"></i> {{ 'nav.product'|trans }}</li>
          </a>
+         <a  class="{% if 'admin_productattribute_index' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_productattribute_index') }}">
+             <li><i class="fa-solid fa-star"></i> {{ 'nav.productattribute'|trans }}</li>
+         </a>
+         <a  class="{% if 'admin_attributeitem_index' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_attributeitem_index') }}">
+             <li><i class="fa-solid fa-star"></i> {{ 'nav.attributeitem'|trans }}</li>
+         </a>
 
          <a  class="{% if 'admin_paymentmethod' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_paymentmethod_index') }}">
              <li><i class="fa-solid fa-credit-card"></i> {{ 'nav.paymentmethod'|trans }}</li>

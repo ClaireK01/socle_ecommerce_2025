@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CardProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -42,8 +43,12 @@ class CardProduct
     #[ORM\ManyToOne(targetEntity: EcommerceOrder::class, inversedBy: "cardProducts")]
     private $ecommerceOrder;
 
+    #[ORM\ManyToMany(targetEntity: AttributeItem::class)]
+    private Collection $attributeItems;
+
     public function __construct(){
         $this->products = new ArrayCollection();
+        $this->attributeItems = new ArrayCollection();
     }
 
 
@@ -149,6 +154,30 @@ class CardProduct
     public function setEcommerceOrder($ecommerceOrder): void
     {
         $this->ecommerceOrder = $ecommerceOrder;
+    }
+
+    /**
+     * @return Collection<int, AttributeItem>
+     */
+    public function getAttributeItems(): Collection
+    {
+        return $this->attributeItems;
+    }
+
+    public function addAttributeItem(AttributeItem $attributeItem): static
+    {
+        if (!$this->attributeItems->contains($attributeItem)) {
+            $this->attributeItems->add($attributeItem);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeItem(AttributeItem $attributeItem): static
+    {
+        $this->attributeItems->removeElement($attributeItem);
+
+        return $this;
     }
 
 }

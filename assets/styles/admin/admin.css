@@ -224,6 +224,14 @@ button:hover{
     margin-left: 1rem;
 }
 
+[data-form-collection-target=collectionContainer] li .form-div .tab-pane{
+    display: none ;
+}
+
+[data-form-collection-target=collectionContainer] li .form-div .tab-pane.active{
+    display: block;
+}
+
 /*[data-form-collection-target=fileManager] {*/
 /*    position: absolute;*/
 /*    top: 50%;*/

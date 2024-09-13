@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ["collectionContainer", "fileInput", "fileManager", "deleteForm", "frame", "closeFrame"]
+    static targets = ["collectionContainer", "fileInput", "fileManager", "deleteForm", "frame", "closeFrame", "tabs"]
 
     static values = {
         index    : Number,
@@ -21,6 +21,15 @@ export default class extends Controller {
         item.innerHTML = pr.replace(/__name__/g, value);
         this.collectionContainerTarget.appendChild(item);
         this.indexValue++;
+
+        //gestion des tabs translations
+        let tabs = this.collectionContainerTarget.querySelectorAll('.nav-item');
+        [...tabs].forEach( (tab) => {
+            console.log(tab)
+            if(tab.dataset.formCollectionTarget || tab.dataset.formCollectionTarget !== "tabs" ){
+                tab.setAttribute('data-form-collection-target', 'tabs');
+            }
+        })
     }
 
     closeFrameElement(event){
@@ -66,6 +75,29 @@ export default class extends Controller {
             }
             document.querySelector('body').classList.remove('show-modal');
         })
+    }
+
+    tabsTargetConnected(element) {
+        console.log(element)
+
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+            // let tabs = document.querySelectorAll('.tab-pane');
+            let tabPanes = element.closest('.a2lix_translations').querySelectorAll('.tab-pane');
+            console.log(tabPanes)
+
+            if (tabPanes) {
+                let id = e.currentTarget.querySelector('a').href.split('#').pop();
+                tabPanes.forEach((el) => {
+                    if (el.id !== id) {
+                        el.classList.remove("active")
+                    } else {
+                        el.classList.add("active")
+                    }
+                })
+            }
+        })
+
     }
 
     connect(){}

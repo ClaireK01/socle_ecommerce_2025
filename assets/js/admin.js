@@ -9,6 +9,7 @@ let items = document.querySelectorAll('.nav-item');
 items.forEach((item) => {
     item.addEventListener('click', (e) => {
             e.preventDefault();
+            //faire en sorte qu'il ne prenne que enfant de translation fields
             let tabs = document.querySelectorAll('.tab-pane');
             if(tabs){
                 let id = e.currentTarget.querySelector('a').href.split('#').pop();
