@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use App\Entity\AttributeItem;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Tva;
+use App\Repository\AttributeItemRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -48,6 +50,18 @@ class ProductType extends AbstractType
                 "placeholder" => "Categories",
                 "query_builder" => function (CategoryRepository $r) {
                     return $r->createQueryBuilder('c');
+                },
+                "autocomplete" => true,
+                'multiple' => true,
+                "attr" => [
+                    'id' => "tom-select-category"
+                ]
+            ])
+            ->add('attributeItems', EntityType::class, [
+                'class' => AttributeItem::class,
+                "placeholder" => "Items",
+                "query_builder" => function (AttributeItemRepository $r) {
+                    return $r->createQueryBuilder('a');
                 },
                 "autocomplete" => true,
                 'multiple' => true,

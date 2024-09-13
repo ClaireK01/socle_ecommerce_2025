@@ -7,6 +7,7 @@ use App\Trait\CategoryTrait;
 use App\Trait\PictureTrait;
 use App\Trait\ProductTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\AssociationOverride;
 use Doctrine\ORM\Mapping\AssociationOverrides;
@@ -56,8 +57,12 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Tva $tva = null;
 
+    #[ORM\ManyToMany(targetEntity: AttributeItem::class, inversedBy: 'products')]
+    private Collection $attributeItems;
+
     public function __construct(){
         $this->categories = new ArrayCollection();
+        $this->attributeItems = new ArrayCollection();
     }
 
 
@@ -74,6 +79,30 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     public function setTva(?Tva $tva): static
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeItem>
+     */
+    public function getAttributeItems(): Collection
+    {
+        return $this->attributeItems;
+    }
+
+    public function addAttributeItem(AttributeItem $attributeItem): static
+    {
+        if (!$this->attributeItems->contains($attributeItem)) {
+            $this->attributeItems->add($attributeItem);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeItem(AttributeItem $attributeItem): static
+    {
+        $this->attributeItems->removeElement($attributeItem);
 
         return $this;
     }

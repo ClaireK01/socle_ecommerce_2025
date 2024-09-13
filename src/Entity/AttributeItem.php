@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AttributeItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
@@ -31,6 +33,17 @@ class AttributeItem implements TranslatableInterface
     #[ORM\Column(type: 'float', nullable:true)]
     private $price;
 
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'attributeItems')]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    public function __toString() : string{
+        return $this->translate()->getTitle();
+    }
 
     public function getId(): ?int
     {
@@ -63,6 +76,33 @@ class AttributeItem implements TranslatableInterface
     public function setPrice($price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->addAttributeItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeAttributeItem($this);
+        }
+
+        return $this;
     }
 
 }

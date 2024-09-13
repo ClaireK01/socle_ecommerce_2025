@@ -52,3 +52,7 @@ if(document.querySelector('#category_parent')){
     new TomSelect('#category_parent', settings);
 }
 
+if(document.querySelector('#product_attributeItems')){
+    new TomSelect('#product_attributeItems', settings);
+}
+
