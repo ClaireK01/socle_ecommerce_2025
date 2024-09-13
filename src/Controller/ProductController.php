@@ -69,11 +69,17 @@ class ProductController extends AbstractController
     {
         $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
         $similars = $productRepository->findAll();
+        $productAttributes = [];
+
+        foreach ($product->getAttributeItems() as $attributeItem){
+                $productAttributes[$attributeItem->getProductAttribute()->translate($request->getLocale())->getTitle()][] = $attributeItem;
+        }
 
         return $this->render('app/product/show.html.twig', [
             'similarProducts' => $similars,
             'product' => $product,
-            'cart' => $cart
+            'cart' => $cart,
+            "productAttributes" => $productAttributes
         ]);
     }
 }

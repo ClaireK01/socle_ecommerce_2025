@@ -8,18 +8,28 @@
         <div class="product-descr">
             <h3>{{ product.translate.title }}</h3>
             <p>{{ product.translate.content|raw }}</p>
+            <div class="attribute-container">
+                {% for key, productAttr in productAttributes %}
+                    <h4 class="small-title">{{ key }}</h4>
+                    <div class="attributes">
+                        {% for attr in productAttr  %}
+                            {{ m.attributes(attr) }}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
             <p class="price-tag"><span class="price-tag-num" data-price="{{ product.price }}">{{ product.price|number_format(2, ',', ' ') }}</span><span class="price-tag-currency">€</span></p>
             <div class="add-container">
                 <div class="quantity-container">
                     <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <input class="product-attributes">
                     <input type="number" min="1" value="{{ getQuantityProductCart(cart, product) }}" data-ecommerce-target="quantity" class="quantity" data-show="1">
                     <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
+                <div class="display-none" data-list-attr=""></div>
                 <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}"><i class="fa-solid fa-cart-plus"></i>{{ "commerce.add"|trans }}</button>
             </div>
         </div>

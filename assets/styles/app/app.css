@@ -517,6 +517,23 @@ input[type=number] {
     padding-top: 4rem;
 }
 
+.attribute-container .attributes{
+    display: flex;
+    margin-bottom: 1rem;
+}
+.attribute-container .attribute.active {
+    background-color: lightgrey;
+}
+
+.attribute-container .attribute{
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    border: 1px solid lightgrey;
+    margin-right: 1rem;
+    border-radius: 10px;
+    background-color: white;
+}
+
 /************************ shop icon ***************************/
 
 .shop-icon-container{

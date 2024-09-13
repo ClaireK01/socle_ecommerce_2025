@@ -10,13 +10,40 @@ async function postData(url = "", donnees = null, method = 'GET') {
 }
 
 export default class extends Controller{
-    static targets = ["cart", "shopcount", "quantity", "quantbutton", "link"];
+    static targets = ["cart", "shopcount", "quantity", "quantbutton", "link", "target"];
+
+
+    attributeTargetConnected(element){
+        element.addEventListener('click', (e) => {
+            let attrs = element.parentNode.querySelectorAll('.attribute');
+            let list = document.querySelector('[data-list-attr]').dataset.listAttr
+            attrs.forEach((a) => {
+                if(a === element && !a.classList.contains('active')){
+                    a.classList.add('active')
+                }else{
+                    if(a.classList.contains('active')){
+                        a.classList.remove('active');
+                    }
+                }
+            })
+            //maj des attributes item selectionné
+            let str = '';
+            document.querySelectorAll('.attribute.active').forEach((a) => { str += '|' + a.dataset.attr; })
+            document.querySelector('[data-list-attr]').dataset.listAttr = str
+
+            //TODO : maj des prix produit au fur et a mesure de la selection
+
+
+        })
+
+    }
 
     cartTargetConnected(element){
         element.addEventListener('click', (e) => {
             let url = element.dataset.add;
             let quantity = element.parentNode.querySelector('input[data-ecommerce-target]').value
-            postData(url, {"quantity" : quantity},  'POST').then((data) => {
+            let attrs = document.querySelector('[data-list-attr]').dataset.listAttr
+            postData(url, {"quantity" : quantity, 'attributes' : attrs},  'POST').then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
             });
         })
@@ -74,6 +101,24 @@ export default class extends Controller{
     //         priceTag.innerHTML = strTotal.replace('€', '').replace(/\&nbsp;/g, '');
     //     }
     // }
+
+    toggleClass(target, original, replacement = null){
+        if(!replacement){
+            if(!target.classList.contains(original)){
+                target.classList.add(original);
+            }else{
+                target.classList.remove(original);
+            }
+        }else{
+            if(target.classList.contains(original)){
+                target.classList.remove(original);
+                target.classList.add(replacement);
+            }else{
+                target.classList.remove(replacement);
+                target.classList.add(original);
+            }
+        }
+    }
 
     connect(){}
 }

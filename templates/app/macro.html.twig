@@ -171,3 +171,9 @@
         {% endif %}
     </div>
 {% endmacro %}
+
+{% macro attributes(attribute) %}
+    <button class="attribute" data-ecommerce-target="attribute" data-parent="{{ attribute.productAttribute.translate.title|raw }}" data-attr="{{ attribute.id }}">
+        <span>{{ attribute.translate.title|raw }}</span>
+    </button>
+{% endmacro %}
