@@ -67,7 +67,8 @@ class ProductType extends AbstractType
                 'multiple' => true,
                 "attr" => [
                     'id' => "tom-select-category"
-                ]
+                ],
+                'required' => false
             ])
             ->add('price')
             ->add('pictures', CollectionType::class, [
