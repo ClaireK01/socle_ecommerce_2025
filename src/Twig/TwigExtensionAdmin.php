@@ -50,15 +50,21 @@ class TwigExtensionAdmin extends AbstractExtension
     //////////////////////////////////////////////////////// admin //////////////////////////////////////////////
 
 
-    public function header($header){
-        $string = '';
+    public function header($header, Request $request){
+        $string = '<thead>';
+        $filter = "";
+
         foreach ($header as $i => $h){
             $title = $this->translator->trans("header" . $this->getHeaderValue($h), [], 'admin');
             $string .= "<th>" . $title ."</th>";
+                $filterKey = $request->request->get($this->getFilterValue($h));
+                $filter .= "<th><input name='". $this->getFilterValue($h) ."' value='".$filterKey."' /></th>";
         }
 
+
         $string .= "<th>" . $this->translator->trans('header.actions', [], 'admin') ."</th>";
-        return $string;
+        $filter .= "<th><button class='btn-action' type='submit'><i class='fa-solid fa-search'></i></button><button class='btn-action' data-action='form-collection#refreshFilterElement'><i class='fa-solid fa-refresh'></i></button></th>";
+        return $string . '</thead><thead id="filter-head">' . $filter .'</thead>';
     }
 
     public function getHeaderValue($value, $string = null){
@@ -67,6 +73,15 @@ class TwigExtensionAdmin extends AbstractExtension
             return  $string . $this->getHeaderValue($value[array_key_first($value)], $string);
         }else{
             return $string ? str_replace('.' . $value, '', $string) : '.' . $value;
+        }
+    }
+
+    public function getFilterValue($value){
+        if(is_array($value)){
+            $string = array_key_first($value);
+            return  $this->getFilterValue($value[array_key_first($value)]);
+        }else{
+            return $value;
         }
     }
 
@@ -80,9 +95,9 @@ class TwigExtensionAdmin extends AbstractExtension
         }catch (\Exception $e){
             $translationReflection = null;
         }
-        
+
         foreach ($pagination as $entity){
-            
+
             $row = '<tr>';
             foreach ($header as $val) {
                 $test = is_array($val) ? array_key_first($val) : $val;
@@ -107,12 +122,12 @@ class TwigExtensionAdmin extends AbstractExtension
 
 
             $row .= "<td>";
-            $row .= "<a href='". $pathShow."'><button class='btn-action'>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
+            $row .= "<a href='". $pathShow."'><button class='btn-action' type='button'>". $this->translator->trans('action.show', [], 'admin') ."</button></a>";
             if($pathEdit){
-                $row .= "<a href='". $pathEdit."'><button class='btn-action'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
+                $row .= "<a href='". $pathEdit."'><button class='btn-action' type='button'>". $this->translator->trans('action.edit', [], 'admin') ."</button></a>";
             }
             if($pathDelete) {
-                $row.=  "<a href='". $pathDelete."'><button class='btn-action'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
+                $row.=  "<a href='". $pathDelete."'><button class='btn-action' type='button'>". $this->translator->trans('action.delete', [], 'admin') ."</button></a>";
             }
             $row .= "</td>";
             $row .= "</tr>";

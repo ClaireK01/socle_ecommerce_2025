@@ -8,6 +8,21 @@ export default class extends Controller {
         prototype: String,
     }
 
+    filterElement(event){
+        event.preventDefault();
+        const form = document.querySelector('form[name=filter]');
+        if(form.classList.contains('show-filter')){
+            form.classList.remove('show-filter');
+        }else{
+            form.classList.add('show-filter');
+        }
+    }
+
+    refreshFilterElement(event){
+        event.preventDefault();
+        window.location = window.location.href
+    }
+
     addCollectionElement(event)
     {
         const item = document.createElement('li');

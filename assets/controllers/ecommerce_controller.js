@@ -38,7 +38,6 @@ export default class extends Controller{
 
             //TODO : maj des prix produit au fur et a mesure de la selection
 
-
         })
 
     }

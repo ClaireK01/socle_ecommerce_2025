@@ -16,19 +16,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class {NAME}Controller extends AbstractController
 {
     #[Route('/', name: 'admin_{name}_index')]
-    public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, AdminService $adminService): Response
     {
 
         $properties = [
         ];
-        $filter = $request->get('filter');
+        $filter = $request->request->all();
         $page = $request->get('page') ?? 1;
 
         $qb = $em->createQueryBuilder();
         $qb->select('e')
             ->from({NAME}::class, 'e')
+            {IFCONTENT}->join('e.translations', 'et'){/IFCONTENT}
         //->where('e.deletedAt is null')
         ;
+
+         $qb = $adminService->filter($qb, $filter, 'e' {IFCONTENT},'et'{/IFCONTENT});
 
         $pagination = $paginator->paginate(
             $qb,

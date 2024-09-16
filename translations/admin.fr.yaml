@@ -3,6 +3,7 @@ all:
   previous: Précédent
   back: Retour
   backHome: Revenir à l'acceuil
+  filter: Filtre
 
 action:
   add: Ajouter
@@ -23,6 +24,7 @@ nav:
   order: Commandes
   tva: TVA
   contact: Contact
+  productattribute: Attributs produits
 
 
 header:
@@ -40,6 +42,7 @@ header:
     firstName: Prénom
     user:
       email: Email
+  statusLabel: Status
 
 order:
   states:

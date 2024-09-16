@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Service\AdminService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,19 +17,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'admin_category_index')]
-    public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, AdminService $adminService): Response
     {
         $properties = [
             'title',
         ];
-        $filter = $request->get('filter');
+        $filter = $request->request->all();
         $page = $request->get('page') ?? 1;
 
         $qb = $em->createQueryBuilder();
         $qb->select('e')
             ->from(Category::class, 'e')
-        //->where('e.deletedAt is null')
+            ->join('e.translations', 'et')
+            ->where('e.deletedAt is null')
         ;
+
+        $qb = $adminService->filter($qb, $filter, 'e', 'et');
 
         $pagination = $paginator->paginate(
             $qb,

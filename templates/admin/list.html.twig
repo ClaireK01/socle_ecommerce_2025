@@ -3,27 +3,25 @@
 
 {% block body %}
 
-    <div class="container page-list">
-        <div class="admin-actions">
-            {% set route = getRoute( app.request.get('_route')|replace({'index' : 'new'}) ) %}
-            {% if route %}
-            <a href="{{ route }}">
-                <button class="btn-add">{{ 'action.add'|trans }}</button>
-            </a>
-            {% endif %}
-        </div>
-
-        <table class="table table-edit">
-            <thead>
-            {{ properties|header|raw }}
-            </thead>
-            <tbody>
-            {{ properties|list(class, pagination, app.request)|raw }}
-            </tbody>
-        </table>
-        <div class="pagi">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-    </div>
+    <form name="filter" id="form-filter" method="post">
+        <div class="container page-list">
+                <div class="admin-actions">
+                    {% set route = getRoute( app.request.get('_route')|replace({'index' : 'new'}) ) %}
+                    {% if route %}
+                        <a href="{{ route }}"><button class="btn-add">{{ 'action.add'|trans }}</button></a>
+                    {% endif %}
+                    <button {{ stimulus_action('form-collection', 'filterElement') }} >{{ 'all.filter'|trans }}</button>
+                </div>
+                    <table class="table table-edit">
+                        {{ properties|header(app.request)|raw }}
+                        <tbody>
+                        {{ properties|list(class, pagination, app.request)|raw }}
+                        </tbody>
+                    </table>
+                    <div class="pagi">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+            </div>
+    </form>
 
 {% endblock %}
