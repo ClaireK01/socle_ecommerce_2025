@@ -23,7 +23,7 @@ class AttributeItemTranslation implements TranslationInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(name:"title", type: 'string')]
+    #[ORM\Column(name:"title", type: 'string', nullable: true)]
         protected $title;
 
     #[ORM\Column(name:"shortContent", type: 'text', nullable: true)]

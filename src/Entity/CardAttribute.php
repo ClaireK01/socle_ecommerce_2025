@@ -31,6 +31,10 @@ class CardAttribute implements TranslatableInterface
     #[ORM\Column(type: 'float', nullable:true)]
     private $price;
 
+
+    #[ORM\Column(type: 'integer', nullable:true)]
+    private $ref;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +66,22 @@ class CardAttribute implements TranslatableInterface
     public function setPrice($price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * @param mixed $ref
+     */
+    public function setRef($ref): void
+    {
+        $this->ref = $ref;
     }
 
 }

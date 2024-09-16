@@ -28,8 +28,13 @@ export default class extends Controller{
             })
             //maj des attributes item selectionné
             let str = '';
-            document.querySelectorAll('.attribute.active').forEach((a) => { str += '|' + a.dataset.attr; })
+            document.querySelectorAll('.attribute.active').forEach((a) => { str +=  a.dataset.attr + '|'; })
             document.querySelector('[data-list-attr]').dataset.listAttr = str
+            //maj du prix avec attributs
+            let url = document.querySelector('.price-tag').dataset.url
+            postData(url, {'attributes' : str},  'POST').then((data) => {
+                this.changeQuantity(data.total)
+            });
 
             //TODO : maj des prix produit au fur et a mesure de la selection
 
@@ -41,10 +46,15 @@ export default class extends Controller{
     cartTargetConnected(element){
         element.addEventListener('click', (e) => {
             let url = element.dataset.add;
-            let quantity = element.parentNode.querySelector('input[data-ecommerce-target]').value
-            let attrs = document.querySelector('[data-list-attr]').dataset.listAttr
+            let input = element.parentNode.querySelector('input[data-ecommerce-target]');
+            let quantity = input.value;
+            let attrs = document.querySelector('[data-list-attr]');
+            if(attrs){
+                attrs = attrs.dataset.listAttr;
+            }
             postData(url, {"quantity" : quantity, 'attributes' : attrs},  'POST').then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
+                input.value = input.min
             });
         })
     }
@@ -91,32 +101,14 @@ export default class extends Controller{
         })
     }
 
-    // changeQuantity = (element) => {
-    //     let priceTag = document.querySelector('.price-tag-num');
-    //     let quantity = parseInt(element.value);
-    //     let number = parseFloat(priceTag.dataset.price);
-    //     let total = number * quantity;
-    //     if(!isNaN(total)){
-    //        let strTotal = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total)
-    //         priceTag.innerHTML = strTotal.replace('€', '').replace(/\&nbsp;/g, '');
-    //     }
-    // }
-
-    toggleClass(target, original, replacement = null){
-        if(!replacement){
-            if(!target.classList.contains(original)){
-                target.classList.add(original);
-            }else{
-                target.classList.remove(original);
-            }
-        }else{
-            if(target.classList.contains(original)){
-                target.classList.remove(original);
-                target.classList.add(replacement);
-            }else{
-                target.classList.remove(replacement);
-                target.classList.add(original);
-            }
+    changeQuantity = (total) => {
+        let priceTag = document.querySelector('.price-tag-num');
+        // let quantity = parseInt(element.value);
+        // let number = parseFloat(priceTag.dataset.price);
+        // let total = number * quantity;
+        if(!isNaN(total)){
+           let strTotal = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total)
+            priceTag.innerHTML = strTotal.replace('€', '').replace(/\&nbsp;/g, '');
         }
     }
 

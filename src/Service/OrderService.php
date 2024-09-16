@@ -4,11 +4,15 @@
 namespace App\Service;
 
 
+use App\Entity\AttributeItem;
+use App\Entity\CardAttribute;
+use App\Entity\CardAttributeTranslation;
 use App\Entity\CardProduct;
 use App\Entity\Cart;
 use App\Entity\EcommerceOrder;
 use App\Entity\User;
 use App\Entity\UserSession;
+use App\Repository\AttributeItemRepository;
 use App\Repository\CartRepository;
 use App\Repository\EcommerceOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,12 +24,14 @@ class OrderService
     private CartRepository $cartRepository;
     private EntityManagerInterface $entityManager;
     private EcommerceOrderRepository $ecommerceOrderRepository;
+    private  AttributeItemRepository $attributeItemRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository, EcommerceOrderRepository $ecommerceOrderRepository)
+    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository, EcommerceOrderRepository $ecommerceOrderRepository, AttributeItemRepository $attributeItemRepository)
     {
         $this->entityManager = $entityManager;
         $this->cartRepository = $cartRepository;
         $this->ecommerceOrderRepository = $ecommerceOrderRepository;
+        $this->attributeItemRepository = $attributeItemRepository;
     }
 
     public function createNewCart(SessionInterface $session, $user = null){
@@ -51,6 +57,34 @@ class OrderService
         $cart->addCardProduct($cartProduct);
 
         $this->entityManager->persist($cart);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function addCardAttributesToCardProduct(CardProduct $cardProduct, array $attributes){
+
+        foreach ($attributes as $a){
+            $item = $this->attributeItemRepository->find($a);
+            if($item){
+                /** @var AttributeItem $item */
+                $ca = new CardAttribute();
+                $ca->setPrice($item->getPrice());
+                $ca->setRef($item->getId());
+                foreach ($item->getTranslations() as $t){
+                    $newTranslation = new CardAttributeTranslation($t->getTitle(), $t->getContent(), $t->getShortContent(), $item->getProductAttribute()->translate($t->getLocale())->getTitle(), $t->getLocale());
+                    $ca->addTranslation($newTranslation);
+                }
+                $cardProduct->addCardAttribute($ca);
+            }
+        }
+
+        $ca_price = array_reduce($cardProduct->getCardAttributes()->toArray(), function ($carry, $ca){
+            return $ca->getPrice() ? $carry + $ca->getPrice() : $carry;
+        });
+        $cardProduct->setPrice($cardProduct->getPrice() + $ca_price);
+
+        $this->entityManager->persist($cardProduct);
         $this->entityManager->flush();
 
         return true;
@@ -112,5 +146,25 @@ class OrderService
         }
         $this->entityManager->remove($cart);
         $this->entityManager->flush();
+    }
+
+    public function checkSameProduct(CardProduct $cardProduct,  $attributes, $newProduct)
+    {
+        $same = true;
+        $cardAttrs = array_map(function($e){ return $e->getRef(); }, $cardProduct->getCardAttributes()->toArray());
+
+        foreach ($attributes as $a){
+            if(!in_array($a, $cardAttrs) && $a != ""){
+                $same = false;
+            }
+        }
+
+        foreach ($cardAttrs as $a){
+            if(!in_array($a, $attributes)){
+                $same = false;
+            }
+        }
+
+        return $same && $newProduct == $cardProduct->getProduct();
     }
 }

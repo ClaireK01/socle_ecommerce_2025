@@ -31,7 +31,7 @@
                     <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <input type="number" min="1" value="{{ getQuantityProductCart(cart, product) }}" class="quantity" data-ecommerce-target="quantity">
+                  <input type="number" min="1" value="1" {#value="{{ getQuantityProductCart(cart, product) }}"#} class="quantity" data-ecommerce-target="quantity">
                     <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -90,8 +90,13 @@
                 <div class="card-product-img"></div>
             </a>
         </td>
-        <td>{{ c.product.translate.title }}</td>
-        <td><input data-ecommerce-target="quantity" type="number" class="qty" value="{{ c.quantity }}" data-add="{{ path('add_to_cart', {'id' : c.product.id}) }}" data-url="{{ path('ecommerce_cart_view') }}" /></td>
+        <td>
+            {{ c.product.translate.title }}<br>
+            {% for ca in c.cardAttributes %}
+                <span class="small-title">{{ ca.translate.productAttributeTitle|trans ~ " : " ~ca.translate.title|trans }}</span><br>
+            {% endfor %}
+        </td>
+        <td><input data-ecommerce-target="quantity" type="number" class="qty" value="{{ c.quantity }}" data-add="{{ path('update_quantity', {'id' : c.id}) }}" data-url="{{ path('ecommerce_cart_view') }}" /></td>
         <td>{{ c.priceHt|number_format(2, ',', ' ') }}€</td>
         <td>{{ c.price|number_format(2, ',', ' ') }}€</td>
         <td>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</td>

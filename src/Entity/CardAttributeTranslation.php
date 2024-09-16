@@ -23,14 +23,25 @@ class CardAttributeTranslation implements TranslationInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(name:"title", type: 'string')]
-        protected $title;
+    #[ORM\Column(name:"title", type: 'string', nullable: true)]
+    protected $title;
 
-    #[ORM\Column(name:"shortContent", type: 'text')]
+    #[ORM\Column(name:"product_attribute_title", type: 'string', nullable: true)]
+    protected $productAttributeTitle;
+
+    #[ORM\Column(name:"shortContent", type: 'text', nullable: true)]
     protected $shortContent;
 
-    #[ORM\Column(name:"content", type: 'text')]
+    #[ORM\Column(name:"content", type: 'text', nullable: true)]
     protected $content;
+
+    function __construct($title = null, $content = null, $shortContent = null, $productAttributeTitle = null,  $locale = null){
+        $this->title = $title;
+        $this->productAttributeTitle = $productAttributeTitle;
+        $this->content = $content;
+        $this->shortContent = $shortContent;
+        $this->locale = $locale;
+    }
 
     public function getId(): ?int
     {
@@ -83,6 +94,22 @@ class CardAttributeTranslation implements TranslationInterface
     public function setContent($content): void
     {
         $this->content = $content;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductAttributeTitle()
+    {
+        return $this->productAttributeTitle;
+    }
+
+    /**
+     * @param mixed $productAttributeTitle
+     */
+    public function setProductAttributeTitle($productAttributeTitle): void
+    {
+        $this->productAttributeTitle = $productAttributeTitle;
     }
 
 

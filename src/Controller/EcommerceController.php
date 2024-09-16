@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Address;
+use App\Entity\AttributeItem;
 use App\Entity\CardProduct;
 use App\Entity\Product;
 use App\Form\AddressType;
@@ -31,6 +32,7 @@ class EcommerceController extends AbstractController
     {
         $session = $request->getSession();
         $quantity = json_decode($request->getContent())->quantity;
+        $attributes = explode("|", json_decode($request->getContent())->attributes);
         $cart = null;
         if($cartId = $session->get('cart')){
             $cart = $cartRepository->find($cartId);
@@ -38,9 +40,9 @@ class EcommerceController extends AbstractController
         if(!$cart){
             $cart = $orderService->createNewCart($session, $this->getUser());
         }
-        $results = array_filter($cart->getCardProducts()->toArray(), function ($cp) use ($product, $quantity){
-            /** @var CardProduct $cp  */
-            return $cp->getProduct() == $product;
+
+        $results = array_filter($cart->getCardProducts()->toArray(), function ($cp) use ($orderService, $attributes, $product){
+            return $orderService->checkSameProduct($cp, $attributes, $product);
         });
 
         if(empty($results)){
@@ -48,8 +50,10 @@ class EcommerceController extends AbstractController
             $cardProduct->setProduct($product);
             $cardProduct->setQuantity($quantity);
             $cardProduct->setPrice($product->getPrice());
+            if(!empty($attributes)){
+                $orderService->addCardAttributesToCardProduct($cardProduct, $attributes);
+            }
             $orderService->addCardProductToCart($cart, $cardProduct);
-
         }else{
             $cardProduct = $results[array_key_first($results)];
             if($quantity < 1){
@@ -57,16 +61,54 @@ class EcommerceController extends AbstractController
                 $entityManager->remove($cardProduct);
                 $entityManager->flush();
             }else{
-                $cardProduct->setQuantity($quantity);
+                $cardProduct->setQuantity($cardProduct->getQuantity() + $quantity);
                 $orderService->addCardProductToCart($cart, $cardProduct);
             }
-
         }
 
         $cartInfos = $orderService->getCartInfos($cart);
         $session->set('shopCount', $cartInfos['total_quantity']);
 
         return new JsonResponse(["cart" => $cartInfos], 200);
+    }
+
+    #[Route('{_locale}/cart/{id}/quantity', name: 'update_quantity', methods: 'POST')]
+    public function updateQuantityFromCartAction(CardProduct $cardProduct, Request $request, OrderService $orderService,
+                                                 CartRepository $cartRepository, EntityManagerInterface $entityManager)
+    {
+        $session = $request->getSession();
+        $quantity = json_decode($request->getContent())->quantity;
+        if($cartId = $session->get('cart')){
+            $cart = $cartRepository->find($cartId);
+        }
+
+        if($quantity < 1){
+            $cart->removeCardProduct($cardProduct);
+            $entityManager->remove($cardProduct);
+        }else{
+            $cardProduct->setQuantity($quantity);
+            $entityManager->persist($cardProduct);
+        }
+
+        $entityManager->flush();
+
+        $cartInfos = $orderService->getCartInfos($cart);
+        $session->set('shopCount', $cartInfos['total_quantity']);
+
+        return new JsonResponse(["cart" => $cartInfos], 200);
+    }
+
+    #[Route('{_locale}/cart/{id}/attributes', name: 'product_price_attribute', methods: 'POST')]
+    public function getPriceProductAttributes(Product $product, Request $request, CartRepository $cartRepository, EntityManagerInterface $entityManager)
+    {
+        $attributes = explode("|", json_decode($request->getContent())->attributes);
+        $price = array_reduce($product->getAttributeItems()->toArray(), function ($carry, $attr) use ($attributes){
+            /** @var AttributeItem $attr */
+            return in_array($attr->getId(), $attributes) ? $carry  + $attr->getPrice() : $carry;
+        });
+
+        return new JsonResponse(["total" => $price + $product->getPrice()], 200);
+
     }
 
     #[Route('{_locale}/products/{id}/remove', name: 'remove_from_cart', methods: 'GET')]

@@ -43,7 +43,7 @@ class CardProduct
     #[ORM\ManyToOne(targetEntity: EcommerceOrder::class, inversedBy: "cardProducts")]
     private $ecommerceOrder;
 
-    #[ORM\OneToMany(mappedBy: 'cardProduct', targetEntity: CardAttribute::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cardProduct', targetEntity: CardAttribute::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $cardAttributes;
 
     public function __construct(){
