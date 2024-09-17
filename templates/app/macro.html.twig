@@ -182,3 +182,57 @@
         <span>{{ attribute.translate.title|raw }}</span>
     </button>
 {% endmacro %}
+
+{% macro filter(productAttributes = null, category = null) %}
+<div class="filter" data-url="{{ path('app_product_list_view') }}">
+    <form>
+        {% if category is not null %}
+            <div class="filt-cont">
+               {{ _self.filterSelect("commerce.category.child"|trans, category.firstParent.childrens) }}
+            </div>
+        {% endif %}
+        <div class="filt-cont">
+            {{ _self.filterRange("commerce.price"|trans) }}
+        </div>
+        {% if productAttributes and productAttributes|length > 0 %}
+            <div class="filt-cont">
+                {% for pr in productAttributes %}
+                   {{ _self.filterCheckbox(pr.translate.title, pr.attributeItems) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
+</div>
+{% endmacro %}
+
+{% macro filterRange(title) %}
+    <label for="{{ title }}" class="small-title">{{ title }}</label>
+    <div class="filter-range">
+        <input type="number" name="price_min" data-ecommerce-target="filter" /> -
+        <input type="number" name="price_max" data-ecommerce-target="filter" />
+    </div>
+{% endmacro %}
+
+{% macro filterSelect(title, collection) %}
+    <label for="{{ title }}" class="small-title">{{ title }}</label>
+    <div class="filter-select">
+        <select name="{{ title }}" data-ecommerce-target="filter">
+            {% for e in collection %}
+                <option value="{{ e.id }}">{{ e.translate.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endmacro %}
+
+{% macro filterCheckbox(title, collection)  %}
+    <div class="filter-checkbox">
+        <label for="{{ title }}" class="small-title">{{ title }}</label>
+        {% for c in collection %}
+            <div>
+                <input name="{{ c.translate.title }}" id="{{ c.translate.title }}" type="checkbox" data-ecommerce-target="filter" />
+                <label for="{{ c.translate.title }}">{{ c.translate.title }}</label>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+

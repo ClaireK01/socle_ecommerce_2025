@@ -8,9 +8,9 @@
                 <div class="admin-actions">
                     {% set route = getRoute( app.request.get('_route')|replace({'index' : 'new'}) ) %}
                     {% if route %}
-                        <a href="{{ route }}"><button class="btn-add">{{ 'action.add'|trans }}</button></a>
+                        <a href="{{ route }}"><button type="button" class="btn-add">{{ 'action.add'|trans }}</button></a>
                     {% endif %}
-                    <button {{ stimulus_action('form-collection', 'filterElement') }} >{{ 'all.filter'|trans }}</button>
+                    <button  type="button" {{ stimulus_action('form-collection', 'filterElement') }} >{{ 'all.filter'|trans }}</button>
                 </div>
                     <table class="table table-edit">
                         {{ properties|header(app.request)|raw }}

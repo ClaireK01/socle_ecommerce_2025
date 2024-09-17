@@ -13,6 +13,7 @@ all:
   sitemap: Carte du site
 
 commerce:
+  noproduct: Aucun produit
   cart: Panier
   address: Adresse
   payment: Paiment
@@ -27,6 +28,7 @@ commerce:
   noShipping: Aucun mode de livraison disponible
   validate: Valider le paiement
   pay: Payer
+  attribute: Attributs
   checkoutForm: Paiement
   empty: Aucun produit dans votre panier
   add: Ajouter au panier

@@ -10,7 +10,7 @@ async function postData(url = "", donnees = null, method = 'GET') {
 }
 
 export default class extends Controller{
-    static targets = ["cart", "shopcount", "quantity", "quantbutton", "link", "target"];
+    static targets = ["cart", "shopcount", "quantity", "quantbutton", "link", "target", "filter"];
 
 
     attributeTargetConnected(element){
@@ -97,6 +97,23 @@ export default class extends Controller{
             if(e.target.nodeName !== "BUTTON" && e.target.nodeName !== "I" && e.target.nodeName !== "INPUT"){
                 window.location.href = element.dataset.link;
             }
+        })
+    }
+
+    filterTargetConnected(element){
+        let event = null;
+        if(element.tagName === "input"){
+           if(element.type === "checkbox"){
+               event = "click";
+           }else{
+               event = "input";
+           }
+        }else if(element.tagName === "select"){
+            event = "change";
+        }
+
+        element.addEventListener(event, (e) => {
+            console.log(element.value)
         })
     }
 

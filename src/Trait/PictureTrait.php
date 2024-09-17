@@ -29,10 +29,8 @@ trait PictureTrait
     #[InverseJoinColumn(name: "picture_id", referencedColumnName: "id")]
     private $pictures;
 
-    /**
-     * @return Collection<int, Picture>
-     */
-    public function getPictures(): Collection
+
+    public function getPictures(): ?Collection
     {
         return $this->pictures;
     }

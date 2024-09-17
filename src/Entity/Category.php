@@ -16,6 +16,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Symfony\Component\VarDumper\VarDumper;
 
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -82,6 +83,19 @@ class Category implements TranslatableInterface, SoftDeletableInterface, Timesta
     public function setParent($parent): void
     {
         $this->parent = $parent;
+    }
+
+    public function getFirstParent($category = null)
+    {
+        $cat = $category ?? $this;
+
+        if($cat->getParent()){
+            $parent = $this->getFirstParent($cat->getParent());
+        }else{
+            $parent = $this;
+        }
+
+        return $parent;
     }
 
 }

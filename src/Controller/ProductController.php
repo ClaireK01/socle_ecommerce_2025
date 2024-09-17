@@ -5,40 +5,42 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Repository\CartRepository;
+use App\Repository\ProductAttributeRepository;
 use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\VarDumper;
 use function Doctrine\ORM\QueryBuilder;
 
 class ProductController extends AbstractController
 {
     #[Route('{_locale}/categories/{id}/products/list', name: 'app_product_list', options: ["sitemap" => true, 'breadcrumb' => ['name' => '%name%', 'parent' => "app_category_list"]])]
     public function listAction(Category $category, Request $request, ProductRepository $productRepository,
-                               PaginatorInterface $paginator, CartRepository $cartRepository): Response
+                               PaginatorInterface $paginator, CartRepository $cartRepository,ProductAttributeRepository $productAttributeRepository): Response
     {
-        $page = $request->get('page') ?? 1;
+        $page = $request->get('page')  ?? 1;
         $qb = $productRepository->createQueryBuilder("p");
         $qb ->where(":cat MEMBER OF p.categories")
             ->setParameter("cat", $category);
 
         $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
 
-
-        //->where('e.deletedAt is null')
-        ;
         $pagination = $paginator->paginate(
             $qb,
             $page,
             10
         );
 
+        $productAttributes = $productAttributeRepository->getAttributesByCategory($category);
+
         return $this->render('app/product/list.html.twig', [
             'category' => $category,
             'pagination' => $pagination,
-            'cart' => $cart
+            'cart' => $cart,
+            'productAttributes' => $productAttributes
         ]);
     }
 
@@ -81,5 +83,18 @@ class ProductController extends AbstractController
             'cart' => $cart,
             "productAttributes" => $productAttributes
         ]);
+    }
+
+    #[Route('{_locale}/products/filter', name: 'app_product_list_view')]
+    public function listViewProduct(Request $request, ProductRepository $productRepository, CartRepository $cartRepository): Response
+    {
+        $filter = json_decode($request->getContent())['filter'];
+
+        die(VarDumper::dump($filter));
+
+        return $this->render('app/product/view.html.twig', [
+            'pagination' => $pagination,
+        ]);
+
     }
 }

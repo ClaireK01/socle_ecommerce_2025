@@ -374,7 +374,7 @@ footer{
     justify-content: space-between;
 }
 
-/************* page list product test ******************/
+/************* page list product ******************/
 
 .list{
     width: 100%;
@@ -476,6 +476,85 @@ input[type=number] {
     background-color: #ffc107;
     border-radius: 50px;
     color: black;
+}
+
+/* vue ajax list produit */
+
+.list-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-view{
+    width: 75%;
+}
+
+/* filter */
+
+.filter{
+    width: 20%;
+    border-radius: 10px;
+    border: lightgrey 1px solid;
+
+}
+
+.filter form{
+    padding: 2rem;
+}
+
+.filt-cont{
+    padding: 1rem;
+}
+
+.filter form input{
+    border: 1px lightgrey solid;
+    border-radius: 5px;
+}
+
+.filter-range{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-range input{
+    max-width: 40%;
+}
+
+.filter-select, .filter-checkbox{
+    padding-bottom: 1.5rem;
+}
+
+.filter-checkbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.filter-checkbox div{
+    display: flex;
+}
+
+.filter-checkbox input[type="checkbox"] {
+    display: grid;
+    place-content: center;
+    margin-right: 1rem;
+    padding: 1rem;
+}
+
+.filter-checkbox input[type="checkbox"]::before {
+    content: "";
+    width: 1em;
+    height: 1em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em rebeccapurple;
+}
+
+.filter-checkbox input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
 
 /************* page show product test ******************/
