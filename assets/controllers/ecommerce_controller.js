@@ -135,9 +135,6 @@ export default class extends Controller{
 
     changeQuantity = (total) => {
         let priceTag = document.querySelector('.price-tag-num');
-        // let quantity = parseInt(element.value);
-        // let number = parseFloat(priceTag.dataset.price);
-        // let total = number * quantity;
         if(!isNaN(total)){
            let strTotal = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total)
             priceTag.innerHTML = strTotal.replace('€', '').replace(/\&nbsp;/g, '');
