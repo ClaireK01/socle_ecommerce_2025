@@ -72,11 +72,6 @@ class ProductRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function existAndNotEmpty($key, $array)
-    {
-        return array_key_exists( $key, $array) && $array[$key] !== null && $array[$key] !== "" ;
-    }
-
 
     public function attrSubQuery($qb, $params, $productAttributes, $index)
     {
@@ -134,6 +129,11 @@ class ProductRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    public function existAndNotEmpty($key, $array)
+    {
+        return array_key_exists( $key, $array) && $array[$key] !== null && $array[$key] !== "" ;
     }
 
 }
