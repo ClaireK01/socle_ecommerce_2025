@@ -188,7 +188,7 @@
     <form  data-url="{{ path('app_product_list_view') }}">
         {% if category is not null %}
             <div class="filt-cont">
-               {{ _self.filterSelect("commerce.category.child"|trans, "category", category.firstParent.childrens) }}
+                {{ _self.filterSelectCategory("commerce.category.child"|trans, "category", category) }}
             </div>
         {% endif %}
         <div class="filt-cont">
@@ -213,11 +213,12 @@
     </div>
 {% endmacro %}
 
-{% macro filterSelect(title, key, collection) %}
+{% macro filterSelectCategory(title, key, entity) %}
     <label for="{{ key }}" class="small-title">{{ title }}</label>
     <div class="filter-select">
         <select name="{{ key }}" data-ecommerce-target="filter">
-            {% for e in collection %}
+            <option value="{{ entity.firstParent.id }}">{{ entity.firstParent.translate.title }}</option>
+            {% for e in entity.firstParent.childrens %}
                 <option value="{{ e.id }}">{{ e.translate.title }}</option>
                 {% if e.childrens %}
                     {{ _self.filterSelectChildren(e) }}
@@ -226,6 +227,20 @@
         </select>
     </div>
 {% endmacro %}
+
+{#{% macro filterSelect(title, key, collection) %}#}
+{#    <label for="{{ key }}" class="small-title">{{ title }}</label>#}
+{#    <div class="filter-select">#}
+{#        <select name="{{ key }}" data-ecommerce-target="filter">#}
+{#            {% for e in collection %}#}
+{#                <option value="{{ e.id }}">{{ e.translate.title }}</option>#}
+{#                {% if e.childrens %}#}
+{#                    {{ _self.filterSelectChildren(e) }}#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#    </div>#}
+{#{% endmacro %}#}
 
 {% macro filterSelectChildren(entity) %}
     {% for c in entity.childrens %}
