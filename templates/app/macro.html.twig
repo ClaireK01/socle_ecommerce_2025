@@ -219,13 +219,23 @@
         <select name="{{ key }}" data-ecommerce-target="filter">
             {% for e in collection %}
                 <option value="{{ e.id }}">{{ e.translate.title }}</option>
-                {% for c in e.childrens %}
-                    <option value="{{ c.id }}">{{ c.translate.title }}</option>
-                {% endfor %}
+                {% if e.childrens %}
+                    {{ _self.filterSelectChildren(e) }}
+                {% endif %}
             {% endfor %}
         </select>
     </div>
 {% endmacro %}
+
+{% macro filterSelectChildren(entity) %}
+    {% for c in entity.childrens %}
+        <option value="{{ c.id }}">{{ c.translate.title }}</option>
+        {% if c.childrens %}
+            {{ _self.filterSelectChildren(c) }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
 
 {% macro filterCheckbox(title, key, collection)  %}
     <div class="filter-checkbox">
