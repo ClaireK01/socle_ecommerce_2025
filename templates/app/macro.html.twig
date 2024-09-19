@@ -17,7 +17,7 @@
     </div>
 {% endmacro %}
 
-{% macro cardProduct(product, cart) %}
+{% macro cardProduct(product) %}
     <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_show', {'id' : product.id}) }}">
         <div class="card-product-img" style="background-image: url({{ asset(product.firstPicture.path) }})"></div>
         <div class="card-product-descr">
@@ -31,7 +31,7 @@
                     <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                  <input type="number" min="1" value="1" {#value="{{ getQuantityProductCart(cart, product) }}"#} class="quantity" data-ecommerce-target="quantity">
+                  <input type="number" min="1" value="1" class="quantity" data-ecommerce-target="quantity">
                     <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -184,20 +184,20 @@
 {% endmacro %}
 
 {% macro filter(productAttributes = null, category = null) %}
-<div class="filter" data-url="{{ path('app_product_list_view') }}">
-    <form>
+<div class="filter">
+    <form  data-url="{{ path('app_product_list_view') }}">
         {% if category is not null %}
             <div class="filt-cont">
-               {{ _self.filterSelect("commerce.category.child"|trans, category.firstParent.childrens) }}
+               {{ _self.filterSelect("commerce.category.child"|trans, "category", category.firstParent.childrens) }}
             </div>
         {% endif %}
         <div class="filt-cont">
-            {{ _self.filterRange("commerce.price"|trans) }}
+            {{ _self.filterRange( "commerce.price"|trans,"price") }}
         </div>
         {% if productAttributes and productAttributes|length > 0 %}
             <div class="filt-cont">
                 {% for pr in productAttributes %}
-                   {{ _self.filterCheckbox(pr.translate.title, pr.attributeItems) }}
+                   {{ _self.filterCheckbox(pr.translate.title, "attr_"~pr.id, pr.attributeItems) }}
                 {% endfor %}
             </div>
         {% endif %}
@@ -205,32 +205,35 @@
 </div>
 {% endmacro %}
 
-{% macro filterRange(title) %}
-    <label for="{{ title }}" class="small-title">{{ title }}</label>
+{% macro filterRange(title, key) %}
+    <label for="{{ key }}" class="small-title">{{ title }}</label>
     <div class="filter-range">
-        <input type="number" name="price_min" data-ecommerce-target="filter" /> -
-        <input type="number" name="price_max" data-ecommerce-target="filter" />
+        <input type="number" name="{{ key }}_min" data-ecommerce-target="filter" /> -
+        <input type="number" name="{{ key }}_max" data-ecommerce-target="filter" />
     </div>
 {% endmacro %}
 
-{% macro filterSelect(title, collection) %}
-    <label for="{{ title }}" class="small-title">{{ title }}</label>
+{% macro filterSelect(title, key, collection) %}
+    <label for="{{ key }}" class="small-title">{{ title }}</label>
     <div class="filter-select">
-        <select name="{{ title }}" data-ecommerce-target="filter">
+        <select name="{{ key }}" data-ecommerce-target="filter">
             {% for e in collection %}
                 <option value="{{ e.id }}">{{ e.translate.title }}</option>
+                {% for c in e.childrens %}
+                    <option value="{{ c.id }}">{{ c.translate.title }}</option>
+                {% endfor %}
             {% endfor %}
         </select>
     </div>
 {% endmacro %}
 
-{% macro filterCheckbox(title, collection)  %}
+{% macro filterCheckbox(title, key, collection)  %}
     <div class="filter-checkbox">
-        <label for="{{ title }}" class="small-title">{{ title }}</label>
+        <span class="small-title">{{ title }}</span>
         {% for c in collection %}
             <div>
-                <input name="{{ c.translate.title }}" id="{{ c.translate.title }}" type="checkbox" data-ecommerce-target="filter" />
-                <label for="{{ c.translate.title }}">{{ c.translate.title }}</label>
+                <input name="{{ key }}" type="checkbox" value="{{ c.id }}" data-ecommerce-target="filter" />
+                <label for="{{ key }}">{{ c.translate.title }}</label>
             </div>
         {% endfor %}
     </div>

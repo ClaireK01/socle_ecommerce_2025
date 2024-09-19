@@ -9,6 +9,7 @@ use App\Repository\ProductAttributeRepository;
 use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -86,15 +87,29 @@ class ProductController extends AbstractController
     }
 
     #[Route('{_locale}/products/filter', name: 'app_product_list_view')]
-    public function listViewProduct(Request $request, ProductRepository $productRepository, CartRepository $cartRepository): Response
+    public function listViewProduct(Request $request, ProductRepository $productRepository, PaginatorInterface $paginator, ProductAttributeRepository $productAttributeRepository): Response
     {
-        $filter = json_decode($request->getContent())['filter'];
+        $filter = json_decode($request->getContent())->filter;
 
-        die(VarDumper::dump($filter));
+        $params = [];
+        foreach ($filter as $i => $value){
+            $params[$i] = $value;
+        }
 
-        return $this->render('app/product/view.html.twig', [
+        $qb = $productRepository->filterProducts($params);
+        $page = 1;
+
+        $pagination = $paginator->paginate(
+            $qb,
+            $page,
+            10
+        );
+
+        $view =  $this->renderView('app/product/view.html.twig', [
             'pagination' => $pagination,
         ]);
+
+        return new JsonResponse(['view' => $view], 200);
 
     }
 }

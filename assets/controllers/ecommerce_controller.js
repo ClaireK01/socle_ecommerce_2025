@@ -102,18 +102,34 @@ export default class extends Controller{
 
     filterTargetConnected(element){
         let event = null;
-        if(element.tagName === "input"){
+        if(element.tagName === "INPUT"){
            if(element.type === "checkbox"){
                event = "click";
            }else{
                event = "input";
            }
-        }else if(element.tagName === "select"){
+        }else if(element.tagName === "SELECT"){
             event = "change";
         }
 
         element.addEventListener(event, (e) => {
-            console.log(element.value)
+            let form = document.querySelector('.filter form')
+            var formData = new FormData(form);
+            let data = {};
+
+            for (var p of formData) {
+                if( data[p[0]]){
+                    //deconstruction qui pour une meme valeur ajoute aux contenue precedent (pour param multiple)
+                    data[p[0]] =  [ p[1], ...[ data[p[0]] ]];
+                }else{
+                    data[p[0]] =  p[1];
+                }
+
+            }
+
+            postData(form.dataset.url, {"filter" : data},  'POST').then((data) => {
+                document.querySelector('.list-view').innerHTML = data.view
+            });
         })
     }
 

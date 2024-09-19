@@ -87,10 +87,8 @@ class Category implements TranslatableInterface, SoftDeletableInterface, Timesta
 
     public function getFirstParent($category = null)
     {
-        $cat = $category ?? $this;
-
-        if($cat->getParent()){
-            $parent = $this->getFirstParent($cat->getParent());
+        if($this->getParent()){
+            $parent = $this->getParent()->getFirstParent();
         }else{
             $parent = $this;
         }
