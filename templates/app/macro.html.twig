@@ -264,3 +264,88 @@
     </div>
 {% endmacro %}
 
+{% macro cardArtist(name, sales, note) %}
+    <div class="card card-artist">
+        <div class="card-infos profile-content">
+            {#            sales : {{ sales }}#}
+            <a href="{{ path('app_artist_show', {'id' : 1}) }}"> <i class="fa-solid fa-arrow-up" style="color: var(--secondary-1)"></i></a>
+        </div>
+        <h5 class="card-infos name">{{ name }}</h5>
+        <span class="card-infos note">{% for i in 1..5 %}<i class="{{ i <= note ? "fa-solid" : "fa-regular" }} fa-star"></i>{% endfor %}</span>
+        <div class="profile-pic" style="background-image: url({{ asset('build/images/artists/pfp_2.jpg') }})">
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro cardOffer(title, price) %}
+    <div class="card card-offer">
+        <div class="offer-pic" style="background-image: url({{ asset('build/images/arts/offer.jpg') }})"></div>
+        <div class="offer-content">
+            <a href="{{ path('app_offer_show', {'id' : 1}) }}"> <i class="fa-solid fa-arrow-right" style="color: black"></i></a>
+        </div>
+        {#            <h5>{{ title }}</h5>#}
+        {#            <span>{{ price }} €</span>#}
+    </div>
+{% endmacro %}
+
+{% macro cardArt(name, sales, note) %}
+    <div class="card card-art">
+        <div class="art-pic" style="background-image: url({{ asset('build/images/arts/underdogs.jpg') }})">
+
+        </div>
+        <div class="art-content">
+            <a href="{{ path('app_art_show', {'id' : 1}) }}"> <i class="fa-solid fa-arrow-right" style="color: black"></i></a>
+            <h5>{{ name }}</h5>
+            <span>{{ sales}} sales</span>
+            <span>{{ note }}/5 stars</span>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro cardNews(name, shortContent) %}
+    <div class="card-news">
+        <div class="news-pic" style="background-image: url({{ asset('build/images/arts/article.png') }})">
+
+        </div>
+        <div class="news-content">
+            <h4>{{ name }}</h4>
+            <p>{{ shortContent }}</p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro slider(type, hideButtons = false) %}
+    <div class="swiper-{{type}} swiper-container">
+        <div class="swiper-wrapper">
+            {% for c in 1..10 %}
+                <div class="swiper-slide">
+                    {% if type == "artist" %}
+                        {{ _self.cardArtist("test", 250, 5) }}
+                    {% elseif type == "art" %}
+                        {{ _self.cardArt("test", 250, 5) }}
+                    {% elseif type == "offer" or type == "offer-double"  %}
+                        {{ _self.cardOffer("test", 250) }}
+                    {% elseif type == "news" %}
+                        {{ _self.cardNews("test", "lorem ipsum blah blah blah") }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination-{{type}}"></div>
+        {% if type != "news" and hideButtons != true %}
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+
+{% macro Title(title = "", sub = "", breadcrumb = false, entity = null) %}
+    <div class="title-header">
+        {% if breadcrumb %}
+{#            {{ _self.breadcrumb(entity) }}#}
+        {% endif %}
+        <h1>{{ title }}</h1>
+        <p>{{ sub }}</p>
+    </div>
+{% endmacro %}

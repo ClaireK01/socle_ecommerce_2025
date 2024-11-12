@@ -11,6 +11,22 @@ all:
   invoice: Facture
   downloadInvoice: Télécharger la facture
   sitemap: Carte du site
+  name: Artskart
+  home: Accueil
+  welcome: Bienvenue
+  login: Se connecter
+  about: A propos
+  become: Devenez un artiste
+  join: Rejoignez-nous
+  joinCommunity: Rejoignez-notre communauté d'artiste
+  seeAll: Voir tout
+  search: Rechercher un artiste, offre, oeuvre..
+  submitsearch: Rechercher
+  more: Voir plus
+  bestartist: Top Artistes
+  bestoffer: Top offres
+  sales: ventes
+
 
 commerce:
   noproduct: Aucun produit
@@ -115,6 +131,10 @@ breadcrumb:
   about: A propos
   cart: Panier
   sitemap: Carte du site
+  artist: Artistes
+  art: Art
+  offers: Offres
+  homepage: Accueil
 
 invoice:
   invoice: Votre facture
@@ -133,3 +153,98 @@ order:
 
 
 lorem: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem."
+
+pill:
+  art: Voir les oeuvre
+  artist: Voir les artistes
+  offer: Voir les offres
+
+
+category:
+  all : Tout
+  portrait: Portait
+  nature: Nature
+  personna: Personna
+  blueprint : Blueprint
+  landscape: Paysage
+  Fanart: Fanart
+  nsfw: NSFW
+
+filter:
+  price: Prix
+  type: Type
+
+profile:
+  see: Mon profile
+  login: Se connecter
+  logout: Se déconnecter
+  register: S'inscrire
+
+artists:
+  week: Top artistes de la semaine
+  see: Voir les artistes
+  all: Découvrez notre séléction d'artiste
+  follow: Suivez cet artiste sur les réseaux
+  gallery: Gallerie
+  offers: Offres
+  alsolike: "Ces artistes pourraient vous intéresser :"
+  more: Autre oeuvre de l'artist
+
+art:
+  week: Top oeuvres de la semaine
+  underdogs: Underdogs
+  alsolike: "Ces oeuvres pourraient vous intéresser :"
+  contact: Contacter l'artiste
+  interact:
+    publishedon: Publié le
+    like: J'aime
+    dislike: Je n'aime pas
+    addfavourite: Ajouter aux favoris
+    share: Partager
+    download: Télécharger
+    signal: Signaler
+    copyright: Copyright User1
+  manifesto :
+    title:
+      "Une plateforme artist-focused."
+    content:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam."
+
+offer:
+  alsolike: "Ces offres pourraient vous intéresser"
+  see: Consulter l'offre
+  title: Titre de l'offre
+
+footer:
+  about: A propos
+
+
+reassurance:
+  refund:
+    title: Satisfait ou remboursé
+    text:
+      "Si le résultat ne vous plaît pas, vous êtes remboursé immédiatement"
+
+  serviceClient:
+    title: S.A.V.
+    text: "Une équipe à votre écoute 24h/24h"
+
+  quality:
+    title: Qualité garantie
+    text: "Tout nos artistes passent par un processus de séléction visant à garantir la qualité des oeuvres proposées sur cette plateforme."
+
+
+news:
+  title: "Actualités"
+  text: |
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+join:
+  title: "Rejoignez-nous !"
+  text: |
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+
+
+
+#lorem: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis

@@ -26,20 +26,30 @@
         {% block header %}
             <header>
                 {% include 'app/_inc/_menu.html.twig' %}
+                {% block slider %}
+                    {% include 'app_front/inc/_header.html.twig' %}
+                {% endblock %}
             </header>
         {% endblock %}
 
-        {% block slider %}{% endblock %}
+{#        {% block slider %}{% endblock %}#}
 
-        <div class="main">
-            <div class="container my-5 ">
-                {% if hasBreadcrumb(app.request.get('_route')) %}
-                    {{ m.breadcrumb(entity) }}
-                {% endif %}
-                {% block body %}
-                {% endblock %}
-            </div>
+        <div class="container">
+            {% if hasBreadcrumb(app.request.get('_route')) %}
+                {{ m.breadcrumb(entity) }}
+            {% endif %}
+            {% block svgs %}{% endblock %}
+            {% block intro %}{% endblock %}
+            {% block content %}{% endblock %}
         </div>
+
+{#        <div class="main">#}
+{#            <div class="container my-5 ">#}
+{#               #}
+{#                {% block content %}#}
+{#                {% endblock %}#}
+{#            </div>#}
+{#        </div>#}
 
         {% block footer %}
             {% include 'app/_inc/_footer.html.twig' %}

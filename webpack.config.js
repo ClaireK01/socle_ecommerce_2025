@@ -26,11 +26,13 @@ Encore
     .addEntry('js-socket', './assets/js/websocket/socket.js')
     .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
     .addEntry('js-slider', './assets/js/slider.js')
+    .addEntry('artist-show', './assets/js/artist-show.js')
 
     //admin
     .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
     .addEntry('js-admin', './assets/js/admin.js')
     .addEntry('manager-js', './public/bundles/artgrisfilemanager/js/manager.js')
+
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

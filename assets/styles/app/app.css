@@ -3,6 +3,8 @@
 @import "swiper.css";
 @import "../_var.css";
 @import "../_pagination.css";
+@import "front/_components.css";
+@import "front/_grid.css";
 @import "profile.css";
 @import "bootstrap";
 

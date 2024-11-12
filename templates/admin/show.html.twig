@@ -1,7 +1,7 @@
 {% extends "base_admin.html.twig" %}
 {% trans_default_domain 'admin' %}
 
-{% block body %}
+{% block content %}
     {% set table = getAdminTable(entity, app.request) %}
 
     <div class="container">
