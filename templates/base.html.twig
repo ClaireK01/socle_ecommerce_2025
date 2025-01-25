@@ -22,7 +22,7 @@
         {% endblock %}
         {% block javascripts %}{% endblock %}
     </head>
-    <body data-controller="ecommerce">
+    <body data-controller="ecommerce popup">
         {% block header %}
             <header>
                 {% include 'app/_inc/_menu.html.twig' %}
@@ -41,6 +41,15 @@
             {% block svgs %}{% endblock %}
             {% block intro %}{% endblock %}
             {% block content %}{% endblock %}
+        </div>
+
+        <div class="popup-background"></div>
+        <div class="popup-container" data-controller="form-collection">
+            <div>
+                <div class="popup-view"></div>
+                <button class="bn bn-primary" id="btn-add" {{ stimulus_action('popup', 'popupActionElement') }}>{{ "form.validate"|trans }}</button>
+                <button id="btn-close" class="bn bn-primary" {{ stimulus_action('popup', 'popupCloseFormElement') }}>{{ "form.close"|trans }}</button>
+            </div>
         </div>
 
 {#        <div class="main">#}

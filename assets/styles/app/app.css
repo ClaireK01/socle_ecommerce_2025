@@ -318,6 +318,55 @@ footer{
     bottom: 1rem;
 }
 
+
+/***************************** popup ********************************/
+
+body.show-popup .popup-background{
+    display: block;
+}
+
+
+.popup-background, .popup-container{
+    display: none;
+}
+
+body.show-popup .popup-background{
+    display: block;
+    top: 0;
+    left:0;
+    position: fixed;
+    z-index: 998;
+    background-color: rgba(0, 0, 0, 0.39);
+    width: 100%;
+    height: 100%;
+}
+
+body.show-popup .popup-container{
+    display: block;
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 999;
+    margin: auto;
+    padding: 2rem 1rem;
+    max-height: 50%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.bn.bn-primary{
+    background: var(--secondary-1) !important;
+    color: black;
+    padding: 0 3rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+}
+
+
+/********************************************************************/
+
 /************* page list article test ******************/
 
 .list{
