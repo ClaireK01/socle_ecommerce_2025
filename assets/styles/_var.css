@@ -1,13 +1,14 @@
-@font-face {
-    font-family: 'Helvetica-Neue';
-    src:
-        local("Helvetica-Neue"),
-        url('../fonts/helvetica-neue/HelveticaNeueRoman.otf') format("opentype")
-}
+/*@font-face {*/
+/*    font-family: 'Helvetica-Neue';*/
+/*    src:*/
+/*        local("Helvetica-Neue"),*/
+/*        url('../fonts/helvetica-neue/HelveticaNeueRoman.otf') format("opentype")*/
+/*}*/
 
 :root{
     /**** color ****/
-    --main-font: 'Helvetica-Neue';
+    --main-font: 'Helvetica Neue';
+    /*--main-font: 'Helvetica-Neue';*/
     --main : rgb(13,86,35);
     --main-linear : radial-gradient(circle, rgba(12,105,41,1) 4%, rgba(11,72,29,1) 100%);
     --secondary : #00802b;
