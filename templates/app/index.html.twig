@@ -1,7 +1,35 @@
 {% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
 
-{% block slider %}
-        <div class="slider">
-            <img src="https://placehold.co/1280x587" style="width:100%" />
+{% block intro %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Luxury Watch</h1>
+            <p>Explore the finest collection of watches crafted to perfection.</p>
+            <button class="cta-button">Shop Now</button>
         </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <section class="products">
+        <div class="sub-menu">
+            <h2>New Arrivals</h2>
+            <ul class="sub-menu-list">
+                <li >Test</li>
+                <li >Test</li>
+                <li >Test</li>
+                <li >Test</li>
+            </ul>
+        </div>
+        <div class="product-grid">
+            {% for p in products  %}
+                {{ m.cardProduct(p) }}
+{#                <div class="product-card">#}
+{#                    <img src="{{ asset('images/gold_silver.png') }}" alt="Watch {{ i }}">#}
+{#                    <h3>Luxury Watch {{ i }}</h3>#}
+{#                    <p class="product-card-descr">Experience timeless elegance with our premium watch collection. Model {{ i }}.</p>#}
+{#                </div>#}
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}

@@ -12,7 +12,7 @@
         </table>
         {% if cart != null and cart.cardProducts|length > 0 %}
             <div class="cart-next">
-                <a class="btn btn-warning" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+                <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
             </div>
         {% endif %}
 {% endblock %}

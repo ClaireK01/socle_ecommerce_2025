@@ -26,20 +26,20 @@
         {% block header %}
             <header>
                 {% include 'app/_inc/_menu.html.twig' %}
-                {% block slider %}
-                    {% include 'app_front/inc/_header.html.twig' %}
-                {% endblock %}
+{#                {% block slider %}#}
+{#                    {% include '_header' %}#}
+{#                {% endblock %}#}
             </header>
         {% endblock %}
 
 {#        {% block slider %}{% endblock %}#}
 
-        <div class="container">
             {% if hasBreadcrumb(app.request.get('_route')) %}
                 {{ m.breadcrumb(entity) }}
             {% endif %}
             {% block svgs %}{% endblock %}
             {% block intro %}{% endblock %}
+        <div class="section">
             {% block content %}{% endblock %}
         </div>
 

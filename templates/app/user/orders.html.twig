@@ -20,8 +20,8 @@
                         <td>{{ o.totalHT|number_format(2, ',', ' ') }}€</td>
                         <td>{{ o.totalTTC|number_format(2, ',', ' ') }}€</td>
                         <td class="actions">
-                            <a href="{{ path('app_user_order_show', {'id' : o.id}) }}"><button class="btn btn-warning"><i class="fa-solid fa-eye"></i></button></a>
-                            <a href="{{ path('app_user_invoice', {'id' : o.id}) }}"><button class="btn btn-warning"><i class="fa-solid fa-file-download"></i></button></a>
+                            <a href="{{ path('app_user_order_show', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-eye"></i></button></a>
+                            <a href="{{ path('app_user_invoice', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-file-download"></i></button></a>
                         </td>
                     </tr>
                 {% endfor %}

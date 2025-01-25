@@ -18,9 +18,9 @@ trait PictureTrait
 {
     private $kernel;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct()
     {
-        $this->kernel = $kernel;
+//        $this->kernel = $kernel;
     }
 
     #[ManyToMany(targetEntity: Picture::class, inversedBy: "entity", cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -51,10 +51,10 @@ trait PictureTrait
         }
 
         if($delete){
-            $path = $this->kernel->getProjectDir() . "/public/" . $picture->getPath();
-            if(file_exists($path)){
-                unlink($path);
-            }
+//            $path = $this->kernel->getProjectDir() . "/public/" . $picture->getPath();
+//            if(file_exists($path)){
+//                unlink($path);
+//            }
         }
 
         return $this;

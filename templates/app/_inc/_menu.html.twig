@@ -1,6 +1,6 @@
 {% import 'app/macro.html.twig' as m %}
 <nav>
-    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>
+{#    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>#}
     <ul class="menu">
         <li><a href="{{ path('app_presentation') }}">A propos</a></li>
 {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
@@ -18,34 +18,34 @@
         </li>
         <li><a href="{{ path('app_contact') }}">Contact</a></li>
 
-        <li class="dropdown">
-            <div class="dropdown-selected">
-                {% if app.request.locale == 'fr' or app.request.locale is null %}
-                    <span>{{ 'flags/france.svg'|svg|raw }}</span>
-                {% elseif app.request.locale == 'en' %}
-                    <span>{{ 'flags/uk.svg'|svg|raw }}</span>
-                {% endif %}
-            </div>
-            <ul class="dropdown-content">
-                {% if app.request.locale != 'fr' %}
-                    <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'fr'}) ) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>
-                {% endif %}
-                {% if app.request.locale != 'en' %}
-                    <li> <a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>
-                {% endif %}
-            </ul>
-        </li>
+{#        <li class="dropdown">#}
+{#            <div class="dropdown-selected">#}
+{#                {% if app.request.locale == 'fr' or app.request.locale is null %}#}
+{#                    <span>{{ 'flags/france.svg'|svg|raw }}</span>#}
+{#                {% elseif app.request.locale == 'en' %}#}
+{#                    <span>{{ 'flags/uk.svg'|svg|raw }}</span>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#            <ul class="dropdown-content">#}
+{#                {% if app.request.locale != 'fr' %}#}
+{#                    <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'fr'}) ) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>#}
+{#                {% endif %}#}
+{#                {% if app.request.locale != 'en' %}#}
+{#                    <li> <a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+{#        </li>#}
 
             <div class="shop-icon-container">
                 <li><a href="{{ path('ecommerce_cart') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
                 <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
             </div>
-        {% if app.user %}
-            <li><a href="{{ path('app_user') }}" class="btn btn-warning">Mon Profil</a></li>
-            <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>
-        {% else %}
-            <li><a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a></li>
-            <li><a href="{{ path('app_login') }}" class="btn btn-warning">Se Connecter</a></li>
-        {% endif %}
+{#        {% if app.user %}#}
+{#            <li><a href="{{ path('app_user') }}" class="btn btn-warning">Mon Profil</a></li>#}
+{#            <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>#}
+{#        {% else %}#}
+{#            <li><a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a></li>#}
+{#            <li><a href="{{ path('app_login') }}" class="btn btn-warning">Se Connecter</a></li>#}
+{#        {% endif %}#}
     </ul>
 </nav>

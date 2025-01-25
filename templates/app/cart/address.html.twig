@@ -23,14 +23,14 @@
                         </div>
                         <hr>
                     {% endfor %}
-                    <a class="btn btn-warning" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
-                    <button type="submit" class="btn btn-warning">{{ 'all.next'|trans }}</button>
+                    <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                    <button type="submit" class="bn bn-primary">{{ 'all.next'|trans }}</button>
                 </form>
             </div>
         {% else %}
             <div class="btn-container">
-                <a  href="{{ path('ecommerce_address_add') }}" class="btn btn-warning"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
-                <a class="btn btn-warning" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                <a  href="{{ path('ecommerce_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
+                <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
             </div>
 
         {% endif %}

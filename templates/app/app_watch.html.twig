@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Watch</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .add-container{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Header */
+    .header {
+        background-color: #000;
+        padding: 1rem;
+    }
+
+    .navbar {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #aaa;
+    }
+
+    .sub-menu{
+        display: flex;
+        justify-content: space-between;
+        padding: 4rem 0;
+        align-items: center;
+    }
+
+    .sub-menu-list{
+        display: flex;
+        width: 70%;
+        padding-left: 2rem;
+        justify-content: space-between;
+        list-style: none;
+        align-items: center;
+    }
+
+    /* Hero Section */
+    .hero {
+        background-color: #fff;
+        padding: 4rem 2rem;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+    }
+
+    .cta-button {
+        padding: 0.75rem 1.5rem;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+        background-color: #555;
+    }
+
+    /* Products Section */
+    .products {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .products h2 {
+        font-size: 2rem;
+        color: #000;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .product-card {
+        text-align: justify;
+    }
+
+    .product-card img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .product-card h3 {
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-card p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #666;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+</style>
+<body>
+<header class="header">
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Collection</a></li>
+            <li><a href="#">Exclusive</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Luxury Watch</h1>
+        <p>Explore the finest collection of watches crafted to perfection.</p>
+        <button class="cta-button">Shop Now</button>
+    </div>
+</section>
+
+<section class="products">
+    <div class="sub-menu">
+        <h2>New Arrivals</h2>
+        <ul class="sub-menu-list">
+            <li >Test</li>
+            <li >Test</li>
+            <li >Test</li>
+            <li >Test</li>
+        </ul>
+    </div>
+    <div class="product-grid">
+        {% for i in 1..6 %}
+            <div class="product-card">
+                <img src="{{ asset('images/gold_silver.png') }}" alt="Watch {{ i }}">
+                <h3>Luxury Watch {{ i }}</h3>
+                <p class="product-card-descr">Experience timeless elegance with our premium watch collection. Model {{ i }}.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2025 Luxury Watch. All rights reserved.</p>
+</footer>
+</body>
+</html>

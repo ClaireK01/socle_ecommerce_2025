@@ -24,9 +24,12 @@ class AppController extends AbstractController
 //    }
 
     #[Route('/{_locale}/', name: 'app_homepage', options: ["sitemap" => true])]
-    public function index(): Response
+    public function index(ProductRepository $productRepository): Response
     {
-        return $this->render('app_front/index.html.twig', [
+        $products = $productRepository->findAll();
+
+        return $this->render('app/index.html.twig', [
+            'products' => $products,
             'controller_name' => 'AppController',
         ]);
     }
@@ -39,60 +42,12 @@ class AppController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/arts', name: 'app_art_list', options: ["breadcrumb" => "art"])]
-    public function listArtAction(): Response
+    #[Route('/{_locale}/watch', name: 'app_watch_presentation', options: ["sitemap" => true, 'breadcrumb' => ['name' => 'about']])]
+    public function watchAction(Request $request): Response
     {
-        return $this->render('app_front/art/list.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/app_watch.html.twig', []);
     }
 
-    #[Route('/{_locale}/{id}/art/show', name: 'app_art_show')]
-    public function showArtAction(): Response
-    {
-        return $this->render('app_front/art/show.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
-    }
-
-    #[Route('/{_locale}/artists', name: 'app_artist_list', options: ["breadcrumb" => "artist"])]
-    public function listArtistAction(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request, ArticleRepository $articleRepository): Response
-    {
-        $pagination = $paginator->paginate(
-            $articleRepository->getArticlesQuery(),
-            $request->query->getInt('page', 1),
-            3
-        );
-
-        return $this->render('app_front/artist/list.html.twig', [
-            'controller_name' => 'AppController',
-            'pagination' => $pagination,
-        ]);
-    }
-
-    #[Route('/{_locale}/{id}/artist/show', name: 'app_artist_show')]
-    public function showArtistAction(): Response
-    {
-        return $this->render('app_front/artist/show.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
-    }
-
-    #[Route('/{_locale}/offers', name: 'app_offer_list', options: ["breadcrumb" => "offers"])]
-    public function listOfferAction(): Response
-    {
-        return $this->render('app_front/offer/list.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
-    }
-
-    #[Route('/{_locale}/{id}/offer/show', name: 'app_offer_show')]
-    public function showOfferAction(): Response
-    {
-        return $this->render('app_front/offer/show.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
-    }
 
     #[Route('/{_locale}/sitemap', name: 'app_sitemap', options: ["sitemap" => true, 'breadcrumb' => ['name' => 'sitemap']])]
     public function sitemapAction(Request $request, RouterService $service): Response

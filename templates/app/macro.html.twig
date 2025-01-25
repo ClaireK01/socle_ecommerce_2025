@@ -21,7 +21,7 @@
     <div class="card-product" data-ecommerce-target="link" data-link="{{ path('app_product_show', {'id' : product.id}) }}">
         <div class="card-product-img" style="background-image: url({{ asset(product.firstPicture.path) }})"></div>
         <div class="card-product-descr">
-            <p>{{ product.translate.title }}</p>
+            <h3>{{ product.translate.title }}</h3>
             <p>{{ product.translate.shortContent }}</p>
             <p>{{ product.price|number_format(2, ',', ' ') }}€</p>
         </div>
@@ -36,7 +36,7 @@
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
-                <button class="btn btn-warning add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}"><i class="fa-solid fa-cart-plus"></i></button>
+                <button class="bn bn-primary add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}"><i class="fa-solid fa-cart-plus"></i></button>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
             <div class="card-article-descr">
                 <p>{{ article.translate.title }}</p>
                 <p>{{ article.translate.shortContent }}</p>
-                <a class="btn btn-warning" href="{{ path('app_article_show', {'id' : article.id}) }}">{{ "all.read"|trans }}</a>
+                <a class="bn bn-primary" href="{{ path('app_article_show', {'id' : article.id}) }}">{{ "all.read"|trans }}</a>
             </div>
         </div>
     </div>
