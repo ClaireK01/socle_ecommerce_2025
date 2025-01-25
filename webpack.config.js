@@ -26,7 +26,6 @@ Encore
     .addEntry('js-socket', './assets/js/websocket/socket.js')
     .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
     .addEntry('js-slider', './assets/js/slider.js')
-    .addEntry('artist-show', './assets/js/artist-show.js')
 
     //admin
     .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
