@@ -41,12 +41,12 @@
                 <li><a href="{{ path('ecommerce_cart') }}" class=""><i class="fa-solid fa-cart-shopping"></i></a></li>
                 <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
             </div>
-{#        {% if app.user %}#}
-{#            <li><a href="{{ path('app_user') }}" class="btn btn-warning">Mon Profil</a></li>#}
-{#            <li><a href="{{ path('app_logout') }}" class="">Se déconnecter</a></li>#}
-{#        {% else %}#}
-{#            <li><a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a></li>#}
-{#            <li><a href="{{ path('app_login') }}" class="btn btn-warning">Se Connecter</a></li>#}
-{#        {% endif %}#}
+        {% if app.user %}
+            <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
+            <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+        {% else %}
+            <li><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>
+            <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>
+        {% endif %}
     </ul>
 </nav>

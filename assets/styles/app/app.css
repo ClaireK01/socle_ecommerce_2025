@@ -47,9 +47,13 @@ button{
     max-width: 11rem;
 }
 
+.breadcrumb-item a, .small-title{
+    color: var(--color-main);
+}
+
 a{
     text-decoration: none;
-    color: var(--color-main);
+    color: lightgrey;
     transition: color 0.3s;
 }
 
@@ -86,6 +90,20 @@ nav ul li{
     text-transform: uppercase;
     transition: color 0.3s;
     font-family: var(--main-font), Arial, sans-serif !important;
+}
+
+nav .bn.bn-primary{
+    background-color: white;
+    color: black;
+    border-radius: 0;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+}
+
+.deco{
+    text-transform: none;
+    text-decoration: underline;
+    font-size: 0.8rem;
 }
 
 .dropdown:hover .fa-caret-down::before {
@@ -294,6 +312,10 @@ footer ul{
     height: 100px;
 }
 
+.product-grid{
+    display: flex;
+}
+
 .td .card-product-img{
     margin: auto;
 }
@@ -474,21 +496,15 @@ body.show-popup .popup-container{
 
 .card-article{
     display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
-    width: 30%;
+    justify-content: space-between;
+    width: 27%;
     align-items: center;
-    border: lightgrey 1px solid;
-    border-radius: 10px;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
 }
 
 .card-article-img{
     background-color: lightgrey;
     width: 180px;
     height: 150px;
-    margin-bottom: 1rem;
 }
 
 .card-article-descr{
@@ -697,13 +713,13 @@ input[type=number] {
     padding: 1rem;
 }
 
-.filter-checkbox input[type="checkbox"]::before {
+    .filter-checkbox input[type="checkbox"]::before {
     content: "";
     width: 1em;
     height: 1em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em rebeccapurple;
+    box-shadow: inset 1em 1em black;
 }
 
 .filter-checkbox input[type="checkbox"]:checked::before {
@@ -723,7 +739,12 @@ input[type=number] {
 .product-img{
     background-color: lightgrey;
     min-width: 50%;
+    height: 35rem;
     margin-bottom: 1rem;
+}
+
+.product-descr p{
+    padding: 0.5rem;
 }
 
 .product-descr{
@@ -731,7 +752,7 @@ input[type=number] {
     padding-left: 5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 
 .price-tag{
@@ -762,7 +783,7 @@ input[type=number] {
     padding: 0.8rem 1rem;
     border: 1px solid lightgrey;
     margin-right: 1rem;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     background-color: white;
 }
 
@@ -788,7 +809,6 @@ input[type=number] {
 /************************ cart ***************************/
 
 .small-title{
-    color: #9a9999;
     font-size: 0.9rem;
 }
 

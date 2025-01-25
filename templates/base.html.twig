@@ -33,13 +33,12 @@
         {% endblock %}
 
 {#        {% block slider %}{% endblock %}#}
-
-            {% if hasBreadcrumb(app.request.get('_route')) %}
-                {{ m.breadcrumb(entity) }}
-            {% endif %}
             {% block svgs %}{% endblock %}
             {% block intro %}{% endblock %}
         <div class="section">
+            {% if hasBreadcrumb(app.request.get('_route')) %}
+                {{ m.breadcrumb(entity) }}
+            {% endif %}
             {% block content %}{% endblock %}
         </div>
 

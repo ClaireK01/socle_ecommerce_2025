@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use App\Trait\PictureTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
@@ -36,6 +37,11 @@ class Category implements TranslatableInterface, SoftDeletableInterface, Timesta
 
     #[ORM\OneToMany(mappedBy: "parent", targetEntity: Category::class)]
     private $childrens;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    }
 
     public function __toString() : string
     {

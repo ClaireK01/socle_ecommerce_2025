@@ -46,7 +46,7 @@
 }
 
 .user-menu a.selected {
-    background-color: lightgrey;
+    background-color: var(--color-main);
     color: white !important;
 }
 

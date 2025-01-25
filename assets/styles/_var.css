@@ -13,7 +13,7 @@
     --main-linear : radial-gradient(circle, rgba(12,105,41,1) 4%, rgba(11,72,29,1) 100%);
     --secondary : #00802b;
     --background-main : rgba(60, 60, 60, 0.77);
-    --color-main: lightgrey;
+    --color-main: #666;
     --yellow-w : #ffc107;
     /**** font ****/
     --font-main : Roboto;

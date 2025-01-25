@@ -19,7 +19,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 #[ORM\Entity(repositoryClass: EcommerceOrderRepository::class)]
 class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 {
-    use SoftDeletableTrait,TimestampableTrait, EcommerceTrait, P2PRequestTrait;
+    use SoftDeletableTrait,TimestampableTrait, EcommerceTrait;
 
     const STATES  = [ "pending" => 0, "payed" => 1, "confirmed" => 2,  'shipped' => 3, 'done' => 4, "canceled" => 5 ];
     const STATES_LABEL  = [

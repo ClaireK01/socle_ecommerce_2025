@@ -39,7 +39,7 @@ use Symfony\Component\VarDumper\VarDumper;
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
 
-    use UserTrait, PictureTrait, TimestampableTrait, SoftDeletableTrait, P2PUserTrait;
+    use UserTrait, PictureTrait, TimestampableTrait, SoftDeletableTrait;
 
     const CONNECTED = 1;
     const DISCONNECTED = 0;

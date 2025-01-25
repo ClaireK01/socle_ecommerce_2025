@@ -63,6 +63,7 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     public function __construct(){
         $this->categories = new ArrayCollection();
         $this->attributeItems = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
 
