@@ -134,15 +134,16 @@ nav ul li{
 }
 
 .dropdown-right-selected{
-    background-color: #ffc107;
+    background-color: black;
     padding: 1rem 2rem;
     position: relative;
     display: flex;
     min-width: 100%;
+    color : white;
 }
 
 .dropdown-right-selected a{
-    color: black!important;
+    color: white!important;
 }
 
 .logo{

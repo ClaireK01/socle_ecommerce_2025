@@ -2,11 +2,12 @@
 <nav>
 {#    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>#}
     <ul class="menu">
-        <li><a href="{{ path('app_presentation') }}">A propos</a></li>
+        <li><a href="{{ path('app_homepage') }}">{{ 'all.home'|trans }}</a></li>
+        <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>
 {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
-        <li><a href="{{ path('app_article_list') }}">Page d'article test</a></li>
+        <li><a href="{{ path('app_article_list') }}">{{'commerce.article.see'|trans }}</a></li>
         <li class="dropdown"  data-controller="menu">
-            <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">Page de category test  <i class="fa-solid fa-caret-down"></i></a></span>
+            <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">{{ 'commerce.category.see'|trans }} <i class="fa-solid fa-caret-down"></i></a></span>
             <ul class="dropdown-content">
                 {# generer sur twig #}
                 {% for cat in getCategories() %}
