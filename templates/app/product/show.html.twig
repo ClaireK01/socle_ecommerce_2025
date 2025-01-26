@@ -3,8 +3,25 @@
 
 
 {% block content %}
-    <div class="product-show">
-        <div class="product-img" style="background-image: url({{ asset(product.firstPicture.path) }})"></div>
+    <div class="product-show" data-controller="carousel">
+        <div class="product-carousel">
+            <div class="product-carousel-preview">
+                {% for pic in product.pictures %}
+                    <div class="product-carousel-preview-card
+                        {% if loop.index == 1 %} active {% elseif loop.index == 2 %} next{% endif %}"
+                         data-action="mouseover->carousel#cardHoverElement"
+                    >
+                        <div class="card-preview-filter"></div>
+                        <img alt="" src="{{ pic.path }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-product-img-main">
+                <img alt="" src="{{ asset(product.firstPicture.path) }}">
+                <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="previous" class="bn bn-primary btn-carousel-previous"><</button>
+                <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="next" class="bn bn-primary btn-carousel-next">></button>
+            </div>
+        </div>
         <div class="product-descr">
             <h3>{{ product.translate.title }}</h3>
             <p>{{ product.translate.content|raw }}</p>

@@ -62,6 +62,7 @@ body.show-modal .modal-file{
     display: flex;
     /*max-height: 100vh;*/
     overflow: scroll;
+    height: 100vh;
 }
 
 body::-webkit-scrollbar {

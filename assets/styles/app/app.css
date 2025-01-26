@@ -1,6 +1,7 @@
 @import "../../../node_modules/swiper/swiper.css";
 @import "../../../node_modules/swiper/swiper-bundle.css";
 @import "swiper.css";
+@import "carousel.css";
 @import "../_var.css";
 @import "../_pagination.css";
 @import "profile.css";
@@ -811,13 +812,6 @@ input[type=number] {
     width: 100%;
     min-height: 50vh;
     justify-content: space-between;
-}
-
-.product-img{
-    background-color: lightgrey;
-    min-width: 50%;
-    height: 35rem;
-    margin-bottom: 1rem;
 }
 
 .product-descr p{

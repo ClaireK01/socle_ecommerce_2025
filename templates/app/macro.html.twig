@@ -1,4 +1,4 @@
-{% macro slider(type, array, cart) %}
+{% macro slider(type, array, cart, size = null) %}
     <div class="swiper-{{type}} swiper-container">
         <div class="swiper-wrapper">
             {% for entity in array%}
@@ -7,13 +7,15 @@
                         {{ _self.cardProduct(entity, cart) }}
                     {% elseif type == "article" %}
                         {{ _self.cardArticle(entity) }}
+                    {% elseif type == "carousel" %}
+                        {{ _self.carousel(entity, size) }}
                     {% endif %}
                 </div>
             {% endfor %}
         </div>
         <div class="swiper-pagination-{{type}}"></div>
         <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div class="swiper-button-next"><div>
     </div>
 {% endmacro %}
 
