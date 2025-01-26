@@ -25,6 +25,18 @@ use Symfony\Component\Routing\RouterInterface;
 #[Route(requirements: ['_locale' => 'en|fr'])]
 class EcommerceController extends AbstractController
 {
+
+    #[Route('{_locale}/cart/preview', name: 'cart_preview', methods: 'GET')]
+    public function cartPreviewAction(Request $request,
+                                    CardProductRepository $cardProductRepository, OrderService $orderService,
+                                    CartRepository $cartRepository, EntityManagerInterface $entityManager)
+    {
+
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
+        $view = $this->renderView('app/cart/cart_preview.html.twig', ['cart' => $cart]);
+
+        return new JsonResponse(["view" => $view], 200);
+    }
     #[Route('{_locale}/products/{id}/add', name: 'add_to_cart', methods: 'POST')]
     public function addToCartAction(Product $product, Request $request,
                                     CardProductRepository $cardProductRepository, OrderService $orderService,
@@ -93,9 +105,10 @@ class EcommerceController extends AbstractController
         $entityManager->flush();
 
         $cartInfos = $orderService->getCartInfos($cart);
+        $cartView = $this->renderView('app/cart/cart_preview.html.twig', ['cart' => $cart]);
         $session->set('shopCount', $cartInfos['total_quantity']);
 
-        return new JsonResponse(["cart" => $cartInfos], 200);
+        return new JsonResponse(["cart" => $cartInfos, 'cartview' => $cartView], 200);
     }
 
     #[Route('{_locale}/cart/{id}/attributes', name: 'product_price_attribute', methods: 'POST')]
@@ -127,7 +140,13 @@ class EcommerceController extends AbstractController
             }
             $em->persist($cart);
             $em->flush();
-            $request->getSession()->set('shopCount', $orderService->getCartInfos($cart)['total_quantity']);
+            $cartView = $this->renderView('app/cart/cart_preview.html.twig', ['cart' => $cart]);
+            $cartInfos = $orderService->getCartInfos($cart);
+            $request->getSession()->set('shopCount', $cartInfos['total_quantity']);
+
+            if($request->isXmlHttpRequest()){
+                return new JsonResponse(['cartview' => $cartView, 'cart' => $cartInfos]);
+            }
         }
 
         return $this->redirectToRoute('ecommerce_cart');

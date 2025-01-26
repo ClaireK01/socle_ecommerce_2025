@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 async function postData(url = "", donnees = null, method = 'GET') {
     const response = await fetch(url, {
         method: method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" , "X-Requested-With":"XMLHttpRequest"},
         body: donnees ? JSON.stringify(donnees) : null,
     });
     return response.json();
@@ -12,6 +12,32 @@ async function postData(url = "", donnees = null, method = 'GET') {
 export default class extends Controller{
     static targets = ["cart", "shopcount", "quantity", "quantbutton", "link", "target", "filter"];
 
+
+    cartPreviewElement(event){
+        event.preventDefault();
+        postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
+            document.querySelector('.cart-preview').innerHTML = data.view;
+            if(!document.querySelector("body").classList.contains('show-prev')){
+                document.querySelector("body").classList.add('show-prev');
+            }
+        });
+
+    }
+
+    cartPreviewRemoveElement(event){
+        event.preventDefault();
+        postData(event.currentTarget.dataset.url).then((data) => {
+            document.querySelector('.cart-preview').innerHTML = data.cartview;
+        });
+
+    }
+
+    cartPreviewCloseElement(event){
+        event.preventDefault();
+        if(document.querySelector("body").classList.contains('show-prev')){
+            document.querySelector("body").classList.remove('show-prev');
+        }
+    }
 
     attributeTargetConnected(element){
         element.addEventListener('click', (e) => {
@@ -55,6 +81,12 @@ export default class extends Controller{
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
                 input.value = input.min
             });
+            postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
+                document.querySelector('.cart-preview').innerHTML = data.view;
+                if(!document.querySelector("body").classList.contains('show-prev')){
+                    document.querySelector("body").classList.add('show-prev');
+                }
+            });
         })
     }
 
@@ -66,9 +98,12 @@ export default class extends Controller{
 
             postData(urlAdd, {"quantity" : quantity},  'POST').then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
-                postData(url).then((view) => {
-                    document.querySelector('.table-products').innerHTML = view.view;
-                });
+                    document.querySelector('.cart-preview').innerHTML = data.cartview;
+                    if( document.querySelector('.table-products')){
+                        postData(url).then((view) => {
+                            document.querySelector('.table-products').innerHTML = view.view;
+                        });
+                    }
             });
         })
     }

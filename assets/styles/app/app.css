@@ -43,9 +43,9 @@ p{
     padding:7rem 0;
 }
 
-button{
-    max-width: 11rem;
-}
+/*button{*/
+/*    max-width: 11rem;*/
+/*}*/
 
 .breadcrumb-item a, .small-title{
     color: var(--color-main);
@@ -431,6 +431,77 @@ footer ul{
     bottom: 1rem;
 }
 
+/***************************** cart preview *************************/
+
+
+body .cart-preview-container{
+    display: none;
+    padding: 1rem 1.5rem;
+    height: 100%;
+    right: 0;
+    width: 25%;
+    background-color: #e8e6e6;
+    position: fixed;
+    box-shadow: -0.5em 0 1em rgba(0, 0, 0, 0.65);
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+body.show-prev .cart-preview-container{
+    display: flex;
+}
+
+.cart-preview-container .cart-preview {
+    overflow-y: scroll;
+    height: 60vh;
+    overflow-x: hidden;
+
+}
+
+.card-preview-actions{
+    display: flex;
+}
+
+.card-preview-actions input.qty{
+    width: 25% !important;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.card-preview-actions .bn{
+    font-size: 0.9rem;
+    padding: 0 1rem !important;
+}
+
+.cart-preview-card{
+    padding: 1rem;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cart-preview-card + hr{
+    width: 90%
+}
+
+.cart-preview-pic{
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    width: 30%;
+    height: auto;
+}
+
+.cart-preview-pic + div{
+    margin-left: 1rem;
+}
+
+.cart-preview-title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 
 /***************************** popup ********************************/
 
@@ -470,16 +541,22 @@ body.show-popup .popup-container{
     overflow-x: hidden;
 }
 
-.bn.bn-primary{
+.bn{
     padding: 0.75rem 1.5rem;
-    background-color: black;
-    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
     text-transform: uppercase;
     transition: background-color 0.3s;
+}
+.bn.bn-empty{
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.bn.bn-primary{
+    background-color: black;
+    color: white;
 }
 
 

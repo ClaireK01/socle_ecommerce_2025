@@ -80,26 +80,26 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
-    #[Route('{_locale}/profile/{id}/edit', name: 'app_user_edit', methods: "POST")]
-    public function editProfile(User $user, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $content = json_decode($request->getContent(), true);
-        $field = array_key_first($content);
-        $form = $this->createForm('App\Form\UserType', $user, ['type' => UserType::TYPE['profile'], 'field' => $field]);
-        $form->submit($content);
-
-        if($form->isValid() && $this->isCsrfTokenValid($user->getId(), $content['token'])){
-            $entityManager->persist($user);
-            $entityManager->flush();
-            //get new field value as it is registered in the db
-            $reflexion = new \ReflectionClass(User::class);
-            $method = $reflexion->getMethod('get'.ucfirst($field));
-
-            return new JsonResponse(['data' => $method->invoke($user)], 200);
-        }
-
-        return new JsonResponse(['Invalid data'], 201);
-    }
+//    #[Route('{_locale}/profile/{id}/edit', name: 'app_user_edit', methods: "POST")]
+//    public function editProfile(User $user, Request $request, EntityManagerInterface $entityManager): Response
+//    {
+//        $content = json_decode($request->getContent(), true);
+//        $field = array_key_first($content);
+//        $form = $this->createForm('App\Form\UserType', $user, ['type' => UserType::TYPE['profile'], 'field' => $field]);
+//        $form->submit($content);
+//
+//        if($form->isValid() && $this->isCsrfTokenValid($user->getId(), $content['token'])){
+//            $entityManager->persist($user);
+//            $entityManager->flush();
+//            //get new field value as it is registered in the db
+//            $reflexion = new \ReflectionClass(User::class);
+//            $method = $reflexion->getMethod('get'.ucfirst($field));
+//
+//            return new JsonResponse(['data' => $method->invoke($user)], 200);
+//        }
+//
+//        return new JsonResponse(['Invalid data'], 201);
+//    }
 
     #[Route('{_locale}/user/address/add', name: 'app_user_address_add', methods: ['GET', 'POST'])]
     public function cartAddressAddAction(Request $request, EntityManagerInterface $entityManager,RouterInterface $router)

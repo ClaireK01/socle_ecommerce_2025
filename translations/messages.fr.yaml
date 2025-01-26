@@ -1,4 +1,5 @@
 all:
+  cart: Panier
   next: Suivant
   previous: Précédent
   backHome: Revenir à l'acceuil
@@ -81,6 +82,7 @@ cart:
   priceTTC: Total TTC
   priceHT: Total HT
   quantity: Quantité
+  go: Aller au panier
 
 form:
   add: Ajouter

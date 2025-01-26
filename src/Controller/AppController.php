@@ -18,24 +18,9 @@ use Symfony\Component\VarDumper\VarDumper;
 #[Route(requirements: ['_locale' => 'en|fr'])]
 class AppController extends AbstractController
 {
-//    #[Route('/{_locale}/', name: 'app_homepage', options: ["sitemap" => true ])]
-//    public function index(Request $request): Response
-//    {
-//        return $this->render('app/index.html.twig', [
-//            'controller_name' => 'AppController',
-//        ]);
-//    }
-
     #[Route('/{_locale}/', name: 'app_homepage', options: ["sitemap" => true])]
     public function index(ProductRepository $productRepository, UserRepository $userRepository, UserPasswordHasherInterface $hasher, EntityManagerInterface$entityManager): Response
     {
-//        $user=$userRepository->find(1);
-//        $hash = $hasher->hashPassword($user, "admin");
-//        $user->setPassword($hash);
-//        $entityManager->persist($user);
-//        $entityManager->flush();
-//        die(VarDumper::dump('f'));
-
         $products = $productRepository->findAll();
 
         return $this->render('app/index.html.twig', [

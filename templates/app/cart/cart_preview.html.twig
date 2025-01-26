@@ -1,0 +1,26 @@
+{% import 'app/macro.html.twig' as m %}
+
+  {% if cart != null and cart.cardProducts|length > 0 %}
+      {% for c in cart.cardProducts %}
+          <div class="cart-preview-card">
+              <div class="cart-preview-pic" style="background: url('{{ c.product.firstPicture.path }}')">
+
+              </div>
+
+              <div>
+                  <h5>{{ c.product.translate.title }}</h5>
+                  {% for ca in c.cardAttributes %}
+                      <span class="small-title">{{ ca.translate.productAttributeTitle|trans ~ " : " ~ca.translate.title|trans }}</span><br>
+                  {% endfor %}
+                  <div class="card-preview-actions">
+                      <span>{{ "cart.quantity"|trans }} : <input data-ecommerce-target="quantity" type="number" class="qty" value="{{ c.quantity }}" data-add="{{ path('update_quantity', {'id' : c.id}) }}" data-url="{{ path('ecommerce_cart_view') }}" /></span>
+                      <button data-url="{{ path('remove_from_cart', {'id' : c.id}) }}" class="bn bn-empty" {{ stimulus_action('ecommerce', 'cartPreviewRemoveElement') }}><i class="fa-solid fa-trash"></i></button>
+                  </div>
+              </div>
+          </div>
+          <hr>
+      {% endfor %}
+      <span>{{ "user.order.total"|trans}} : {{ cart.totalTtc|number_format(2, ',', ' ') }}€</span>
+  {% else %}
+      <p>{{ "commerce.empty"|trans }}</p>
+  {% endif %}

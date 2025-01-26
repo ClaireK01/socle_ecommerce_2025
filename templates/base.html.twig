@@ -51,6 +51,17 @@
             </div>
         </div>
 
+        <div class="cart-preview-container" data-url="{{ path('cart_preview') }}">
+            <div class="cart-preview-title">
+                <h3>{{ "all.cart"|trans }}</h3>
+                <button id="btn-preview-close" class="bn bn-empty" {{ stimulus_action('ecommerce', 'cartPreviewCloseElement') }}><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-preview"></div>
+            <div>
+                <a href="{{ path('ecommerce_cart') }}"><button class="bn bn-primary">{{ "cart.go"|trans }}</button></a>
+            </div>
+        </div>
+
 {#        <div class="main">#}
 {#            <div class="container my-5 ">#}
 {#               #}
