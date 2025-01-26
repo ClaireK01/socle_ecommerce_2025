@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Conversation;
 use App\Entity\EcommerceOrder;
 use App\Entity\Picture;
 use App\Entity\User;
 use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
+use App\Form\AddressType;
 use App\Form\UserType;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
@@ -26,7 +28,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\VarDumper\VarDumper;
 
 //#[Route(requirements: ['_locale' => 'en|fr'])]
@@ -39,14 +43,41 @@ class UserController extends AbstractController
     }
 
     #[Route('{_locale}/profile', name: 'app_user')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         if(!$user){
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('user/show.html.twig', []);
+        $form = $this->createForm(UserType::class, $user, ['type' => UserType::TYPE['profile']]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $old = key_exists("oldpassword", $request->request->all()) ? $request->request->all()['oldpassword'] : null;
+            $new = $form->get('password')->getData();
+            if( !$old && !$new ){
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('error', "Vos information ont bien été enregistrées");
+            }else{
+                if($hasher->isPasswordValid($user, $old)){
+                    $hash = $hasher->hashPassword($user, $new);
+                    $user->setPassword($hash);
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $entityManager->refresh($user);
+                    $this->addFlash('error', "Mot de passe changé");
+                }else{
+                    $this->addFlash('error', "L'ancien mot de passe est invalide");
+                    $entityManager->refresh($user);
+                    return $this->redirectToRoute('app_user');
+                }
+            }
+        }
+
+        return $this->render('user/show.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
     #[Route('{_locale}/profile/{id}/edit', name: 'app_user_edit', methods: "POST")]
@@ -68,6 +99,30 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse(['Invalid data'], 201);
+    }
+
+    #[Route('{_locale}/user/address/add', name: 'app_user_address_add', methods: ['GET', 'POST'])]
+    public function cartAddressAddAction(Request $request, EntityManagerInterface $entityManager,RouterInterface $router)
+    {
+        $user = $this->getUser();
+        $address = new Address();
+
+        $form = $this->createForm(AddressType::class, $address);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $user->addAddress($address);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_user');
+        }
+
+        return $this->render('app/cart/form_addresses.html.twig', [
+            'type' => 'profile',
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('{_locale}/profile/{id}/edit-picture', name: 'app_user_edit_picture', methods: "POST")]

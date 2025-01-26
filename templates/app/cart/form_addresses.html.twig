@@ -9,24 +9,8 @@
 
             {{ form_start(form) }}
                 {{ form_widget(form) }}
-{#                {{ form_row(form.label) }}#}
-{#                {{ form_errors(form.label) }}#}
-
-{#                {{ form_row(form.address) }}#}
-{#                {{ form_errors(form.address) }}#}
-
-{#                {{ form_row(form.zipCode) }}#}
-{#                {{ form_errors(form.zipCode) }}#}
-
-{#                {{ form_row(form.city) }}#}
-{#                {{ form_errors(form.city) }}#}
-
-{#                {{ form_row(form.phoneNumber) }}#}
-{#                {{ form_errors(form.phoneNumber) }}#}
-
-{#                {{ form_row(form.infos) }}#}
-{#                {{ form_errors(form.infos) }}#}
-                <a href="{{ path('ecommerce_address') }}" class="bn bn-primary">{{ 'all.previous'|trans }}</a>
+            {% set previous = type is defined and type == "profile" ? path('app_user') : path('ecommerce_address') %}
+                <a href="{{ previous }}" class="bn bn-primary">{{ 'all.previous'|trans }}</a>
                 <button type="submit" class="bn bn-primary">{{ 'form.add'|trans }}</button>
             {{ form_end(form) }}
         </div>

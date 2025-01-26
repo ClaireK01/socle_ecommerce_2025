@@ -882,6 +882,7 @@ input[type=number] {
 .flash-success, .flash-error{
     padding: 1rem;
     border-radius: 15px;
+    margin: 1rem 0;
 }
 .flash-success{
     color: var(--success);

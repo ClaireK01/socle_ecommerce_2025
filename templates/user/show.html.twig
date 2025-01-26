@@ -2,33 +2,39 @@
 {% import 'app/macro.html.twig' as m %}
 
 {% block user_content %}
-    <form>
-        <div class="profile-container" data-controller="profile" data-url="{{ path('app_user_edit', {'id' : app.user.id}) }}">
-            <span data-profile-target="editBtn"></span>
-            <div class="profile profile-picture" data-upload="{{ path('app_user_edit_picture', {'id' : app.user.id}) }}">
-                {{ m.editProfileBtns(true) }}
-                <div id="profile-image-container" style="background-image: url('{{ asset(app.user.firstPicture.path ) }}')"></div>
-                <input type="file" />
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        <div>
+            <button class="bn bn-primary" {{ stimulus_action('profile', 'editPasswordElement') }}>
+                <i class="fa-solid fa-pen"></i>{{ "profile.password.change"|trans }}
+            </button>
+            <div class="div-edit-password">
+                <label class="form-lab" for="oldpassword">{{ "profile.password.old"|trans }}</label>
+                <input class="form-inp" type="password" name="oldpassword" id="oldpassword">
+                {{ form_row(form.password.first) }}
+                {{ form_row(form.password.second) }}
             </div>
-            <div class="profile profile-username">
-                {{ m.editProfileBtns() }}
-                <label for="username"></label>
-                <input class="form-inp" id="username" name="username" value="{{ app.user.username }}"/>
-                <p class="infos">{{ app.user.username }}</p>
-            </div>
-            <div class="profile profile-description">
-                {{ m.editProfileBtns() }}
-                <label for="description"></label>
-                <textarea class="form-inp" id="description" name="description" placeholder="{{ app.user.description }}">{{ app.user.description }}</textarea>
-                <p class="infos">{{ app.user.description and app.user.description != '' ? app.user.description : 'Aucune description' }}</p>
-            </div>
-            <div class="profile profile-email">
-                {{ m.editProfileBtns() }}
-                <label for="email"></label>
-                <input class="form-inp" id="email" name="email" value="{{ app.user.email }}"/>
-                <p class="infos">{{ app.user.email }}</p>
-            </div>
-            <div data-token="{{ csrf_token(app.user.id) }}"></div>
         </div>
-    </form>
+    <div>
+        <div class="table-choices">
+            {% for a in user.addresses %}
+                <div class="cart list-item">
+                    <div class="item-infos">
+                        <h2>{{ a.label }}</h2>
+                        <span><span class="lighten">{{ a.phone }}</span><br>
+                            {{ a.address }}<br>
+                            {{ a.code }}, {{ a.city|upper }}</span>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="btn-container">
+        <a  href="{{ path('app_user_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
+    </div>
+    <button type="submit" class="bn-primary bn">{{ "form.edit"|trans }}</button>
+    {{ form_end(form) }}
+
 {% endblock %}

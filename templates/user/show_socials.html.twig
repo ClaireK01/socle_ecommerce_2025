@@ -1,0 +1,34 @@
+{% extends "app/user/base_user.html.twig" %}
+{% import 'app/macro.html.twig' as m %}
+
+{% block user_content %}
+    <form>
+        <div class="profile-container" data-url="{{ path('app_user_edit', {'id' : app.user.id}) }}">
+            <span data-profile-target="editBtn"></span>
+            <div class="profile profile-picture" data-upload="{{ path('app_user_edit_picture', {'id' : app.user.id}) }}">
+                {{ m.editProfileBtns(true) }}
+                <div id="profile-image-container" style="background-image: url('{{ asset(app.user.firstPicture.path ) }}')"></div>
+                <input type="file" />
+            </div>
+            <div class="profile profile-username">
+                {{ m.editProfileBtns() }}
+                <label for="username"></label>
+                <input class="form-inp" id="username" name="username" value="{{ app.user.username }}"/>
+                <p class="infos">{{ app.user.username }}</p>
+            </div>
+            <div class="profile profile-description">
+                {{ m.editProfileBtns() }}
+                <label for="description"></label>
+                <textarea class="form-inp" id="description" name="description" placeholder="{{ app.user.description }}">{{ app.user.description }}</textarea>
+                <p class="infos">{{ app.user.description and app.user.description != '' ? app.user.description : 'Aucune description' }}</p>
+            </div>
+            <div class="profile profile-email">
+                {{ m.editProfileBtns() }}
+                <label for="email"></label>
+                <input class="form-inp" id="email" name="email" value="{{ app.user.email }}"/>
+                <p class="infos">{{ app.user.email }}</p>
+            </div>
+            <div data-token="{{ csrf_token(app.user.id) }}"></div>
+        </div>
+    </form>
+{% endblock %}

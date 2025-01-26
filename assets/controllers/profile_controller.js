@@ -16,6 +16,17 @@ async function postData(url = "", donnees = null, method = 'GET', header = null,
 export default class extends Controller{
     static targets = ["editBtn", "pen", "validate", "cancel"];
 
+
+    editPasswordElement(event){
+        event.preventDefault();
+
+        let div = document.querySelector('.div-edit-password');
+        if(! div.classList.contains('show')){
+            div.classList.add('show');
+            event.currentTarget.parentNode.removeChild(event.currentTarget);
+        }
+    }
+
     editBtnTargetConnected(element){
         element.addEventListener('click', (e) => {
             this.toggleClass(element.parentNode, "show");

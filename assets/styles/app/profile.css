@@ -76,6 +76,14 @@
     font-style: italic;
 }
 
+.div-edit-password{
+    display: none;
+}
+
+.div-edit-password.show{
+    display: block;
+}
+
 [data-profile-target=pen]{
     position: absolute;
     top: 0;
