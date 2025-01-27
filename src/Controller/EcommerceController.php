@@ -146,7 +146,7 @@ class EcommerceController extends AbstractController
             $request->getSession()->set('shopCount', $cartInfos['total_quantity']);
 
             if($request->isXmlHttpRequest()){
-                return new JsonResponse(['cartview' => $cartView, 'cart' => $cartInfos]);
+                return new JsonResponse(['cartview' => $cartView, 'cart' => $cartInfos, 'shopcount' => $cartInfos['total_quantity'] ?? 0]);
             }
         }
 

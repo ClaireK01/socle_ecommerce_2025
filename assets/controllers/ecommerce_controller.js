@@ -28,6 +28,7 @@ export default class extends Controller{
         event.preventDefault();
         postData(event.currentTarget.dataset.url).then((data) => {
             document.querySelector('.cart-preview').innerHTML = data.cartview;
+            document.querySelector('.shop-count').innerHTML = data.shopcount;
         });
 
     }
