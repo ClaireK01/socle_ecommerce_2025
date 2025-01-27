@@ -25,11 +25,11 @@
             </div>
             <div class="address card-order-infos">
                 <span class="small-title">{{ 'commerce.adress.facturation'|trans }}</span>
-                <h3>{{ address.label }}</h3>
+                <h3>{{ addressfac.label }}</h3>
                 <div>
-                    <span><span class="lighten">{{ address.phone }}</span><br>
-                        {{ address.address }}<br>
-                        {{ address.code }}, {{ address.city|upper }}</span>
+                    <span><span class="lighten">{{ addressfac.phone }}</span><br>
+                        {{ addressfac.address }}<br>
+                        {{ addressfac.code }}, {{ addressfac.city|upper }}</span>
                 </div>
             </div>
             <div class="shipping card-order-infos">
@@ -43,7 +43,7 @@
                 <p>{{ payment.translate.shortContent }}</p>
             </div>
         </div>
-        <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.previous'|trans }}</a>
+        <a class="bn bn-primary" href="{{ path('ecommerce_payment') }}">{{ 'all.previous'|trans }}</a>
         <a class="bn bn-primary" href="{{ path('ecommerce_validate') }}">{{ 'commerce.validate'|trans }}</a>
     </div>
 </div>

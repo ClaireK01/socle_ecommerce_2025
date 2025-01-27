@@ -26,8 +26,9 @@
                             </div>
                             <hr>
                         {% endfor %}
-                        <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
-
+                        {% if type == "ship" %}
+                            <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
+                        {% endif %}
                         <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
                         <button type="submit" class="bn bn-primary">{{ 'all.next'|trans }}</button>
                     </form>
@@ -42,10 +43,16 @@
             {{ form_start(form) }}
             <div>
                 {{ form_widget(form) }}
-                <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
+                {% if type == "ship" %}
+                    <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
+                {% endif %}
             </div>
             <div class="btn-container">
-                <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                {% if type == "ship" %}
+                    <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                {% else %}
+                    <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.previous'|trans }}</a>
+                {% endif %}
                 <button type="submit" class="bn bn-primary">{{ "all.next"|trans }}</button>
             </div>
             {{ form_end(form) }}

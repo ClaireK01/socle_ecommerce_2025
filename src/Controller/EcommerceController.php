@@ -177,9 +177,9 @@ class EcommerceController extends AbstractController
         $form = null;
         if(!$user){
             if($request->getSession()->get('address')){
-                $orderService->removeAddress($request->getSession(), "address_facturation");
                 $addressShipping = $addressRepository->find($request->getSession()->get('address'));
                 $addressShipping = $addressShipping ?? new Address();
+                $orderService->removeAddress($request->getSession(), "address_facturation", $addressShipping);
             }else{
                 $addressShipping = new Address();
             }
@@ -189,6 +189,7 @@ class EcommerceController extends AbstractController
         }
 
         if($request->getMethod() == "POST"){
+            VarDumper::dump('test');
             if($user){
                 $address = $request->request->get('address');
                 $request->getSession()->set("address", $address);
@@ -198,6 +199,7 @@ class EcommerceController extends AbstractController
                 return $this->redirectToRoute('ecommerce_address_facturation');
             }else{
                 if($form->isSubmitted() && $form->isValid()){
+
                     $entityManager->persist($addressShipping);
                     $entityManager->flush();
                     $request->getSession()->set("address", $addressShipping->getId());
@@ -219,7 +221,7 @@ class EcommerceController extends AbstractController
     #[Route('{_locale}/cart/address/facturation', name: 'ecommerce_address_facturation', methods: ['GET', 'POST'])]
     public function cartFacturationAddressAction(Request $request, EntityManagerInterface $entityManager, OrderService $orderService, CartRepository $cartRepository)
     {
-        if($request->getSession()->get('address') !== null){
+        if($request->getSession()->get('address') == null){
             return $this->redirectToRoute('ecommerce_address');
         }
 
@@ -238,7 +240,7 @@ class EcommerceController extends AbstractController
         //code répété, mettre dans une func
         if($request->getMethod() == "POST"){
             if($user){
-                $address = $request->request->get('address_facturation');
+                $address = $request->request->get('address');
                 $request->getSession()->set("address_facturation", $address);
                 return $this->redirectToRoute('ecommerce_shipping');
 
@@ -340,7 +342,7 @@ class EcommerceController extends AbstractController
             return $this->redirectToRoute('ecommerce_address');
         };
 
-        if(!$addressId = $request->getSession()->get('address_facturation')){
+        if(!$addressFacId = $request->getSession()->get('address_facturation')){
             return $this->redirectToRoute('ecommerce_address_facturation');
         }
 
@@ -353,6 +355,7 @@ class EcommerceController extends AbstractController
         };
 
         $address = $addressRepository->find($addressId);
+        $addressfac = $addressRepository->find($addressFacId);
         $shipping = $shippingRepository->find($shippingId);
         $payment = $paymentMethodRepository->find($paymentId);
 
@@ -368,6 +371,7 @@ class EcommerceController extends AbstractController
             'user' => $user,
             'cart' => $cart,
             'address' => $address,
+            'addressfac' => $addressfac,
             'shipping' => $shipping,
             'payment' => $payment,
         ]);
@@ -384,6 +388,10 @@ class EcommerceController extends AbstractController
             return $this->redirectToRoute('ecommerce_address');
         };
 
+        if(!$addressFacId = $request->getSession()->get('address_facturation')){
+            return $this->redirectToRoute('ecommerce_address');
+        };
+
         if(!$shippingId = $request->getSession()->get('shipping')){
             return $this->redirectToRoute('ecommerce_shipping');
         };
@@ -393,10 +401,11 @@ class EcommerceController extends AbstractController
         };
 
         $address = $addressRepository->find($addressId);
+        $addressfac = $addressRepository->find($addressFacId);
         $shipping = $shippingRepository->find($shippingId);
         $payment = $paymentMethodRepository->find($paymentId);
 
-        $order = $orderService->createNewOrder($cart, $address, $shipping, $payment);
+        $order = $orderService->createNewOrder($cart, $address, $addressfac, $shipping, $payment);
 
         if($order){
             return $this->redirectToRoute("app_stripe", ['number' => $order->getNumber()]);

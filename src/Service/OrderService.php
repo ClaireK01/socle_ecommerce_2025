@@ -106,7 +106,7 @@ class OrderService
 
     }
 
-    public function createNewOrder(Cart $cart, $address, $shipping, $payment){
+    public function createNewOrder(Cart $cart, $address, $addressFac, $shipping, $payment){
 
         $order = new EcommerceOrder();
 
@@ -116,12 +116,10 @@ class OrderService
         $order->setTotalPriceTtc($cart->getTotalTtc());
         $order->setTotalPriceHt($cart->getTotalHt());
         $order->setStatus(EcommerceOrder::PENDING);
-        $order->setShippingAddress($address);
-        $order->setFacturationAddress($address);
         $order->setShipping($shipping);
         $order->setPaymentMethod($payment);
 
-        $order = $this->setOrderAdresses($order, $address, $address);
+        $order = $this->setOrderAdresses($order, $address, $addressFac);
 
         $order->setNumber($this->ecommerceOrderRepository->getLastOrderNumber() + 1);
         $this->entityManager->persist($order);
@@ -146,17 +144,16 @@ class OrderService
         $this->removeAddress($session, "address");
         $session->remove('cart_id');
         $session->remove('shopCount');
-        $session->remove('address');
-        $session->remove('address_facturation');
     }
 
-    public function removeAddress($session, $key)
+    public function removeAddress($session, $key, $doNotDelete = null)
     {
-        $address = $session->get($key) ? $this->entityManager->getRepository(Address::class)->find($session->get('address')) : null;
-        if($address && !$address->getUser()){
+        $address = $session->get($key) ? $this->entityManager->getRepository(Address::class)->find($session->get($key)) : null;
+        if($address && !$address->getUser() && (!$doNotDelete || $doNotDelete->getId() != $address->getId())){
             $this->entityManager->remove($address);
         }
         $this->entityManager->flush();
+        $session->remove($key);
     }
 
     public function checkSameProduct(CardProduct $cardProduct,  $attributes, $newProduct)
