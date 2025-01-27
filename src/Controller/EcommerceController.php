@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 #[Route(requirements: ['_locale' => 'en|fr'])]
 class EcommerceController extends AbstractController
@@ -162,21 +163,99 @@ class EcommerceController extends AbstractController
         ]);
     }
 
+    #[Route('{_locale}/cart/login', name: 'ecommerce_cart_login', options: ['breadcrumb' => ['name' => 'cart']], methods: 'GET')]
+    public function cartLoginAction(Request $request)
+    {
+        return $this->render('app/cart/cart_login.html.twig', []);
+    }
 
-    #[Route('{_locale}/cart/address', name: 'ecommerce_address', methods: ['GET', 'POST'])]
-    public function cartAddressAction(Request $request, OrderService $orderService, CartRepository $cartRepository)
+
+    #[Route('{_locale}/cart/address/shipping', name: 'ecommerce_address', methods: ['GET', 'POST'])]
+    public function cartShippingAddressAction(Request $request, AddressRepository $addressRepository, EntityManagerInterface $entityManager, OrderService $orderService)
     {
         $user = $this->getUser();
+        $form = null;
+        if(!$user){
+            if($request->getSession()->get('address')){
+                $orderService->removeAddress($request->getSession(), "address_facturation");
+                $addressShipping = $addressRepository->find($request->getSession()->get('address'));
+                $addressShipping = $addressShipping ?? new Address();
+            }else{
+                $addressShipping = new Address();
+            }
 
-        //code répété, mettre dans une func
+            $form = $this->createForm(AddressType::class, $addressShipping, ['guest' => true]);
+            $form->handleRequest($request);
+        }
+
         if($request->getMethod() == "POST"){
-            $address = $request->request->get('address');
-            $request->getSession()->set("address", $address);
-            return $this->redirectToRoute('ecommerce_shipping');
+            if($user){
+                $address = $request->request->get('address');
+                $request->getSession()->set("address", $address);
+                if($request->request->get('same_address') === "on") {
+                    $request->getSession()->set("address_facturation", $address);
+                }
+                return $this->redirectToRoute('ecommerce_address_facturation');
+            }else{
+                if($form->isSubmitted() && $form->isValid()){
+                    $entityManager->persist($addressShipping);
+                    $entityManager->flush();
+                    $request->getSession()->set("address", $addressShipping->getId());
+                    if($request->request->get('same_address') === "on") {
+                        $request->getSession()->set("address_facturation", $addressShipping->getId());
+                    }
+                    return $this->redirectToRoute('ecommerce_address_facturation');
+                }
+            }
         }
 
         return $this->render('app/cart/address.html.twig', [
             'user' => $user,
+            'form' => $form?->createView(),
+            'type' => "ship"
+        ]);
+    }
+
+    #[Route('{_locale}/cart/address/facturation', name: 'ecommerce_address_facturation', methods: ['GET', 'POST'])]
+    public function cartFacturationAddressAction(Request $request, EntityManagerInterface $entityManager, OrderService $orderService, CartRepository $cartRepository)
+    {
+        if($request->getSession()->get('address') !== null){
+            return $this->redirectToRoute('ecommerce_address');
+        }
+
+        if($request->getSession()->get('address_facturation') !== null){
+            return $this->redirectToRoute('ecommerce_shipping');
+        }
+
+        $user = $this->getUser();
+        $form = null;
+        if(!$user){
+            $addressFacturation = new Address();
+            $form = $this->createForm(AddressType::class, $addressFacturation);
+            $form->handleRequest($request);
+        }
+
+        //code répété, mettre dans une func
+        if($request->getMethod() == "POST"){
+            if($user){
+                $address = $request->request->get('address_facturation');
+                $request->getSession()->set("address_facturation", $address);
+                return $this->redirectToRoute('ecommerce_shipping');
+
+            }else{
+                if($form->isSubmitted() && $form->isValid()){
+                    $entityManager->persist($addressFacturation);
+                    $entityManager->flush();
+                    $request->getSession()->set("address_facturation", $addressFacturation->getId());
+                    return $this->redirectToRoute('ecommerce_shipping');
+                }
+            }
+        }
+
+        return $this->render('app/cart/address.html.twig', [
+            'user' => $user,
+            'form' => $form?->createView(),
+            'type' => "fact"
         ]);
     }
 
@@ -261,6 +340,10 @@ class EcommerceController extends AbstractController
             return $this->redirectToRoute('ecommerce_address');
         };
 
+        if(!$addressId = $request->getSession()->get('address_facturation')){
+            return $this->redirectToRoute('ecommerce_address_facturation');
+        }
+
         if(!$shippingId = $request->getSession()->get('shipping')){
             return $this->redirectToRoute('ecommerce_shipping');
         };
@@ -275,6 +358,10 @@ class EcommerceController extends AbstractController
 
         $user = $this->getUser();
         $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
+
+        if($cart && count($cart->getCardProducts()) == 0){
+            return $this->redirectToRoute('ecommerce_cart');
+        }
 
 
         return $this->render('app/cart/summary.html.twig', [

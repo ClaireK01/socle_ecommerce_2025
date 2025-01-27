@@ -30,6 +30,13 @@ all:
 
 
 commerce:
+  connect: Je me connecte
+  guest: Je commande en tant qu'invité
+  connexion: Panier
+  adress:
+    shipping: Adresse de livraison
+    facturation: Adresse de facturation
+    sameadress: L'adresse de facturation est la même que l'adresse de livraison
   noproduct: Aucun produit
   cart: Panier
   address: Adresse

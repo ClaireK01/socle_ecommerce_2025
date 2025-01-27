@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% import 'app/macro.html.twig' as m %}
+
+
+{% block content %}
+        <h1>{{ 'commerce.connexion'|trans }}</h1>
+        <hr>
+
+        <div class="cart-order-choice-container">
+            <a class="cart-order-choice" href="{{ path('ecommerce_address') }}">
+{#                <div class="cart-order-choice">#}
+                   <span>{{ "commerce.guest"|trans }}</span>
+{#                </div>#}
+            </a>
+            <div class="cart-order-line"></div>
+            <a class="cart-order-choice" href="{{ path('app_login') }}">
+{#                <div >#}
+                    <span>{{ "commerce.connect"|trans }}</span>
+{#                </div>#}
+            </a>
+        </div>
+        <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+
+{% endblock %}

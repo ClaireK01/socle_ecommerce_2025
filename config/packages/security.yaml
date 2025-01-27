@@ -34,10 +34,10 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }
-         - { path: '^/[a-z]{2}/cart/address', roles: IS_AUTHENTICATED_FULLY }
-         - { path: '^/[a-z]{2}/cart/payement', roles: IS_AUTHENTICATED_FULLY }
-         - { path: '^/[a-z]{2}/cart/shipping', roles: IS_AUTHENTICATED_FULLY }
-         - { path: '^/[a-z]{2}/cart/summary', roles: IS_AUTHENTICATED_FULLY }
+#         - { path: '^/[a-z]{2}/cart/address', roles: IS_AUTHENTICATED_FULLY }
+#         - { path: '^/[a-z]{2}/cart/payement', roles: IS_AUTHENTICATED_FULLY }
+#         - { path: '^/[a-z]{2}/cart/shipping', roles: IS_AUTHENTICATED_FULLY }
+#         - { path: '^/[a-z]{2}/cart/summary', roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

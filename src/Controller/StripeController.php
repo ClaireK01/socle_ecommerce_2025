@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 class StripeController extends AbstractController
 {
@@ -68,12 +69,11 @@ class StripeController extends AbstractController
             if($cart instanceof Cart){
                 $orderService->removeCart($cart);
             }
-            $request->getSession()->remove('cart_id');
-            $request->getSession()->remove('shopCount');
+            $orderService->destroySession($request->getSession());
 
             //envoie des mails
             $event = new MailEvent($request->getLocale(), $order);
-            $event->addSendTo(MailEvent::TYPES['client'], $order->getShippingAddress()->getUser()->getEmail());
+            $event->addSendTo(MailEvent::TYPES['client'], $order->getEmail());
             $event->addSendTo(MailEvent::TYPES['admin'], $_ENV['MAILER_ADMIN']);
             $dispatcher->dispatch($event, Events::MAIL_ORDER);
 

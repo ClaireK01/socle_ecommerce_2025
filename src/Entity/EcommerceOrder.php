@@ -76,6 +76,61 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\Column(type: 'text', nullable:true)]
     private $details;
 
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $shippingFirstName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $shippingLastName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $shippingAddressLine;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $shippingCode;
+
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $shippingCity;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $facturationFirstName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $facturationLastName;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $facturationAddressLine;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $facturationCode;
+
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $facturationCity;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $email;
+
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
+    private $phone;
+
+    #[ORM\Column(type: 'text', nullable:true)]
+    private $shippingInfos;
+
+    #[ORM\Column(type: 'text', nullable:true)]
+    private $facturationInfos;
 
     public function __construct()
     {
@@ -237,5 +292,230 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     {
         $this->details = $details;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingFirstName()
+    {
+        return $this->shippingFirstName;
+    }
+
+    /**
+     * @param mixed $shippingFirstName
+     */
+    public function setShippingFirstName($shippingFirstName): void
+    {
+        $this->shippingFirstName = $shippingFirstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingLastName()
+    {
+        return $this->shippingLastName;
+    }
+
+    /**
+     * @param mixed $shippingLastName
+     */
+    public function setShippingLastName($shippingLastName): void
+    {
+        $this->shippingLastName = $shippingLastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingCode()
+    {
+        return $this->shippingCode;
+    }
+
+    /**
+     * @param mixed $shippingCode
+     */
+    public function setShippingCode($shippingCode): void
+    {
+        $this->shippingCode = $shippingCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingCity()
+    {
+        return $this->shippingCity;
+    }
+
+    /**
+     * @param mixed $shippingCity
+     */
+    public function setShippingCity($shippingCity): void
+    {
+        $this->shippingCity = $shippingCity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationFirstName()
+    {
+        return $this->facturationFirstName;
+    }
+
+    /**
+     * @param mixed $facturationFirstName
+     */
+    public function setFacturationFirstName($facturationFirstName): void
+    {
+        $this->facturationFirstName = $facturationFirstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationLastName()
+    {
+        return $this->facturationLastName;
+    }
+
+    /**
+     * @param mixed $facturationLastName
+     */
+    public function setFacturationLastName($facturationLastName): void
+    {
+        $this->facturationLastName = $facturationLastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationCode()
+    {
+        return $this->facturationCode;
+    }
+
+    /**
+     * @param mixed $facturationCode
+     */
+    public function setFacturationCode($facturationCode): void
+    {
+        $this->facturationCode = $facturationCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationCity()
+    {
+        return $this->facturationCity;
+    }
+
+    /**
+     * @param mixed $facturationCity
+     */
+    public function setFacturationCity($facturationCity): void
+    {
+        $this->facturationCity = $facturationCity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingInfos()
+    {
+        return $this->shippingInfos;
+    }
+
+    /**
+     * @param mixed $shippingInfos
+     */
+    public function setShippingInfos($shippingInfos): void
+    {
+        $this->shippingInfos = $shippingInfos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationInfos()
+    {
+        return $this->facturationInfos;
+    }
+
+    /**
+     * @param mixed $facturationInfos
+     */
+    public function setFacturationInfos($facturationInfos): void
+    {
+        $this->facturationInfos = $facturationInfos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingAddressLine()
+    {
+        return $this->shippingAddressLine;
+    }
+
+    /**
+     * @param mixed $shippingAddressLine
+     */
+    public function setShippingAddressLine($shippingAddressLine): void
+    {
+        $this->shippingAddressLine = $shippingAddressLine;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacturationAddressLine()
+    {
+        return $this->facturationAddressLine;
+    }
+
+    /**
+     * @param mixed $facturationAddressLine
+     */
+    public function setFacturationAddressLine($facturationAddressLine): void
+    {
+        $this->facturationAddressLine = $facturationAddressLine;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
 
 }

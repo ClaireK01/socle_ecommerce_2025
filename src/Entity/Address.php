@@ -42,7 +42,6 @@ class Address
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $code;
 
-
     #[ORM\Column(type: 'string', nullable:true)]
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $city;
@@ -56,6 +55,10 @@ class Address
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private $user;
+
+    #[ORM\Column(name:"email", type:"string", nullable:true)]
+    private string $email;
+
 
 
     public function getId(): ?int
@@ -205,6 +208,16 @@ class Address
     public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
 

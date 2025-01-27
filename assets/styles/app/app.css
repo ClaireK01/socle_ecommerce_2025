@@ -879,6 +879,39 @@ input[type=number] {
 
 /************************ cart ***************************/
 
+.cart-order-choice-container{
+    width: 90vw;
+    height: 80vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-order-choice{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+    height: auto;
+    cursor: pointer;
+}
+
+.cart-order-choice span {
+    font-size: 2rem;
+    margin: auto;
+}
+
+.cart-order-choice:hover{
+    background-color: rgba(211, 211, 211, 0.62);
+}
+
+a.cart-order-choice:hover{
+    color: white !important;
+}
+
+a.cart-order-choice:hover span{
+    color: white !important;
+}
+
 .small-title{
     font-size: 0.9rem;
 }

@@ -12,7 +12,11 @@
         </table>
         {% if cart != null and cart.cardProducts|length > 0 %}
             <div class="cart-next">
-                <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+                {% if app.user %}
+                    <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+                {% else %}
+                    <a class="bn bn-primary" href="{{ path('ecommerce_cart_login') }}">{{ 'all.next'|trans }}</a>
+                {% endif %}
             </div>
         {% endif %}
 {% endblock %}

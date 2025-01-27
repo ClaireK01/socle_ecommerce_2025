@@ -14,6 +14,9 @@ class AddressType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if($options['guest'] === true){
+            $builder->add('email');
+        }
         $builder
             ->add('label')
             ->add('firstName')
@@ -26,6 +29,7 @@ class AddressType extends AbstractType
                 'required' => false
             ])
 
+
         ;
     }
 
@@ -33,6 +37,7 @@ class AddressType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Address::class,
+            'guest' => false,
         ]);
     }
 }

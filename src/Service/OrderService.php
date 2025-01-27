@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Address;
 use App\Entity\AttributeItem;
 use App\Entity\CardAttribute;
 use App\Entity\CardAttributeTranslation;
@@ -106,16 +107,6 @@ class OrderService
     }
 
     public function createNewOrder(Cart $cart, $address, $shipping, $payment){
-        $total_ttc = 0;
-        $total_ht = 0;
-
-
-//        foreach ($cart->getCardProducts() as $cp){
-//            /** @var CardProduct $cp */
-//            $total_ttc  += $cp->getFinalPriceTtc();
-//            $total_ht  += $cp->getFinalPriceHt();
-//        }
-
 
         $order = new EcommerceOrder();
 
@@ -130,10 +121,11 @@ class OrderService
         $order->setShipping($shipping);
         $order->setPaymentMethod($payment);
 
+        $order = $this->setOrderAdresses($order, $address, $address);
+
         $order->setNumber($this->ecommerceOrderRepository->getLastOrderNumber() + 1);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
-
 
         return $order;
     }
@@ -145,6 +137,25 @@ class OrderService
             $this->entityManager->persist($c);
         }
         $this->entityManager->remove($cart);
+        $this->entityManager->flush();
+    }
+
+    public function destroySession($session)
+    {
+        $this->removeAddress($session, "address_facturation");
+        $this->removeAddress($session, "address");
+        $session->remove('cart_id');
+        $session->remove('shopCount');
+        $session->remove('address');
+        $session->remove('address_facturation');
+    }
+
+    public function removeAddress($session, $key)
+    {
+        $address = $session->get($key) ? $this->entityManager->getRepository(Address::class)->find($session->get('address')) : null;
+        if($address && !$address->getUser()){
+            $this->entityManager->remove($address);
+        }
         $this->entityManager->flush();
     }
 
@@ -166,5 +177,29 @@ class OrderService
         }
 
         return $same && $newProduct == $cardProduct->getProduct();
+    }
+
+    public function setOrderAdresses(EcommerceOrder $order,
+                                     Address $shippingAddress,
+                                     Address $facturationAddress ){
+
+        $order->setShippingFirstName($shippingAddress->getFirstName());
+        $order->setShippingLastName($shippingAddress->getLastName());
+        $order->setShippingAddressLine($shippingAddress->getAddress());
+        $order->setShippingCode($shippingAddress->getCode());
+        $order->setShippingCity($shippingAddress->getCity());
+        $order->setShippingInfos($shippingAddress->getInfos());
+
+        $order->setFacturationFirstName($facturationAddress->getFirstName());
+        $order->setFacturationLastName($facturationAddress->getLastName());
+        $order->setFacturationAddressLine($facturationAddress->getAddress());
+        $order->setFacturationCode($facturationAddress->getCode());
+        $order->setFacturationCity($facturationAddress->getCity());
+        $order->setFacturationInfos($facturationAddress->getInfos());
+
+        $order->setPhone($shippingAddress->getPhone());
+        $order->setEmail($shippingAddress->getUser() ? $shippingAddress->getUser()->getEmail() : $shippingAddress->getEmail());
+
+        return $order;
     }
 }

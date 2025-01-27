@@ -4,35 +4,51 @@
 {% block content %}
 <div class="main">
     <div class="container my-5">
-        <h1>{{ 'commerce.address'|trans }}</h1>
-        <hr>
-        {% if user.addresses|length > 0 %}
-            <div>
-                <form class="table-choices" action="#" method="POST">
-                    {% for a in user.addresses %}
-                        <div class="cart list-item">
-                            <input type="radio" id="{{ a.id }}" name="address" value="{{ a.id }}">
-                            <div class="item-infos">
-                                <label for="{{ a.id }}" class="display-none">{{ a.label }}</label>
-                                <h2>{{ a.label }}</h2>
-                                <span><span class="lighten">{{ a.phone }}</span><br>
-                                {{ a.address }}<br>
-                                {{ a.code }}, {{ a.city|upper }}</span>
-                            </div>
-
-                        </div>
-                        <hr>
-                    {% endfor %}
-                    <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
-                    <button type="submit" class="bn bn-primary">{{ 'all.next'|trans }}</button>
-                </form>
-            </div>
+        {% if type == "ship" %}
+            <h2>{{ "commerce.adress.shipping"|trans }}</h2>
         {% else %}
-            <div class="btn-container">
-                <a  href="{{ path('ecommerce_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
-                <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
-            </div>
+            <h2>{{ "commerce.adress.facturation"|trans }}</h2>
+        {% endif %}        <hr>
+        {% if user is not  null %}
+            {% if user.addresses|length > 0 %}
+                <div>
+                    <form class="table-choices" action="#" method="POST">
+                        {% for a in user.addresses %}
+                            <div class="cart list-item">
+                                <input type="radio" id="{{ a.id }}" name="address" value="{{ a.id }}">
+                                <div class="item-infos">
+                                    <label for="{{ a.id }}" class="display-none">{{ a.label }}</label>
+                                    <h2>{{ a.label }}</h2>
+                                    <span><span class="lighten">{{ a.phone }}</span><br>
+                                    {{ a.address }}<br>
+                                    {{ a.code }}, {{ a.city|upper }}</span>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                        <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
 
+                        <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                        <button type="submit" class="bn bn-primary">{{ 'all.next'|trans }}</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="btn-container">
+                    <a  href="{{ path('ecommerce_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
+                    <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                </div>
+            {% endif %}
+        {% else %}
+            {{ form_start(form) }}
+            <div>
+                {{ form_widget(form) }}
+                <input name="same_address" id="same_address" type="checkbox"><label for="same_address">{{ "commerce.adress.sameadress"|trans }}</label>
+            </div>
+            <div class="btn-container">
+                <a class="bn bn-primary" href="{{ path('ecommerce_cart') }}">{{ 'all.previous'|trans }}</a>
+                <button type="submit" class="bn bn-primary">{{ "all.next"|trans }}</button>
+            </div>
+            {{ form_end(form) }}
         {% endif %}
     </div>
 </div>
