@@ -52,12 +52,6 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\Column(type: 'integer', nullable:true)]
     private $status;
 
-    #[ORM\ManyToOne(targetEntity: Address::class)]
-    private $shipping_address;
-
-    #[ORM\ManyToOne(targetEntity: Address::class)]
-    private $facturation_address;
-
     #[ORM\OneToMany(mappedBy: "ecommerceOrder", targetEntity: CardProduct::class)]
     private $cardProducts;
 
@@ -150,22 +144,6 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     /**
      * @return mixed
      */
-    public function getShippingAddress()
-    {
-        return $this->shipping_address;
-    }
-
-    /**
-     * @param mixed $shipping_address
-     */
-    public function setShippingAddress($shipping_address): void
-    {
-        $this->shipping_address = $shipping_address;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getTotalPriceTtc()
     {
         return $this->total_price_ttc;
@@ -193,22 +171,6 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     public function setTotalPriceHt($total_price_ht): void
     {
         $this->total_price_ht = $total_price_ht;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFacturationAddress()
-    {
-        return $this->facturation_address;
-    }
-
-    /**
-     * @param mixed $facturation_address
-     */
-    public function setFacturationAddress($facturation_address): void
-    {
-        $this->facturation_address = $facturation_address;
     }
 
     /**
