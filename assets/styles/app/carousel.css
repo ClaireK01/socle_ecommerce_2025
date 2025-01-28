@@ -2,6 +2,7 @@
 .product-carousel{
     width: 50%;
     display: flex;
+    max-height: 85vh;
 }
 
 .carousel-product-img-main{
@@ -14,14 +15,30 @@
     height: 100%;
 }
 
-
-.product-carousel-preview{
+.product-carousel-preview-container{
     display: flex;
-    overflow-y: hidden;
+    overflow-y: scroll;
     overflow-X: hidden;
     width: 25%;
     margin-left: 0.5rem;
     flex-direction: column;
+    position: relative;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    scroll-behavior: smooth;
+}
+
+.product-carousel-preview-container::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
+
+.product-carousel-preview{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .product-carousel-preview-card{

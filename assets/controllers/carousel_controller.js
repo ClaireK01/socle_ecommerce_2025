@@ -29,11 +29,46 @@ export default class extends Controller{
         let btn = event.currentTarget;
         let active = document.querySelector('.active');
         let next = null;
+        let previewCont = document.querySelector('.product-carousel-preview-container');
+        let divs = document.querySelectorAll('.product-carousel-preview-card');
+        let end = false;
+
         if(btn.dataset.type === "previous"){
             next = active.previousElementSibling;
+            if(!next){
+                next = divs[divs.length - 1]
+                end = true;
+            }
+
+            //gestion scroll
+            if(end){
+                previewCont.scrollTop = next.offsetTop;
+            }else {
+                if (previewCont.scrollTop > next.offsetTop) {
+                    previewCont.scrollTop = next.offsetTop;
+                }
+            }
+
         }else{
             next = active.nextElementSibling;
+            if(!next){
+                end = true;
+                next = divs[0];
+            }
+
+            //gestion scroll
+            if(end){
+                previewCont.scrollTop = next.scrollTop;
+            }else{
+                let stylePreviewCont = getComputedStyle(previewCont);
+                let stylePreviewContHeight = parseInt(stylePreviewCont.height.replace('px', ''));
+
+                if(previewCont.scrollTop + stylePreviewContHeight < next.offsetTop){
+                    previewCont.scrollTop = next.offsetTop;
+                }
+            }
         }
+
         document.querySelector(".carousel-product-img-main img").src = next.querySelector('img').src;
         next.classList.add('active');
         active.classList.remove('active');

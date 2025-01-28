@@ -5,16 +5,18 @@
 {% block content %}
     <div class="product-show" data-controller="carousel">
         <div class="product-carousel">
-            <div class="product-carousel-preview">
-                {% for pic in product.pictures %}
-                    <div class="product-carousel-preview-card
+            <div class="product-carousel-preview-container">
+                <div class="product-carousel-preview">
+                    {% for pic in product.pictures %}
+                        <div class="product-carousel-preview-card
                         {% if loop.index == 1 %} active {% elseif loop.index == 2 %} next{% endif %}"
-                         data-action="mouseover->carousel#cardHoverElement"
-                    >
-                        <div class="card-preview-filter"></div>
-                        <img alt="" src="{{ pic.path }}">
-                    </div>
-                {% endfor %}
+                             data-action="mouseover->carousel#cardHoverElement"
+                        >
+                            <div class="card-preview-filter"></div>
+                            <img alt="" src="{{ pic.path }}">
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <div class="carousel-product-img-main">
                 <img alt="" src="{{ asset(product.firstPicture.path) }}">
