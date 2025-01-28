@@ -37,7 +37,7 @@
 {#            </ul>#}
 {#        </li>#}
 
-        {% if 'ecommerce_' not in app.request.get('_route') %}
+        {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}
             <div class="shop-icon-container">
                 <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>
                 <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>

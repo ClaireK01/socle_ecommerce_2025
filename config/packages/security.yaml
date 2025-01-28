@@ -19,8 +19,13 @@ security:
             custom_authenticator: App\Security\AppCustomAuthenticator
             logout:
                 path: app_logout
+                target: app_homepage
                 # where to redirect after logout
                 # target: app_any_route
+#            login:
+#                path: ecommerce_cart_login
+#                target: ecommerce_cart_login
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

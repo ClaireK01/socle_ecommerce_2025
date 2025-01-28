@@ -14,6 +14,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -44,6 +45,10 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
+        }
+
+        if($request->get("cart")){
+            return new RedirectResponse($this->urlGenerator->generate('ecommerce_address'));
         }
 
          return new RedirectResponse($this->urlGenerator->generate('app_user'));
