@@ -271,7 +271,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        if($order->getShippingAddress()->getUser() != $user && $order->getFacturationAddress()->getUser() != $user){
+        if($order->getUser() != $user && $order->getUser() != $user){
             return $this->redirectToRoute('app_homepage');
         }
 

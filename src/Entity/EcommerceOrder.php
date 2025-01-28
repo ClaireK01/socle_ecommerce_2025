@@ -132,6 +132,10 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\Column(type: 'text', nullable:true)]
     private $facturationInfos;
 
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "orders")]
+    private $user;
+
     public function __construct()
     {
         $this->cardProducts = new ArrayCollection();
@@ -515,6 +519,22 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     public function setEmail($email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 
 

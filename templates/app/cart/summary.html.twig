@@ -16,7 +16,7 @@
         <div class="order-infos">
             <div class="address card-order-infos">
                 <span class="small-title">{{ 'commerce.adress.shipping'|trans }}</span>
-                <h3>{{ address.label }}</h3>
+                <h3>{{ address.label ?: 'commerce.adress.shipping'|trans }}</h3>
                 <div>
                     <span><span class="lighten">{{ address.phone }}</span><br>
                         {{ address.address }}<br>
@@ -25,7 +25,7 @@
             </div>
             <div class="address card-order-infos">
                 <span class="small-title">{{ 'commerce.adress.facturation'|trans }}</span>
-                <h3>{{ addressfac.label }}</h3>
+                <h3>{{ addressfac.label ?: 'commerce.adress.facturation'|trans }}</h3>
                 <div>
                     <span><span class="lighten">{{ addressfac.phone }}</span><br>
                         {{ addressfac.address }}<br>

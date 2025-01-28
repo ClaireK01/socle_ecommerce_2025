@@ -195,7 +195,12 @@ class OrderService
         $order->setFacturationInfos($facturationAddress->getInfos());
 
         $order->setPhone($shippingAddress->getPhone());
-        $order->setEmail($shippingAddress->getUser() ? $shippingAddress->getUser()->getEmail() : $shippingAddress->getEmail());
+        if($shippingAddress->getUser()){
+            $order->setEmail($shippingAddress->getUser()->getEmail());
+            $order->setUser($shippingAddress->getUser());
+        }else{
+            $order->setEmail($shippingAddress->getEmail());
+        }
 
         return $order;
     }

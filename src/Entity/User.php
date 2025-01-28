@@ -70,6 +70,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSession::class, orphanRemoval: true)]
     private Collection $userSessions;
 
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: EcommerceOrder::class, cascade: ['persist'])]
+    private $orders;
+
     public function __construct()
     {
         $this->session_ids = [];
@@ -77,6 +80,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->resourceIds = new ArrayCollection();
         $this->address = new ArrayCollection();
         $this->userSessions = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function isVerified(): bool
@@ -240,6 +244,27 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
                 $userSession->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function getOrders(){
+        return $this->orders;
+    }
+
+    public function addOrder(EcommerceOrder $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(EcommerceOrder $order): self
+    {
+        $this->orders->removeElement($order);
 
         return $this;
     }

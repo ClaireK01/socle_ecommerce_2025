@@ -83,17 +83,17 @@
             <div class="right-1">
                 <h3><strong>{{ "user.order.shipping"|trans }}</strong></h3>
                 <p>
-                    {{ order.facturationAddress.lastName }} {{ order.facturationAddress.firstName }}<br>
-                    {{ order.facturationAddress.address }}<br>
-                    {{ order.facturationAddress.code }} {{ order.facturationAddress.city }}<br>
+                    {{ order.shippingFirstName }} {{ order.shippingLastName }}<br>
+                    {{ order.shippingAddressLine }}<br>
+                    {{ order.shippingCode }} {{ order.shippingCity }}<br>
                 </p>
             </div>
             <div>
                 <h3><strong>{{ "user.order.billing"|trans }}</strong></h3>
                 <p>
-                    {{ order.facturationAddress.lastName }} {{ order.facturationAddress.firstName }}<br>
-                    {{ order.facturationAddress.address }}<br>
-                    {{ order.facturationAddress.code }} {{ order.facturationAddress.city }}<br>
+                    {{ order.facturationFirstName }} {{ order.facturationLastName }}<br>
+                    {{ order.facturationAddressLine }}<br>
+                    {{ order.facturationCode }} {{ order.facturationCity }}<br>
                 </p>
             </div>
         </div>

@@ -7,11 +7,11 @@
     <div class="order-infos">
         <div class="address card-order-infos">
             <span class="small-title">{{ 'commerce.address'|trans }}</span>
-            <h3>{{ order.shippingAddress.label }}</h3>
+{#            <h3>{{ order.shippingAddress.label }}</h3>#}
             <div>
-                <span><span class="lighten">{{ order.shippingAddress.phone }}</span><br>
-                {{ order.shippingAddress.address }}<br>
-                {{ order.shippingAddress.code }}, {{ order.shippingAddress.city|upper }}</span>
+                <span><span class="lighten">{{ order.phone }}</span><br>
+                {{ order.shippingAddressLine }}<br>
+                {{ order.shippingCode}}, {{ order.shippingCity|upper }}</span>
             </div>
         </div>
         <div class="shipping card-order-infos">
