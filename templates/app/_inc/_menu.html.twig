@@ -1,54 +1,60 @@
 {% import 'app/macro.html.twig' as m %}
 <nav>
 {#    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>#}
-    <ul class="menu">
-        <li><a href="{{ path('app_homepage') }}">{{ 'all.home'|trans }}</a></li>
-        <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>
-{#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
-        <li><a href="{{ path('app_article_list') }}">{{'commerce.article.see'|trans }}</a></li>
-        <li class="dropdown"  data-controller="menu">
-            <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">{{ 'commerce.category.see'|trans }} <i class="fa-solid fa-caret-down"></i></a></span>
-            <ul class="dropdown-content">
-                {# generer sur twig #}
-                {% for cat in getCategories() %}
-                    {% if cat.parent is null %}
-                        {{ m.subMenu(cat) }}
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
-        <li><a href="{{ path('app_contact') }}">Contact</a></li>
+    <ul class="menu" data-controller="menu">
+        <div class="bars" data-action>
+            <button {{ stimulus_action('menu', 'menuElement') }}><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="plain">
+            <li><a href="{{ path('app_homepage') }}">{{ 'all.home'|trans }}</a></li>
+            <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>
+            {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
+            <li><a href="{{ path('app_article_list') }}">{{'commerce.article.see'|trans }}</a></li>
+            <li class="dropdown"  data-controller="menu">
+                <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">{{ 'commerce.category.see'|trans }} <i class="fa-solid fa-caret-down"></i></a></span>
+                <ul class="dropdown-content">
+                    {# generer sur twig #}
+                    {% for cat in getCategories() %}
+                        {% if cat.parent is null %}
+                            {{ m.subMenu(cat) }}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
 
-{#        <li class="dropdown">#}
-{#            <div class="dropdown-selected">#}
-{#                {% if app.request.locale == 'fr' or app.request.locale is null %}#}
-{#                    <span>{{ 'flags/france.svg'|svg|raw }}</span>#}
-{#                {% elseif app.request.locale == 'en' %}#}
-{#                    <span>{{ 'flags/uk.svg'|svg|raw }}</span>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#            <ul class="dropdown-content">#}
-{#                {% if app.request.locale != 'fr' %}#}
-{#                    <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'fr'}) ) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>#}
-{#                {% endif %}#}
-{#                {% if app.request.locale != 'en' %}#}
-{#                    <li> <a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>#}
-{#                {% endif %}#}
-{#            </ul>#}
-{#        </li>#}
+            {#        <li class="dropdown">#}
+            {#            <div class="dropdown-selected">#}
+            {#                {% if app.request.locale == 'fr' or app.request.locale is null %}#}
+            {#                    <span>{{ 'flags/france.svg'|svg|raw }}</span>#}
+            {#                {% elseif app.request.locale == 'en' %}#}
+            {#                    <span>{{ 'flags/uk.svg'|svg|raw }}</span>#}
+            {#                {% endif %}#}
+            {#            </div>#}
+            {#            <ul class="dropdown-content">#}
+            {#                {% if app.request.locale != 'fr' %}#}
+            {#                    <li><a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'fr'}) ) }}">{{ 'flags/france.svg'|svg|raw }}</a></li>#}
+            {#                {% endif %}#}
+            {#                {% if app.request.locale != 'en' %}#}
+            {#                    <li> <a href="{{ path(app.request.get('_route'), app.request.get("_route_params")|merge({'_locale': 'en'}) ) }}">{{ 'flags/uk.svg'|svg|raw }}</a></li>#}
+            {#                {% endif %}#}
+            {#            </ul>#}
+            {#        </li>#}
 
-        {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}
-            <div class="shop-icon-container">
-                <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
-            </div>
-        {% endif %}
-        {% if app.user %}
-            <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
-            <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
-        {% else %}
-            <li><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>
-            <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>
-        {% endif %}
+            {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}
+                <div class="shop-icon-container">
+                    <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
+                </div>
+            {% endif %}
+            {% if app.user %}
+                <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
+                <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+            {% else %}
+                <li><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>
+                <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>
+            {% endif %}
+        </div>
+
     </ul>
 </nav>

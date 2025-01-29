@@ -1,5 +1,6 @@
 @import "../../../node_modules/swiper/swiper.css";
 @import "../../../node_modules/swiper/swiper-bundle.css";
+@import "_menu.css";
 @import "swiper.css";
 @import "carousel.css";
 @import "../_var.css";
@@ -72,7 +73,7 @@ nav{
     background-color: #000;
 }
 
-nav ul{
+nav .plain{
     align-items: center;
     gap: 2rem;
     /*color:var(--color-main);*/
@@ -85,7 +86,7 @@ nav ul{
     padding: 1rem;
 }
 
-nav ul li{
+nav .plain li{
     text-decoration: none;
     color: #fff;
     font-size: 1rem;

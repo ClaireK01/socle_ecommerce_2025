@@ -1,0 +1,54 @@
+.menu .bars{
+    display: none;
+    color: white;
+    cursor: pointer;
+    list-style: none;
+    font-size: 3rem;
+}
+
+.menu .bars button{
+    background-color: black;
+    border: none;
+    color: white;
+}
+
+@media (max-width: 1000px) {
+
+    nav{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .shop-icon-container{
+        margin: 0 !important;
+    }
+
+    nav.active .plain{
+        height: 100vh !important;
+    }
+
+    nav .plain{
+        height: 0 !important;
+        flex-direction: column;
+        width: 100%;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+    nav .bars{
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav.active .bars{
+        margin-bottom: 2rem!important;
+    }
+
+    nav.active .menu{
+        height: 100vh !important;
+        justify-content: flex-start !important;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+}

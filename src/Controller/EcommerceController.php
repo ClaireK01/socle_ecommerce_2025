@@ -189,7 +189,6 @@ class EcommerceController extends AbstractController
         }
 
         if($request->getMethod() == "POST"){
-            VarDumper::dump('test');
             if($user){
                 $address = $request->request->get('address');
                 $request->getSession()->set("address", $address);
