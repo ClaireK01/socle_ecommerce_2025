@@ -7,7 +7,6 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "ext-memcached": "*",
         "a2lix/translation-form-bundle": "^3.2",
         "artgris/filemanager-bundle": "^2.5",
         "cboden/ratchet": "^0.4.4",
