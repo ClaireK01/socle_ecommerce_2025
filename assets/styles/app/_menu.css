@@ -12,7 +12,15 @@
     color: white;
 }
 
+nav.active .menu .bars button{
+    margin-bottom: 2rem!important;
+}
+
 @media (max-width: 1000px) {
+
+    .dropdown-content{
+        position: relative !important;
+    }
 
     nav{
         flex-direction: column;
@@ -40,9 +48,7 @@
         justify-content: center;
     }
 
-    .nav.active .bars{
-        margin-bottom: 2rem!important;
-    }
+
 
     nav.active .menu{
         height: 100vh !important;
