@@ -4,8 +4,23 @@
     <ul class="menu" data-controller="menu">
         <div class="bars" data-action>
             <button {{ stimulus_action('menu', 'menuElement') }}><i class="fa-solid fa-bars"></i></button>
+            <div class="plain2">
+                {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}
+                    <div class="shop-icon-container">
+                        <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
+                    </div>
+                {% endif %}
+                {% if app.user %}
+                    <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
+                    <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                {% else %}
+                    <li class="register-btn"><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>
+                    <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>
+                {% endif %}
+            </div>
         </div>
-        <div class="plain">
+        <div class="plain1">
             <li><a href="{{ path('app_homepage') }}">{{ 'all.home'|trans }}</a></li>
             <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>
             {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
@@ -40,21 +55,41 @@
             {#                {% endif %}#}
             {#            </ul>#}
             {#        </li>#}
-
-            {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}
-                <div class="shop-icon-container">
-                    <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>
-                </div>
-            {% endif %}
-            {% if app.user %}
-                <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
-                <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
-            {% else %}
-                <li><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>
-                <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>
-            {% endif %}
         </div>
 
+{#        <div class="plain2">#}
+{#            {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}#}
+{#                <div class="shop-icon-container">#}
+{#                    <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>#}
+{#                    <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>#}
+{#                </div>#}
+{#            {% endif %}#}
+{#            {% if app.user %}#}
+{#                <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>#}
+{#                <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>#}
+{#            {% else %}#}
+{#                <li class="register-btn"><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>#}
+{#                <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>#}
+{#            {% endif %}#}
+{#        </div>#}
+
+
     </ul>
+{#    <ul class="menu" data-controller="menu">#}
+{#        <div class="plain2">#}
+{#            {% if 'ecommerce_' not in app.request.get('_route') and (app.request.get('_route') != "app_login" or app.request.get('_route') == "app_login" and (app.request.get('cart') is null)) %}#}
+{#                <div class="shop-icon-container">#}
+{#                    <li><a href="#" {{ stimulus_action('ecommerce', 'cartPreviewElement')}} class="btn-cart-preview"><i class="fa-solid fa-cart-shopping"></i></a></li>#}
+{#                    <span class="shop-count" data-ecommerce-target="shopcount">{{ getShopCount(app.request.session) }}</span>#}
+{#                </div>#}
+{#            {% endif %}#}
+{#            {% if app.user %}#}
+{#                <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>#}
+{#                <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>#}
+{#            {% else %}#}
+{#                <li class="register-btn"><a href="{{ path('app_register') }}" class="bn bn-primary">S'inscrire</a></li>#}
+{#                <li><a href="{{ path('app_login') }}" class="bn bn-primary">Se Connecter</a></li>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </ul>#}
 </nav>
