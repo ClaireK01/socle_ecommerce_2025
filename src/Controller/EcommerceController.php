@@ -80,9 +80,10 @@ class EcommerceController extends AbstractController
         }
 
         $cartInfos = $orderService->getCartInfos($cart);
+        $view = $this->renderView('app/cart/cart_preview.html.twig', ['cart' => $cart]);
         $session->set('shopCount', $cartInfos['total_quantity']);
 
-        return new JsonResponse(["cart" => $cartInfos], 200);
+        return new JsonResponse(["cart" => $cartInfos, 'cartview' => $view], 200);
     }
 
     #[Route('{_locale}/cart/{id}/quantity', name: 'update_quantity', methods: 'POST')]

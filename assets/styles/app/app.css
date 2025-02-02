@@ -190,7 +190,7 @@ footer ul{
     text-align: center;
     padding: 2rem 3rem;
     border-bottom: 1px solid lightgrey;
-    height: 100px;
+    /*height: 100px;*/
 }
 
 .product-grid{
@@ -818,10 +818,6 @@ a.cart-order-choice:hover span{
     border: solid lightgrey 1px;
     margin-top: 1rem;
     margin-right: 1rem;
-}
-
-.table-products{
-    margin: 3rem auto;
 }
 
 

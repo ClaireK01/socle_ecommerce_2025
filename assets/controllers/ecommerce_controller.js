@@ -81,13 +81,14 @@ export default class extends Controller{
             postData(url, {"quantity" : quantity, 'attributes' : attrs},  'POST').then((data) => {
                 this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
                 input.value = input.min
-            });
-            postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
-                document.querySelector('.cart-preview').innerHTML = data.view;
+                document.querySelector('.cart-preview').innerHTML = data.cartview;
                 if(!document.querySelector("body").classList.contains('show-prev')){
                     document.querySelector("body").classList.add('show-prev');
                 }
             });
+            // postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
+            //
+            // });
         })
     }
 
