@@ -879,6 +879,29 @@ a.cart-order-choice:hover span{
 
 @media (max-width: 1000px) {
 
+
+    /* page a propos */
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        text-align: justify;
+    }
+
+    .content.right{
+        flex-direction: column;
+        text-align: justify;
+    }
+
+    .content-img{
+        margin-top: 5%;
+        min-width: 100% !important;
+    }
+
+
+
+    /* products */
+
     .list-container{
         flex-direction: column;
     }
