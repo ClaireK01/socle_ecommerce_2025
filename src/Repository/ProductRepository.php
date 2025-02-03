@@ -113,6 +113,24 @@ class ProductRepository extends ServiceEntityRepository
         return $subQuery->getQuery()->getDQL();
     }
 
+    public function getProductHighLights($feild, $order, $category = null){
+        $qb = $this->createQueryBuilder("p");
+        $qb ->join("p.categories", "c")
+            ->join("c.translations", "ct");
+
+        if($category){
+            $qb->andWhere("ct.title = :title")
+                ->setParameter("title", $category)
+            ;
+        }
+
+        $qb ->orderBy("p.".$feild, $order)
+            ->setMaxResults(5)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function filterPrice($qb, $params, $alias){
         if ($this->existAndNotEmpty("price_min", $params) || $this->existAndNotEmpty("price_max", $params)) {
             if ($this->existAndNotEmpty("price_min", $params) && $this->existAndNotEmpty("price_max", $params)) {

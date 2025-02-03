@@ -11,39 +11,65 @@
     </section>
 {% endblock %}
 {% block content %}
-    <section class="products">
+    <section class="section products">
         <div class="sub-menu">
-            <h2>New Arrivals</h2>
+            <h2>{{ 'all.arrivals'|trans }}</h2>
             <div class="cont-cont-sub-menu-list">
                 <ul class="sub-menu-list">
                     <li >{{ 'logos/adidas.svg'|svg|raw }}</li>
                     <li >{{ 'logos/axe.svg'|svg|raw }}</li>
                     <li >{{ 'logos/braun.svg'|svg|raw }}</li>
                     <li >{{ 'logos/gillette.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/oars.svg'|svg|raw }}</li>
                 </ul>
                 <ul class="sub-menu-list two">
                     <li >{{ 'logos/adidas.svg'|svg|raw }}</li>
                     <li >{{ 'logos/axe.svg'|svg|raw }}</li>
                     <li >{{ 'logos/braun.svg'|svg|raw }}</li>
                     <li >{{ 'logos/gillette.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/oars.svg'|svg|raw }}</li>
                 </ul>
             </div>
-
         </div>
-        <div class="product-grid">
-            <div class="swiper-product swiper-container">
-                <div class="swiper-wrapper">
-                    {% for p in products %}
-                        <div class="swiper-slide">
-                            {{ m.cardProduct(p) }}
-                        </div>
-                    {% endfor %}
+        <div class="product-highlight">
+            <h2>{{ 'all.watch'|trans }}</h2>
+            <div class="product-grid">
+                <div class="swiper-product swiper-container" data-swipe="product">
+                    <div class="swiper-wrapper">
+                        {% for p in products %}
+                            <div class="swiper-slide">
+                                {{ m.cardProduct(p) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination-product"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                <div class="swiper-pagination-product"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"><div>
             </div>
-{#            {{ m.slider("product", products) }}#}
+        </div>
+    </section>
+    <section>
+        <div class="spacer layer-top"></div>
+        <div class="spacer layer-bottom"></div>
+    </section>
+    <section class="section products">
+        <div class="product-highlight">
+            <h2>{{ 'all.grooming'|trans }}</h2>
+            <div class="product-grid">
+                <div class="swiper-highlights1 swiper-container" data-swipe="highlights1">
+                    <div class="swiper-wrapper">
+                        {% for p in hightlights1 %}
+                            <div class="swiper-slide">
+                                {{ m.cardProduct(p) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination-highlights1"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}

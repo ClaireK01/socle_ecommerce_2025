@@ -22,10 +22,11 @@ class AppController extends AbstractController
     public function index(ProductRepository $productRepository, UserRepository $userRepository, UserPasswordHasherInterface $hasher, EntityManagerInterface$entityManager): Response
     {
         $products = $productRepository->findAll();
+        $hightlights1 = $productRepository->getProductHighLights("createdAt", 'ASC', "Grooming");
 
         return $this->render('app/index.html.twig', [
             'products' => $products,
-            'controller_name' => 'AppController',
+            'hightlights1' => $hightlights1,
         ]);
     }
 

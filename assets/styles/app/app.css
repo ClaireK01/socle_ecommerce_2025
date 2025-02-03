@@ -89,6 +89,29 @@ a:hover{
     margin: 1rem 0;
 }
 
+
+/***** section svg ****/
+.spacer{
+    aspect-ratio: 2115/470;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.layer-top{
+    padding-top: 2rem;
+    background-image: url("../../../public/svg/bg/layer-top.svg");
+}
+
+.layer-bottom{
+    padding-bottom: 2rem;
+    background-image: url("../../../public/svg/bg/layer-bottom.svg");
+}
+
+
+/***********************************/
+
 .cta-button {
     padding: 0.75rem 1.5rem;
     background-color: #000;
@@ -191,6 +214,10 @@ footer ul{
     padding: 2rem 3rem;
     border-bottom: 1px solid lightgrey;
     /*height: 100px;*/
+}
+
+.product-highlight{
+    padding: 4rem 0;
 }
 
 .product-grid{
@@ -520,10 +547,11 @@ body.show-popup .popup-container{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 25%;
+    width: 30%;
     align-items: flex-start;
     margin: auto !important;
     text-align: justify;
+    padding: 1rem;
 }
 
 .swiper-slide .card-product{
@@ -534,7 +562,7 @@ body.show-popup .popup-container{
     background-size: cover;
     background-color: lightgrey;
     width: 100%;
-    height: 18rem;
+    height: 14rem;
     margin-bottom: 1rem;
 }
 
@@ -545,6 +573,8 @@ body.show-popup .popup-container{
 
 .card-product-descr h3+p{
     color: #666;
+    min-height: 5rem;
+    max-height: 5rem;
 }
 
 .card-bottom{
@@ -961,6 +991,12 @@ a.cart-order-choice:hover span{
 
     footer ul{
         flex-direction: column !important;
+    }
+}
+
+@media (max-width: 540px) {
+    .card-product{
+        width: 100%;
     }
 }
 

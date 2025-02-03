@@ -48,38 +48,83 @@ import { Navigation, Pagination, Autoplay, Grid } from 'swiper/modules';
 // });
 //
 
-if(document.querySelector('.swiper-product')){
-    let btnPrevProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-prev');
-    let btnNextProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-next');
-    new Swiper('.swiper-product', {
-        // configure Swiper to use modules
-        modules: [Navigation, Pagination],
-        slidesPerView: 3,
-        autoplay:true,
-        loop: true,
-        observer: true,
-        observeParents: true,
-        // If we need pagination
-        pagination: {
-            el: '.swiper-pagination-product',
-        },
-        breakpoints : {
-            1000 : {
-                slidesPerView : 3
+
+let swipers = document.querySelectorAll("[data-swipe]");
+
+swipers.forEach((el) => {
+    let name = el.dataset.swipe;
+    if(document.querySelector('.swiper-' + name)){
+        let btnPrev = document.querySelector('.swiper-'+ name).querySelector('.swiper-button-prev');
+        let btnNext = document.querySelector('.swiper-'+ name).querySelector('.swiper-button-next');
+        new Swiper('.swiper-' + name, {
+            // configure Swiper to use modules
+            modules: [Navigation, Pagination],
+            slidesPerView: 4,
+            autoplay:true,
+            loop: true,
+            observer: true,
+            observeParents: true,
+            pagination: {
+                el: '.swiper-pagination-' + name,
             },
-            600 : {
-                slidesPerView: 2,
+            breakpoints : {
+                1000 : {
+                    slidesPerView : 4
+                },
+                730 : {
+                    slidesPerView: 3,
+                },
+                600 : {
+                    slidesPerView: 2,
+                },
+                200 : {
+                    slidesPerView: 1,
+                }
             },
-            200 : {
-                slidesPerView: 1,
-            }
-        },
-        navigation: {
-            nextEl: btnNextProduct,
-            prevEl: btnPrevProduct,
-        },
-    });
-}
+            navigation: {
+                nextEl: btnNext,
+                prevEl: btnPrev,
+            },
+        });
+    }
+});
+
+// if(document.querySelector('.swiper-product')){
+//     let btnPrevProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-prev');
+//     let btnNextProduct = document.querySelector('.swiper-product').querySelector('.swiper-button-next');
+//     new Swiper('.swiper-product', {
+//         // configure Swiper to use modules
+//         modules: [Navigation, Pagination],
+//         slidesPerView: 4,
+//         autoplay:true,
+//         loop: true,
+//         observer: true,
+//         observeParents: true,
+//         pagination: {
+//             el: '.swiper-pagination-product',
+//         },
+//         breakpoints : {
+//             1000 : {
+//                 slidesPerView : 4
+//             },
+//             730 : {
+//                 slidesPerView: 3,
+//             },
+//             600 : {
+//                 slidesPerView: 2,
+//             },
+//             200 : {
+//                 slidesPerView: 1,
+//             }
+//         },
+//         navigation: {
+//             nextEl: btnNextProduct,
+//             prevEl: btnPrevProduct,
+//         },
+//     });
+// }
+
+
 //
 // if(document.querySelector('.swiper-article')){
 //     let btnPrevProduct = document.querySelector('.swiper-article').querySelector('.swiper-button-prev');

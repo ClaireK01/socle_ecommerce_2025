@@ -27,6 +27,10 @@ all:
   bestartist: Top Artistes
   bestoffer: Top offres
   sales: ventes
+  arrivals: New Arrivals
+  grooming: Grooming
+  promos: Promos
+  watch: Watches
 
 
 commerce:

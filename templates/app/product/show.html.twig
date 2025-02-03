@@ -54,8 +54,25 @@
         </div>
     </div>
 
-    <div class="similar">
-        <h2>{{ "product.seealso"|trans }}</h2>
-        {{ m.slider("product", similarProducts, cart) }}
-    </div>
+    {% if similarProducts|length > 0 %}
+        <div class="similar">
+            <h2>{{ "product.seealso"|trans }}</h2>
+{#            {{ m.slider("product", similarProducts, cart) }}#}
+            <div class="swiper-product swiper-container">
+                <div class="swiper-wrapper">
+                    {% for p in similarProducts %}
+                        {% if p != product %}
+                            <div class="swiper-slide">
+                                {{ m.cardProduct(p) }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="swiper-pagination-product"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}

@@ -36,12 +36,12 @@
 {#        {% block slider %}{% endblock %}#}
             {% block svgs %}{% endblock %}
             {% block intro %}{% endblock %}
-        <div class="section">
+{#        <div class="section">#}
             {% if hasBreadcrumb(app.request.get('_route')) %}
                 {{ m.breadcrumb(entity) }}
             {% endif %}
             {% block content %}{% endblock %}
-        </div>
+{#        </div>#}
 
         <div class="popup-background"></div>
         <div class="popup-container" data-controller="form-collection">
