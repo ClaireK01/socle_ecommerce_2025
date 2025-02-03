@@ -2,12 +2,14 @@
 {% import 'app/macro.html.twig' as m %}
 
 {% block content %}
-    <div data-controller="profile">
-        {{ m.flashDisplay() }}
-        {% include "app/user/_menu_user.html.twig" %}
-        <div class="profile-view" >
-            {% block user_content %}
-            {% endblock %}
+    <section class="section">
+        <div data-controller="profile">
+            {{ m.flashDisplay() }}
+            {% include "app/user/_menu_user.html.twig" %}
+            <div class="profile-view" >
+                {% block user_content %}
+                {% endblock %}
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

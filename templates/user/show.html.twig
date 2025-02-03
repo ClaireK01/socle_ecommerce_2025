@@ -2,7 +2,8 @@
 {% import 'app/macro.html.twig' as m %}
 
 {% block user_content %}
-    {{ form_start(form) }}
+    <section class="section">
+        {{ form_start(form) }}
         {{ form_row(form.username) }}
         {{ form_row(form.email) }}
         <div>
@@ -16,25 +17,25 @@
                 {{ form_row(form.password.second) }}
             </div>
         </div>
-    <div>
-        <div class="table-choices">
-            {% for a in user.addresses %}
-                <div class="cart list-item">
-                    <div class="item-infos">
-                        <h2>{{ a.label }}</h2>
-                        <span><span class="lighten">{{ a.phone }}</span><br>
+        <div>
+            <div class="table-choices">
+                {% for a in user.addresses %}
+                    <div class="cart list-item">
+                        <div class="item-infos">
+                            <h2>{{ a.label }}</h2>
+                            <span><span class="lighten">{{ a.phone }}</span><br>
                             {{ a.address }}<br>
                             {{ a.code }}, {{ a.city|upper }}</span>
+                        </div>
                     </div>
-                </div>
-                <hr>
-            {% endfor %}
+                    <hr>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div class="btn-container">
-        <a  href="{{ path('app_user_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
-    </div>
-    <button type="submit" class="bn-primary bn">{{ "form.edit"|trans }}</button>
-    {{ form_end(form) }}
-
+        <div class="btn-container">
+            <a  href="{{ path('app_user_address_add') }}" class="bn bn-primary"><i class="fa-solid fa-plus"></i> {{ "commerce.addAddress"|trans }}</a>
+        </div>
+        <button type="submit" class="bn-primary bn">{{ "form.edit"|trans }}</button>
+        {{ form_end(form) }}
+    </section>
 {% endblock %}

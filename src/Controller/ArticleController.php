@@ -33,7 +33,7 @@ class ArticleController extends AbstractController
     #[Route('{_locale}/articles/{id}/show', name: 'app_article_show', options: ["sitemap" => true,'breadcrumb' => ['name' => '%name%', 'parent' => 'app_article_list'] ])]
     public function showAction(Article $article, Request $request,  ArticleRepository $articleRepository): Response
     {
-        $similar = $articleRepository->findAll();
+        $similar = $articleRepository->getSimilarArticle($article);
 
         return $this->render('app/article/show.html.twig', [
             'similarArticles' => $similar,

@@ -3,6 +3,7 @@
 
 
 {% block content %}
+    <section class="section">
         <div class="article-show">
             <div class="article-img" style="background-image: url({{ asset(article.firstPicture.path) }})"></div>
             <div class="article-descr">
@@ -11,8 +12,25 @@
             </div>
         </div>
 
-        <div class="similar">
-            <h2>{{ "article.seealso"|trans }}</h2>
-            {{ m.slider("article", similarArticles) }}
-        </div>
+        {% if similarArticles|length > 0  %}
+            <div class="similar">
+                <h2>{{ "article.seealso"|trans }}</h2>
+                <div class="swiper-article swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for a in similarArticles %}
+                            {% if a != article %}
+                                <div class="swiper-slide">
+                                    {{ m.cardArticle(a) }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination-article"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+{#                {{ m.slider("article", similarArticles) }}#}
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

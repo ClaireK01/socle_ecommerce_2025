@@ -3,29 +3,22 @@
 
 
 {% block content %}
-{#    {% if category.childrens|length > 0 %}#}
-{#        <h2 class="title">{{ "commerce.category.child"|trans }}</h2>#}
-{#        <div class="list">#}
-{#            {% for cat in category.childrens %}#}
-{#                {{ m.cardCategory(cat) }}#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    {% endif %}#}
-    {% if pagination|length > 0 %}
-        <h2 class="title">{{ "commerce.product.listCat"|trans }}</h2>
-        <div class="list-container">
-            {{ m.filter(productAttributes, category) }}
-            <div class="list-view">
-                <div class="list">
-                    {% for product in pagination %}
-                        {{ m.cardProduct(product, cart) }}
-                    {% endfor %}
+    <section class="section">
+        {% if pagination|length > 0 %}
+            <h2 class="title">{{ "commerce.product.listCat"|trans }}</h2>
+            <div class="list-container">
+                {{ m.filter(productAttributes, category) }}
+                <div class="list-view">
+                    <div class="list">
+                        {% for product in pagination %}
+                            {{ m.cardProduct(product, cart) }}
+                        {% endfor %}
+                    </div>
+                    {{ knp_pagination_render(pagination) }}
                 </div>
-                {{ knp_pagination_render(pagination) }}
             </div>
-        </div>
-    {% else %}
-        <div>{{ 'commerce.noproduct'|trans }}</div>
-    {% endif %}
-
+        {% else %}
+            <div>{{ 'commerce.noproduct'|trans }}</div>
+        {% endif %}
+    </section>
 {% endblock %}

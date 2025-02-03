@@ -3,7 +3,7 @@ nav{
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #000;
+    background-color: var(--main);
 }
 
 nav .plain1, nav .plain2{
@@ -27,7 +27,7 @@ nav .plain1 li,  nav .plain2 li{
 
 nav .bn.bn-primary{
     background-color: white;
-    color: black;
+    color: var(--main);
     border-radius: 0;
     font-size: 0.8rem;
     text-transform: capitalize;
@@ -50,7 +50,7 @@ nav .bn.bn-primary{
 .dropdown-content{
     display: inline-block;
     min-width: 100%;
-    max-width: 100%;
+    /*max-width: 100%;*/
 }
 
 .dropdown-selected{
@@ -86,7 +86,7 @@ nav .bn.bn-primary{
 }
 
 .dropdown-right-selected{
-    background-color: black;
+    background-color: var(--main);
     padding: 1rem 2rem;
     position: relative;
     display: flex;
@@ -166,10 +166,11 @@ nav .bn.bn-primary{
     display: flex;
     flex-direction: row-reverse;
     padding: 0;
+    margin: 1rem 0
 }
 
 .menu .bars button{
-    background-color: black;
+    background-color: var(--main);
     border: none;
     color: white;
     display: none;
@@ -188,6 +189,7 @@ nav .bn.bn-primary{
     nav{
         flex-direction: column;
         align-items: center;
+        position: fixed;
     }
 
     .register-btn{

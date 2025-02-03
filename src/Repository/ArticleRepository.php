@@ -21,6 +21,16 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function getSimilarArticle($article){
+        $qb = $this->createQueryBuilder("a");
+        $qb->andWhere($qb->expr()->neq("a.id", ":id"))
+            ->setParameter("id", $article->getId())
+            ->orderBy("a.createdAt", "DESC")
+            ->setMaxResults(7);
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function add(Article $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

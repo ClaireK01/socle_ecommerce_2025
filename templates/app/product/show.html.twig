@@ -3,76 +3,79 @@
 
 
 {% block content %}
-    <div class="product-show" data-controller="carousel">
-        <div class="product-carousel">
-            <div class="product-carousel-preview-container">
-                <div class="product-carousel-preview">
-                    {% for pic in product.pictures %}
-                        <div class="product-carousel-preview-card
+    <section class="section">
+        <div class="product-show" data-controller="carousel">
+            <div class="product-carousel">
+                <div class="product-carousel-preview-container">
+                    <div class="product-carousel-preview">
+                        {% for pic in product.pictures %}
+                            <div class="product-carousel-preview-card
                         {% if loop.index == 1 %} active {% elseif loop.index == 2 %} next{% endif %}"
-                             data-action="mouseover->carousel#cardHoverElement"
-                        >
-                            <div class="card-preview-filter"></div>
-                            <img alt="" src="{{ pic.path }}">
+                                 data-action="mouseover->carousel#cardHoverElement"
+                            >
+                                <div class="card-preview-filter"></div>
+                                <img alt="" src="{{ pic.path }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="carousel-product-img-main">
+                    <img alt="" src="{{ asset(product.firstPicture.path) }}">
+                    <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="previous" class="bn bn-primary btn-carousel-previous"><</button>
+                    <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="next" class="bn bn-primary btn-carousel-next">></button>
+                </div>
+            </div>
+            <div class="product-descr">
+                <h3>{{ product.translate.title }}</h3>
+                <p>{{ product.translate.content|raw }}</p>
+                <div class="attribute-container">
+                    {% for key, productAttr in productAttributes %}
+                        <h4 class="small-title">{{ key }}</h4>
+                        <div class="attributes">
+                            {% for attr in productAttr  %}
+                                {{ m.attributes(attr) }}
+                            {% endfor %}
                         </div>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="carousel-product-img-main">
-                <img alt="" src="{{ asset(product.firstPicture.path) }}">
-                <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="previous" class="bn bn-primary btn-carousel-previous"><</button>
-                <button {{ stimulus_action('carousel', 'previewButtonElement')}} data-type="next" class="bn bn-primary btn-carousel-next">></button>
+                <p class="price-tag" data-url="{{ path('product_price_attribute', {'id': product.id}) }}"><span class="price-tag-num" data-price="{{ product.price }}">{{ product.price|number_format(2, ',', ' ') }}</span><span class="price-tag-currency">€</span></p>
+                <div class="add-container">
+                    <div class="quantity-container">
+                        <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="number" min="1" value="1" data-ecommerce-target="quantity" class="quantity" data-show="1">
+                        <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="display-none" data-list-attr=""></div>
+                    <button class="bn bn-primary add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">{{ "commerce.add"|trans }}</button>
+                </div>
             </div>
         </div>
-        <div class="product-descr">
-            <h3>{{ product.translate.title }}</h3>
-            <p>{{ product.translate.content|raw }}</p>
-            <div class="attribute-container">
-                {% for key, productAttr in productAttributes %}
-                    <h4 class="small-title">{{ key }}</h4>
-                    <div class="attributes">
-                        {% for attr in productAttr  %}
-                            {{ m.attributes(attr) }}
+
+        {% if similarProducts|length > 0 %}
+            <div class="similar">
+                <h2>{{ "product.seealso"|trans }}</h2>
+                {#            {{ m.slider("product", similarProducts, cart) }}#}
+                <div class="swiper-product swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for p in similarProducts %}
+                            {% if p != product %}
+                                <div class="swiper-slide">
+                                    {{ m.cardProduct(p) }}
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
-                {% endfor %}
-            </div>
-            <p class="price-tag" data-url="{{ path('product_price_attribute', {'id': product.id}) }}"><span class="price-tag-num" data-price="{{ product.price }}">{{ product.price|number_format(2, ',', ' ') }}</span><span class="price-tag-currency">€</span></p>
-            <div class="add-container">
-                <div class="quantity-container">
-                    <button value="minus" class="btn-quant" data-ecommerce-target="quantbutton">
-                        <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <input type="number" min="1" value="1" data-ecommerce-target="quantity" class="quantity" data-show="1">
-                    <button class="btn-quant" value="plus" data-ecommerce-target="quantbutton">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+                    <div class="swiper-pagination-product"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                <div class="display-none" data-list-attr=""></div>
-                <button class="bn bn-primary add-cart" data-ecommerce-target="cart" data-add="{{ path('add_to_cart', {'id' : product.id}) }}">{{ "commerce.add"|trans }}</button>
             </div>
-        </div>
-    </div>
+        {% endif %}
+    </section>
 
-    {% if similarProducts|length > 0 %}
-        <div class="similar">
-            <h2>{{ "product.seealso"|trans }}</h2>
-{#            {{ m.slider("product", similarProducts, cart) }}#}
-            <div class="swiper-product swiper-container">
-                <div class="swiper-wrapper">
-                    {% for p in similarProducts %}
-                        {% if p != product %}
-                            <div class="swiper-slide">
-                                {{ m.cardProduct(p) }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination-product"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </div>
-    {% endif %}
 
 {% endblock %}

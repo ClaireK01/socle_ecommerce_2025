@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h2 class="title">{{ "all.sitemap"|trans }}</h2>
-    <div>
-        {% for route in routes %}
-            <p><a href="{{ route }}">{{ route }}</a></p>
-        {% endfor %}
-    </div>
+    <section class="section">
+        <h2 class="title">{{ "all.sitemap"|trans }}</h2>
+        <div>
+            {% for route in routes %}
+                <p><a href="{{ route }}">{{ route }}</a></p>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}

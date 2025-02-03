@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping\AssociationOverride;
 use Doctrine\ORM\Mapping\AssociationOverrides;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
+use Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,7 +32,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
     )
 ])]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article implements TranslatableInterface
+class Article implements TranslatableInterface, TimestampableInterface,SoftDeletableInterface
 {
     use SoftDeletableTrait,TimestampableTrait,TranslatableTrait, PictureTrait;
 

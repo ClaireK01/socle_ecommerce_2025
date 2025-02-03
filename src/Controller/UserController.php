@@ -178,10 +178,10 @@ class UserController extends AbstractController
            return $this->redirectToRoute('app_homepage');
         }
 
-        $orders = $orderRepository->getUserOrder($user);
+//        $orders = $orderRepository->getUserOrder($user);
 
         return $this->render('app/user/orders.html.twig', [
-            "orders" => $orders,
+//            "orders" => $orders,
         ]);
     }
 

@@ -3,6 +3,7 @@
 
 
 {% block content %}
+    <section class="section">
         <h2 class="title">{{ "commerce.article.see"|trans }}</h2>
         <div class="list">
             {% for article in pagination %}
@@ -10,4 +11,5 @@
             {% endfor %}
         </div>
         {{ knp_pagination_render(pagination) }}
+    </section>
 {% endblock %}

@@ -3,20 +3,22 @@
 
 
 {% block content %}
-        <h1>{{ 'commerce.cart'|trans }}</h1>
-        <hr>
+        <section class="section">
+                <h1>{{ 'commerce.cart'|trans }}</h1>
+                <hr>
 
-        {# transformer en tableau #}
-        <table class="table-products">
-           {{ m.cartDisplay(cart) }}
-        </table>
-        {% if cart != null and cart.cardProducts|length > 0 %}
-            <div class="cart-next">
-                {% if app.user %}
-                    <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
-                {% else %}
-                    <a class="bn bn-primary" href="{{ path('ecommerce_cart_login') }}">{{ 'all.next'|trans }}</a>
+                {# transformer en tableau #}
+                <table class="table-products">
+                        {{ m.cartDisplay(cart) }}
+                </table>
+                {% if cart != null and cart.cardProducts|length > 0 %}
+                        <div class="cart-next">
+                                {% if app.user %}
+                                        <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'all.next'|trans }}</a>
+                                {% else %}
+                                        <a class="bn bn-primary" href="{{ path('ecommerce_cart_login') }}">{{ 'all.next'|trans }}</a>
+                                {% endif %}
+                        </div>
                 {% endif %}
-            </div>
-        {% endif %}
+        </section>
 {% endblock %}
