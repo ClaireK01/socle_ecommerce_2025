@@ -14,17 +14,36 @@
     <section class="products">
         <div class="sub-menu">
             <h2>New Arrivals</h2>
-            <ul class="sub-menu-list">
-                <li >Test</li>
-                <li >Test</li>
-                <li >Test</li>
-                <li >Test</li>
-            </ul>
+            <div class="cont-cont-sub-menu-list">
+                <ul class="sub-menu-list">
+                    <li >{{ 'logos/adidas.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/axe.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/braun.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/gillette.svg'|svg|raw }}</li>
+                </ul>
+                <ul class="sub-menu-list two">
+                    <li >{{ 'logos/adidas.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/axe.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/braun.svg'|svg|raw }}</li>
+                    <li >{{ 'logos/gillette.svg'|svg|raw }}</li>
+                </ul>
+            </div>
+
         </div>
         <div class="product-grid">
-            {% for p in products  %}
-                {{ m.cardProduct(p) }}
-            {% endfor %}
+            <div class="swiper-product swiper-container">
+                <div class="swiper-wrapper">
+                    {% for p in products %}
+                        <div class="swiper-slide">
+                            {{ m.cardProduct(p) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="swiper-pagination-product"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"><div>
+            </div>
+{#            {{ m.slider("product", products) }}#}
         </div>
     </section>
 {% endblock %}

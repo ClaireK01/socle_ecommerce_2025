@@ -35,14 +35,14 @@
 }
 
 .swiper-button-next, .swiper-button-prev{
-    background-color: var(--secondary-1);
-    color: black;
+    background-color: black;
+    color: white;
     padding: 0 3rem;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 }
 
 .swiper-pagination-bullet-active{
-    background-color: var(--secondary-1);
+    background-color: black;
 }
 
 .swiper-pagination-horizontal{

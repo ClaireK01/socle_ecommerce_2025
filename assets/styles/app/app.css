@@ -526,6 +526,10 @@ body.show-popup .popup-container{
     text-align: justify;
 }
 
+.swiper-slide .card-product{
+    width: 90% !important;
+}
+
 .card-product-img{
     background-size: cover;
     background-color: lightgrey;

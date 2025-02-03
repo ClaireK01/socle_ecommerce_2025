@@ -105,6 +105,22 @@ nav .bn.bn-primary{
     background-color: #afabab;
 }
 
+/*********************** bandeau deroulant **********************************/
+
+@keyframes loop {
+    0% {transform: translateX(115%);}
+    100% {transform: translateX(-100%);}
+}
+
+.cont-cont-sub-menu-list{
+    width: 70%;
+    height: 30vh;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+}
+
 .sub-menu{
     display: flex;
     justify-content: space-between;
@@ -112,15 +128,28 @@ nav .bn.bn-primary{
     align-items: center;
 }
 
+.sub-menu-list li{
+    gap: 0 0.2rem;
+    padding: 0 2rem;
+}
+
 .sub-menu-list {
     display: flex;
-    width: 70%;
     padding-left: 2rem;
     justify-content: space-between;
     list-style: none;
     align-items: center;
+    white-space: nowrap;
+    position: absolute;
+    animation: loop 20s linear infinite;
 }
 
+.sub-menu-list.two {
+    transform: translateX(115%);
+    animation-delay: 8.8s;
+}
+
+/*******************************************************************/
 
 .menu .bars {
     color: white;
