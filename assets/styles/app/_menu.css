@@ -111,6 +111,7 @@ nav .bn.bn-primary{
 }
 
 .cont-cont-sub-menu-list{
+    align-items: center;
     width: 70%;
     height: 20vh;
     position: relative;
