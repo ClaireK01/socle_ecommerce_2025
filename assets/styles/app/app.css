@@ -155,7 +155,7 @@ footer ul{
 }
 
 
-/********************* **************************************/
+/********************* section / homepage **************************************/
 
 .section{
     padding: 2rem;
@@ -184,6 +184,43 @@ footer ul{
     margin-left: 5%;
 }
 
+
+.about{
+    padding: 0 2rem;
+    background-color: var(--main);
+    color: var(--secondary);
+    text-align: center;
+}
+
+.about p{
+    padding: 2rem 0;
+}
+
+.delayed p, .delayed h2, .delayed button{
+    opacity: 0;
+    transition: all 1s;
+    transform: translateY(-20%);
+    filter: blur(2px);
+}
+
+.delayed.show p, .delayed.show h2, .delayed.show button{
+    opacity: 1;
+    transform: translateY(0%);
+    filter: blur(0);
+}
+
+.delayed p{
+    transition-delay: 0.5s;
+}
+.delayed button{
+    transition-delay: 1s;
+}
+
+@media(prefers-reduced-motion){
+    .delayed p, .delayed h2, .delayed button{
+        transition: none;
+    }
+}
 /***************************** image **********************/
 
 .image-container{
@@ -465,6 +502,11 @@ body.show-popup .popup-container{
 .bn.bn-primary{
     background-color: var(--main);
     color: white;
+}
+
+.bn.bn-primary.white{
+    background-color: white;
+    color: var(--main);
 }
 
 

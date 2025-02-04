@@ -26,8 +26,6 @@ nav .plain1 li,  nav .plain2 li{
 }
 
 nav .bn.bn-primary{
-    background-color: white;
-    color: var(--main);
     border-radius: 0;
     font-size: 0.8rem;
     text-transform: capitalize;
