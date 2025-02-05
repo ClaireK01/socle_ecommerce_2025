@@ -57,8 +57,13 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Tva $tva = null;
 
-    #[ORM\ManyToMany(targetEntity: AttributeItem::class, inversedBy: 'products')]
+    #[ORM\ManyToMany(targetEntity: AttributeItem::class, inversedBy: 'products', cascade: ['persist'])]
     private Collection $attributeItems;
+
+    #[ORM\Column(name:"variant_id", type:"string", nullable:true)]
+    private string $variant_id;
+
+
 
     public function __construct(){
         $this->categories = new ArrayCollection();
@@ -106,6 +111,16 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
         $this->attributeItems->removeElement($attributeItem);
 
         return $this;
+    }
+
+    public function getVariantId(): string
+    {
+        return $this->variant_id;
+    }
+
+    public function setVariantId(string $variant_id): void
+    {
+        $this->variant_id = $variant_id;
     }
 
 }

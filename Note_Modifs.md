@@ -8,4 +8,7 @@ Restaurer 'app_user_edit' et show_socials.html.twig (sur 'app_user') pour foncti
 
 - Gestion des adresses : pour permettre les commandes anonyme, déplacement des infos de l'adresse directement sur order, merge de "adresse" et "adresse/add" : Si user connecter ET a des adresse
 
+- Gestion des PA : les attributes pourront désormais être créer sans product attribute associés pour faciliter les import via eprollo. 
+- Ou peut etre pas /\, voir si option 1 = product attribute and opt 2 = product item
+
 

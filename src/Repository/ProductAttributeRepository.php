@@ -41,9 +41,9 @@ class ProductAttributeRepository extends ServiceEntityRepository
 
     public function getAttributesByCategory($category){
         $qb = $this->createQueryBuilder('pa')
-            ->join('pa.attributeItems', 'a')
-            ->join('a.products', 'p')
-            ->join('p.categories', 'c');
+            ->leftJoin('pa.attributeItems', 'a')
+            ->leftJoin('a.products', 'p')
+            ->leftJoin('p.categories', 'c');
 
         $qb->where(':categories MEMBER OF p.categories')
         ->setParameter('categories', $category);

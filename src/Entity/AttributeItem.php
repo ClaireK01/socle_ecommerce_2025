@@ -26,8 +26,8 @@ class AttributeItem implements TranslatableInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(inversedBy: 'attributeItems')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'attributeItems')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?ProductAttribute $productAttribute = null;
 
     #[ORM\Column(type: 'float', nullable:true)]

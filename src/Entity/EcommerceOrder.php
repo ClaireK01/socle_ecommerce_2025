@@ -33,9 +33,11 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 
 
     const PENDING = 0;
-    const PAYED = 1;
 
-    const CONFIRMED = 2;
+    const CONFIRMED = 1;
+
+    const PAYED = 2;
+
 
     const SHIPPED = 3;
     const DONE = 4;
@@ -91,6 +93,10 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $shippingCity;
 
+    #[ORM\Column(type:"string", nullable:true)]
+    private string $shippingCountry;
+
+
     #[ORM\Column(type: 'string', nullable:true)]
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $facturationFirstName;
@@ -111,6 +117,10 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\Column(type: 'string', nullable:true)]
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
     private $facturationCity;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private string $facturationCountry;
+
 
     #[ORM\Column(type: 'string', nullable:true)]
     #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide')]
@@ -498,6 +508,27 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     {
         $this->user = $user;
     }
+
+    public function getShippingCountry(): string
+    {
+        return $this->shippingCountry;
+    }
+
+    public function setShippingCountry(string $shippingCountry): void
+    {
+        $this->shippingCountry = $shippingCountry;
+    }
+
+    public function getFacturationCountry(): string
+    {
+        return $this->facturationCountry;
+    }
+
+    public function setFacturationCountry(string $facturationCountry): void
+    {
+        $this->facturationCountry = $facturationCountry;
+    }
+
 
 
 }
