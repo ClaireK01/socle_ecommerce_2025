@@ -12,7 +12,7 @@
                     </div>
                 {% endif %}
                 {% if app.user %}
-                    <li><a href="{{ path('app_user') }}" class="bn bn-primary">Mon Profil</a></li>
+                    <li><a href="{{ path('app_user') }}" class="bn bn-primary white">Mon Profil</a></li>
                     <li><a class="deco" href="{{ path('app_logout') }}">Se déconnecter</a></li>
                 {% else %}
                     <li class="register-btn"><a href="{{ path('app_register') }}" class="bn bn-primary white">S'inscrire</a></li>
