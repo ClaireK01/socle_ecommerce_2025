@@ -7,6 +7,7 @@
 - Restaurer 'app_user_edit' et show_socials.html.twig (sur 'app_user') pour edit profile par ajax, laisser show.html.twig dans 'app_user' pour requete classique
 - Restaurer lien web socket si besoin, mettre lien vers les messages en dehors des onglets de preference pour changement d'onglet dynamqiue
 - Gestion des adresses : pour permettre les commandes anonyme, déplacement des infos de l'adresse directement sur order, merge de "adresse" et "adresse/add" : Si user connecter ET a des adresse
+- -> restaurer adresse non-anonyme pour plateform plus axé RS
 
 
 
