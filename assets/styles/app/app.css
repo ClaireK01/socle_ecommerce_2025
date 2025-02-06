@@ -394,6 +394,7 @@ body .cart-preview-container{
 
 body.show-prev .cart-preview-container{
     display: flex;
+    z-index: 10;
 }
 
 .cart-preview-container .cart-preview {
