@@ -62,7 +62,7 @@ body.show-modal .modal-file{
 .content{
     display: flex;
     /*max-height: 100vh;*/
-    overflow: scroll;
+    /*overflow: scroll;*/
     height: 100vh;
 }
 
@@ -226,6 +226,8 @@ button:hover{
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 [data-form-collection-target=collectionContainer]{
