@@ -11,6 +11,7 @@ use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
 use App\Form\AddressType;
 use App\Form\UserType;
+use App\Repository\AddressRepository;
 use App\Repository\ConversationRepository;
 use App\Repository\EcommerceOrderRepository;
 use App\Repository\UserRepository;
@@ -37,9 +38,11 @@ use Symfony\Component\VarDumper\VarDumper;
 class UserController extends AbstractController
 {
     private $em;
+    private UserRepository $userRepository;
 
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em, UserRepository $userRepository){
         $this->em = $em;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('{_locale}/profile', name: 'app_user')]
@@ -80,6 +83,24 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
+    #[Route('{_locale}/profile/address/{id}/delete', name: 'app_user_address_delete', methods: "GET")]
+    public function editProfile(Address $address, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        /***@var User $user */
+        $user = $this->getUser();
+
+        if(!$user){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $user->removeAddress($address);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_user');
+
+    }
+
 //    #[Route('{_locale}/profile/{id}/edit', name: 'app_user_edit', methods: "POST")]
 //    public function editProfile(User $user, Request $request, EntityManagerInterface $entityManager): Response
 //    {
@@ -102,10 +123,16 @@ class UserController extends AbstractController
 //    }
 
     #[Route('{_locale}/user/address/add', name: 'app_user_address_add', methods: ['GET', 'POST'])]
-    public function cartAddressAddAction(Request $request, EntityManagerInterface $entityManager,RouterInterface $router)
+    #[Route('{_locale}/user/address/{id}/edit', name: 'app_user_address_edit', methods: ['GET', 'POST'])]
+    public function cartAddressAddAction(Request $request, EntityManagerInterface $entityManager,RouterInterface $router,
+                                         AddressRepository $addressRepository, $id = null)
     {
         $user = $this->getUser();
-        $address = new Address();
+        $address= null;
+        if($id){ $address = $addressRepository->find($id); }
+        if(!$address){
+            $address = new Address();
+        }
 
         $form = $this->createForm(AddressType::class, $address);
 
@@ -254,7 +281,7 @@ class UserController extends AbstractController
         if (!isset($_COOKIE['conversation']) || $_COOKIE['conversation'] != $conversation->getId()) {
             setcookie('conversation', $conversation->getId(), 0, '/');
         }
-        
+
 
         return $this->render('user/conversation.html.twig', [
             "conversation" => $conversation

@@ -62,8 +62,16 @@
     cursor: pointer;
 }
 
+.user-table{
+    padding: 2rem 0;
+}
+
 .actions button{
     margin: 1rem 1rem 1rem 0;
+}
+
+.address-actions i{
+    padding: 2rem 4rem 0 0rem;
 }
 
 .user-request{
@@ -113,7 +121,7 @@
     content: "\f00d";
     font-family: serif, "Font Awesome 6 Free";
     font-weight: 900;
-    : none;
+    display: none;
 }
 
 

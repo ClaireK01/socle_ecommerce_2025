@@ -78,7 +78,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->session_ids = [];
         $this->conversations = new ArrayCollection();
         $this->resourceIds = new ArrayCollection();
-        $this->address = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
         $this->userSessions = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }

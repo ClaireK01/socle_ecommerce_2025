@@ -18,7 +18,7 @@
             </div>
         </div>
         <div>
-            <div class="table-choices">
+            <div class="user-table table-choices">
                 {% for a in user.addresses %}
                     <div class="cart list-item">
                         <div class="item-infos">
@@ -26,6 +26,10 @@
                             <span><span class="lighten">{{ a.phone }}</span><br>
                             {{ a.address }}<br>
                             {{ a.code }}, {{ a.city|upper }}</span>
+                        </div>
+                        <div class="address-actions">
+                            <a href="{{ path('app_user_address_edit', {'id' : a.id }) }}"><i class="fa-solid fa-pen"></i></a>
+                            <a href="{{ path('app_user_address_delete', {'id' : a.id }) }}"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </div>
                     <hr>
