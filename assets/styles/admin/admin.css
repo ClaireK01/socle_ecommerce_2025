@@ -19,6 +19,7 @@ body{
     min-height: 100vh;
     font-family: var(--font-main);
     position: relative;
+    overflow: hidden;
 }
 
 body a{
@@ -122,18 +123,16 @@ button:hover{
 }
 
 .menu{
-    /*overflow: scroll;*/
-    /*min-height: 90vh;*/
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     background-color: var(--secondary);
     list-style: none;
     min-width: 15vw;
     padding: 0;
-    /*overflow-x: hidden;*/
     margin: 0;
     text-decoration: none;
-    max-height: 100%;
+    max-height: 100vh;
 }
 
 .menu li{
@@ -180,10 +179,11 @@ button:hover{
 }
 
 .form-content{
-    width: 75%;
-    margin: auto;
-    margin-top: 0;
-    padding-top: 2rem;
+    width: 100%;
+    padding: 7rem 4rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 100vh;
 }
 
 .form-div{

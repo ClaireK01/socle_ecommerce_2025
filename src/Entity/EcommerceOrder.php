@@ -34,10 +34,9 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
 
     const PENDING = 0;
 
-    const CONFIRMED = 1;
+    const PAYED = 1;
 
-    const PAYED = 2;
-
+    const CONFIRMED = 2;
 
     const SHIPPED = 3;
     const DONE = 4;

@@ -60,9 +60,6 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     #[ORM\ManyToMany(targetEntity: AttributeItem::class, inversedBy: 'products', cascade: ['persist'])]
     private Collection $attributeItems;
 
-    #[ORM\Column(name:"variant_id", type:"string", nullable:true)]
-    private string $variant_id;
-
 
 
     public function __construct(){

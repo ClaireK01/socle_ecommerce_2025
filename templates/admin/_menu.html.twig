@@ -1,4 +1,4 @@
-{#{% trans_default_domain 'admin' %}#}
+{% trans_default_domain 'admin' %}
 
  <ul class="menu">
         <a  class="{% if 'admin_article' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_article_index') }}">
@@ -36,4 +36,5 @@
          <a  class="{% if 'admin_order' in app.request.get('_route') %}selected{% endif %}" href="{{ path('admin_order_index') }}">
              <li><i class="fa-solid fa-box"></i> {{ 'nav.order'|trans }}</li>
          </a>
+         <a><li></li></a>
     </ul>

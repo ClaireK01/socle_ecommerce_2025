@@ -26,9 +26,9 @@ class OrderController extends AbstractController
         $properties = [
             'number',
             'statusLabel',
-            ['shippingAddress' => ['user' => ['email' => 'email'] ] ],
-            ['shippingAddress' => ['firstName' => 'firstName'] ],
-            ['shippingAddress' => ['lastName' => 'lastName'] ],
+            ['user' => ['email' => 'email']],
+            'shippingFirstName',
+            'shippingLastName',
         ];
 
 
@@ -38,9 +38,7 @@ class OrderController extends AbstractController
         $qb = $em->createQueryBuilder();
         $qb->select('e')
             ->from(EcommerceOrder::class, 'e')
-            ->join('e.shipping_address', 's')
-            ->join('e.facturation_address', 'f')
-            ->join('s.user', 'u')
+            ->join('e.user', 'u')
         //->where('e.deletedAt is null')
         ;
 

@@ -27,7 +27,7 @@ class ProductAttribute implements TranslatableInterface, SoftDeletableInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToMany(mappedBy: 'productAttribute', targetEntity: AttributeItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'productAttribute', targetEntity: AttributeItem::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $attributeItems;
 
 
