@@ -32,6 +32,10 @@ body{
     justify-content: space-between;
 }
 
+h2{
+    margin-bottom: 2.5rem ;
+}
+
 h3, h2, h1, h4, h5{
     font-weight: bolder;
     /*letter-spacing: 0.05rem;*/
@@ -608,7 +612,7 @@ button[type=submit]{
     justify-content: space-between;
     width: 30%;
     align-items: flex-start;
-    margin: auto !important;
+    /*margin: auto !important;*/
     text-align: justify;
     padding: 1rem;
 }
