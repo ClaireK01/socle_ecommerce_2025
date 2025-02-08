@@ -12,6 +12,10 @@
     --font-main : Roboto
 }
 
+.modal-file #myframe{
+    max-height: 50vh !important;
+}
+
 
 body{
     margin: 0;
