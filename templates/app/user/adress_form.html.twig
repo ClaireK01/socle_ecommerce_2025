@@ -1,0 +1,9 @@
+<h3>{{ "form.delete.question"|trans }}</h3>
+<form method="POST" action="{{ path('app_user_address_delete', {'id' : address.id}) }}">
+    <div class="btn-action">
+        <button class="bn bn-primary" type="submit">{{ "form.validate"|trans }}</button>
+        <button id="btn-close" class="bn bn-primary" {{ stimulus_action('popup', 'popupCloseFormElement') }}>{{ "form.close"|trans }}</button>
+    </div>
+</form>
+
+

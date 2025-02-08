@@ -393,8 +393,8 @@ body .cart-preview-container{
 }
 
 body.show-prev .cart-preview-container{
-    display: flex;
     z-index: 10;
+    display: flex;
 }
 
 .cart-preview-container .cart-preview {
@@ -490,12 +490,17 @@ body.show-popup .popup-container{
 .bn{
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     cursor: pointer;
     font-size: 1rem;
     text-transform: uppercase;
     transition: background-color 0.3s;
 }
+
+button[type=submit]{
+    margin-top: 2rem;
+}
+
 .bn.bn-empty{
     background-color: rgba(255, 255, 255, 0);
 }
@@ -509,6 +514,17 @@ body.show-popup .popup-container{
     background-color: white;
     color: var(--main);
 }
+
+.bn.bn-danger{
+    background-color: #b80505;
+    color: white;
+}
+
+.bn.bn-success{
+    background-color: #035503;
+    color: white;
+}
+
 
 
 /********************************************************************/
@@ -612,12 +628,18 @@ body.show-popup .popup-container{
 .card-product-descr{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
 }
 
-.card-product-descr h3+p{
+.card-product-descr h3{
+    min-height: 2rem;
+    max-height: 2rem;
+}
+
+.card-product-descr span{
     color: #666;
-    min-height: 5rem;
-    max-height: 5rem;
+    min-height: 3rem;
+    max-height: 3rem;
 }
 
 .card-bottom{
@@ -747,7 +769,7 @@ input[type=number] {
     padding: 1rem;
 }
 
-    .filter-checkbox input[type="checkbox"]::before {
+.filter-checkbox input[type="checkbox"]::before {
     content: "";
     width: 1em;
     height: 1em;
@@ -830,6 +852,7 @@ input[type=number] {
     background-color: white;
     font-size: 0.5rem;
     padding: 0.05rem 0.3rem;
+    color: black;
 }
 
 

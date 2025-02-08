@@ -21,7 +21,11 @@
                         <td>{{ o.totalTTC|number_format(2, ',', ' ') }}€</td>
                         <td class="actions">
                             <a href="{{ path('app_user_order_show', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-eye"></i></button></a>
-                            <a href="{{ path('app_user_invoice', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-file-download"></i></button></a>
+                            <a href="{{ path('app_user_invoice', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-file-download"></i></button>
+                                {% if o.status == constant('App\\Entity\\EcommerceOrder::CONFIRMED') %}
+                                    <button {{ stimulus_action('popup', 'popupFormElement') }} data-url="{{ path('app_user_order_cancel', {'id' : o.id}) }}" class="bn bn-danger"><i class="fa-solid fa-trash"></i></button>
+                                {% endif %}
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

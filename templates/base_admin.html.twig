@@ -29,7 +29,7 @@
             <div>
                 <iframe id="myframe" data-form-collection-target="frame" src="{{ path('file_manager', {module:1, conf:'button'}) }}" width="100%" height="500" frameborder="0"></iframe>
                 <button id="btn-upload">Valider</button>
-                <button id="btn-close" class="btn" {{ stimulus_action('form-collection', 'closeFrameElement') }}>Fermer</button>
+                <button id="btn-close" class="btn btn-primary" {{ stimulus_action('form-collection', 'closeFrameElement') }}>Fermer</button>
             </div>
         </div>
     </body>

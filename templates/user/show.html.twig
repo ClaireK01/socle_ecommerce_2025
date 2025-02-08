@@ -28,8 +28,8 @@
                             {{ a.code }}, {{ a.city|upper }}</span>
                         </div>
                         <div class="address-actions">
-                            <a href="{{ path('app_user_address_edit', {'id' : a.id }) }}"><i class="fa-solid fa-pen"></i></a>
-                            <a href="{{ path('app_user_address_delete', {'id' : a.id }) }}"><i class="fa-solid fa-trash"></i></a>
+                            <a class="bn bn-primary" href="{{ path('app_user_address_edit', {'id' : a.id }) }}"><i class="fa-solid fa-pen"></i></a>
+                            <button {{ stimulus_action('popup', 'popupFormElement') }} data-url="{{ path('app_user_address_delete', {'id' : a.id}) }}" class="bn bn-danger"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                     <hr>

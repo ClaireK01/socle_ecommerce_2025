@@ -31,5 +31,8 @@
     <div class="actions">
         <a href="{{ path('app_user_orders') }}"><button class="bn bn-primary">{{ 'all.previous'|trans }}</button></a>
         <a href="{{ path('app_user_invoice', {'id' : order.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-file-download"></i> {{ 'all.downloadInvoice'|trans }}</button></a>
+        {% if order.status == constant('App\\Entity\\EcommerceOrder::CONFIRMED') %}
+            <button {{ stimulus_action('popup', 'popupFormElement') }} data-url="{{ path('app_user_order_cancel', {'id' : order.id}) }}" class="bn bn-danger"><i class="fa-solid fa-trash"></i> {{ 'all.cancel'|trans }}</button>
+        {% endif %}
     </div>
 {% endblock %}

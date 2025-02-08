@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Events\EcommerceOrderEvent;
 use App\Events\Events;
 use App\Form\AddressType;
+use App\Form\EcommerceOrderType;
 use App\Form\UserType;
 use App\Repository\AddressRepository;
 use App\Repository\ConversationRepository;
@@ -83,7 +84,7 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
-    #[Route('{_locale}/profile/address/{id}/delete', name: 'app_user_address_delete', methods: "GET")]
+    #[Route('{_locale}/profile/address/{id}/delete', name: 'app_user_address_delete', methods:[ "GET", "POST"])]
     public function editProfile(Address $address, Request $request, EntityManagerInterface $entityManager): Response
     {
         /***@var User $user */
@@ -93,9 +94,17 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $user->removeAddress($address);
-        $entityManager->persist($user);
-        $entityManager->flush();
+        if($request->getMethod() == "POST") {
+            $user->removeAddress($address);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_user');
+        }
+
+        if($request->isXmlHttpRequest()){
+            $view = $this->renderView('app/user/adress_form.html.twig', ['address' => $address]);
+            return new JsonResponse(['view' => $view], 200);
+        }
 
         return $this->redirectToRoute('app_user');
 
@@ -190,7 +199,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-           return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_homepage');
         }
 
         return $this->render('app/user/messages.html.twig', []);
@@ -202,14 +211,10 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         if(!$user){
-           return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_homepage');
         }
 
-//        $orders = $orderRepository->getUserOrder($user);
-
-        return $this->render('app/user/orders.html.twig', [
-//            "orders" => $orders,
-        ]);
+        return $this->render('app/user/orders.html.twig', []);
     }
 
     #[Route('{_locale}/profile/orders/{id}/show', name: 'app_user_order_show')]
@@ -223,6 +228,34 @@ class UserController extends AbstractController
         return $this->render('app/user/order_show.html.twig', [
             "order" => $order,
         ]);
+    }
+
+    #[Route('{_locale}/profile/orders/{id}/cancel', name: 'app_user_order_cancel', methods: ['GET', 'POST'])]
+    public function cancelOrderAction(EcommerceOrder $order, Request $request, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $form = $this->createForm(EcommerceOrderType::class, $order);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $order->setStatus(EcommerceOrder::CANCELED);
+            $em->persist($order);
+            $em->flush();
+            return $this->redirectToRoute('app_user');
+        }
+
+
+
+        if($request->isXmlHttpRequest()){
+            $view = $this->renderView('app/user/order_form.html.twig', ['form' => $form->createView()]);
+            return new JsonResponse(['view' => $view], 200);
+        }
+
+        return $this->redirectToRoute('app_user');
     }
 
     #[Route('{_locale}/profile/request', name: 'app_user_request')]

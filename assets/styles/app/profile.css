@@ -70,8 +70,12 @@
     margin: 1rem 1rem 1rem 0;
 }
 
-.address-actions i{
-    padding: 2rem 4rem 0 0rem;
+.address-actions{
+    margin-top: 2rem;
+}
+
+.address-actions a{
+    margin-right: 5rem;
 }
 
 .user-request{

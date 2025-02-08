@@ -18,7 +18,7 @@
             <div class="contact-infos">
                     {{ client.email }}
                     <span class="tag" style="color:{{ client.status == 0 ? 'grey' : 'green' }}"> &#x2022; {{ client.status == 0 ? 'Non connecté' : 'Connecté'}}</span>
-                <button class="btn btn-success btn-sendmessage" data-message="{{ path('app_user_convo') }}" data-f="{{ user.id }}" data-t="{{ client.id }}">Envoyer un message</button>
+                <button class="bn bn-success btn-sendmessage" data-message="{{ path('app_user_convo') }}" data-f="{{ user.id }}" data-t="{{ client.id }}">Envoyer un message</button>
             </div>
         </div>
     {% endif %}

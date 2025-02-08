@@ -32,6 +32,8 @@ all:
   promos: Promos
   watch: Watches
   seemore: See more
+  cancel: Annuler la commande
+  cancelDetails: "Expliquez la raison de votre annulation (optionnel) : "
 
 
 about:
@@ -103,6 +105,13 @@ cart:
 form:
   add: Ajouter
   edit: Modifier
+  close: Fermer
+  validate: Valider
+  delete:
+    del: Supprimer
+    question: Etes vous sur de vouloir supprimer cet élément ?
+  cancel:
+    question: "Etes-vous sur de vouloir annulez cette commande ?"
 
 user:
   infos: Informations
