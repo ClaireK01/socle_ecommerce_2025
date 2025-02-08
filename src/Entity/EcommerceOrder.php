@@ -139,6 +139,9 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "orders")]
     private $user;
 
+    #[ORM\Column(name:"cancelation_details", type:"text", nullable:true)]
+    private string $cancelation_details;
+
     public function __construct()
     {
         $this->cardProducts = new ArrayCollection();
@@ -528,6 +531,15 @@ class EcommerceOrder implements SoftDeletableInterface, TimestampableInterface
         $this->facturationCountry = $facturationCountry;
     }
 
+    public function getCancelationDetails(): string
+    {
+        return $this->cancelation_details;
+    }
+
+    public function setCancelationDetails(string $cancelation_details): void
+    {
+        $this->cancelation_details = $cancelation_details;
+    }
 
 
 }

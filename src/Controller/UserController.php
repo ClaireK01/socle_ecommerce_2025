@@ -238,14 +238,14 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $form = $this->createForm(EcommerceOrderType::class, $order);
+        $form = $this->createForm(EcommerceOrderType::class, $order, ['action' => $this->generateUrl('app_user_order_cancel', ['id' => $order->getId() ])]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $order->setStatus(EcommerceOrder::CANCELED);
             $em->persist($order);
             $em->flush();
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('app_user_orders');
         }
 
 

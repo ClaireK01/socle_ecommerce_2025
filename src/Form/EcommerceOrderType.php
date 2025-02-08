@@ -13,6 +13,7 @@ class EcommerceOrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setAction($options['action'])
             ->add('cancelation_details', TextareaType::class, [
                 'label' => 'all.cancelDetails',
                 'required' => false,
@@ -24,6 +25,7 @@ class EcommerceOrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => EcommerceOrder::class,
+            'action' => ''
         ]);
     }
 }
