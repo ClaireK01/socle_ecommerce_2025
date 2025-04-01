@@ -351,3 +351,57 @@
         <p>{{ sub }}</p>
     </div>
 {% endmacro %}
+
+{% macro recap(cart, summary = false) %}
+    {% if cart != null and cart.cardProducts|length > 0 %}
+        <div class="cart-recap-title">
+            <h3>{{ "cart.recap"|trans }}</h3>
+            <span class="small-title">{{ cart.cardProducts|length  }}{{ "cart.articlecount"|trans }}</span>
+        </div>
+        {% if summary == false %}
+            <div class="recap-promo">
+                <h4 class="small-title">{{ "cart.promo"|trans }}</h4>
+                <label style="display: none" for="promo" class="small-title">{{ "cart.promo"|trans }}</label>
+                <form>
+                    <input type="text" name="promo" id="promo" class="form-inp">
+                    <button type="submit" class="bn bn-primary"><i class="fa-solid fa-plus"></i></button>
+                </form>
+            </div>
+        {% endif %}
+        <div class="recap">
+            <table>
+                <tr>
+                    <th>{{ 'cart.totalarticle'|trans }}</th>
+                    <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+                </tr>
+                <tr>
+                    <th class="small-title">{{ 'cart.ecopart'|trans }}</th>
+                    <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+                </tr>
+                <tr>
+                    <th>{{ 'cart.shipping'|trans }}</th>
+                    <td>{{ 'cart.free'|trans }}</td>
+                </tr>
+                <tr class="td-line"></tr>
+                <tr>
+                    <th>{{ 'cart.totaltcc'|trans }}</th>
+                    <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+                </tr>
+            </table>
+        </div>
+        {% if summary == false %}
+            <div class="recap-payments">
+                <h4 class="small-title">{{ "cart.paymentmethod"|trans }}</h4>
+                <div class="logos">
+                    <i class="fa-brands fa-cc-stripe"></i>
+                </div>
+            </div>
+            {% if app.user %}
+                <a class="bn bn-primary" href="{{ path('ecommerce_address') }}">{{ 'cart.next'|trans }}</a>
+            {% else %}
+                <a class="bn bn-primary" href="{{ path('ecommerce_cart_login') }}">{{ 'cart.next'|trans }}</a>
+            {% endif %}
+        {% endif %}
+
+    {% endif %}
+{% endmacro %}

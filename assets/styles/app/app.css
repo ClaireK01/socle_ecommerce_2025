@@ -252,7 +252,7 @@ footer ul{
 
 .list-item td, .list-item th{
     text-align: center;
-    padding: 2rem 3rem;
+    padding: 1.5rem 1rem;
     border-bottom: 1px solid lightgrey;
     /*height: 100px;*/
 }
@@ -919,11 +919,59 @@ a.cart-order-choice:hover span{
     padding: 2rem 3rem;
     width: 50%;
     border-radius: 15px;
-    border: solid lightgrey 1px;
     margin-top: 1rem;
     margin-right: 1rem;
 }
 
+.cart-recap-title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-table{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-recap{
+    margin-left:3rem;
+    min-width: 30%;
+}
+.cart-recap table{
+    width: 100%;
+}
+
+.recap-payments, .cart-recap table, .recap-promo{
+    margin-bottom: 2rem;
+}
+
+.cart-recap table th, .cart-recap table td, .recap-payments, .recap-promo{
+    padding: 1rem;
+}
+
+.recap-payments, .cart-recap table, .card-order-infos, .table-products, .recap-promo{
+    border: solid lightgrey 1px;
+}
+
+.recap-promo form{
+    display: flex;
+    justify-content: space-between;
+}
+
+.recap-promo button{
+    margin: 0;
+}
+
+.recap-promo .form-inp{
+    border-radius: 0;
+    padding: 0.5rem;
+}
+
+.logos i{
+    font-size: 2rem;
+}
 
 /******** form ***********/
 

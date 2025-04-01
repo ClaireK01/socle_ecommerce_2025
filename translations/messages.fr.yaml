@@ -101,6 +101,16 @@ cart:
   priceHT: Total HT
   quantity: Quantité
   go: Aller au panier
+  recap: Récapitulatif
+  totaltcc: Total TTC
+  ecopart: Dont éco-part
+  totalarticle: Total des articles
+  shipping: Frais de livraison
+  free: Offert
+  next: Continuer la commande
+  articlecount: article(s)
+  paymentmethod: Modes de paiement disponibles
+  promo: Code promo
 
 form:
   add: Ajouter

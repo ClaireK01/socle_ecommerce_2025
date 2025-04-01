@@ -1,5 +1,10 @@
 {% import 'app/macro.html.twig' as m %}
 
 {% if cart %}
-    {{ m.cartDisplay(cart) }}
+    <table class="table-products">
+        {{ m.cartDisplay(cart) }}
+    </table>
+    <div class="cart-recap">
+        {{ m.recap(cart) }}
+    </div>
 {% endif %}

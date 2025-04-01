@@ -6,12 +6,15 @@
 <div class="main">
     <div class="container my-5">
         <h1>{{ 'commerce.summary'|trans }}</h1>
-        <hr>
-        <table class="table-products">
-            {% if cart %}
+
+        <div class="cart-table">
+            <table class="table-products">
                 {{ m.cartDisplay(cart) }}
-            {% endif %}
-        </table>
+            </table>
+            <div class="cart-recap">
+                {{ m.recap(cart, true) }}
+            </div>
+        </div>
 
         <div class="order-infos">
             <div class="address card-order-infos">

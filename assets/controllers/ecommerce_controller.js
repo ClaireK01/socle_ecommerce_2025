@@ -79,12 +79,22 @@ export default class extends Controller{
                 attrs = attrs.dataset.listAttr;
             }
             postData(url, {"quantity" : quantity, 'attributes' : attrs},  'POST').then((data) => {
-                this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
-                input.value = input.min
-                document.querySelector('.cart-preview').innerHTML = data.cartview;
-                if(!document.querySelector("body").classList.contains('show-prev')){
-                    document.querySelector("body").classList.add('show-prev');
+                //voir si tjr utile
+                // this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
+                // input.value = input.min
+                if(document.querySelector("[data-ecommerce-target=shopcount]")){
+                    this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
                 }
+                document.querySelector('.cart-preview').innerHTML = data.cartview;
+                if( document.querySelector('.cart-table')){
+                    postData(url).then((view) => {
+                    document.querySelector('.cart-table').innerHTML = view.view;
+                    });
+                }
+                //voir si tjr utile
+                // if(!document.querySelector("body").classList.contains('show-prev')){
+                //     document.querySelector("body").classList.add('show-prev');
+                // }
             });
             // postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
             //
