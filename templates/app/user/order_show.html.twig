@@ -16,13 +16,13 @@
         </div>
         <div class="shipping card-order-infos">
             <span class="small-title">{{ 'commerce.shipping'|trans }}</span>
-            <h3>{{ order.shipping.translate.title }}</h3>
-            <p>{{ order.shipping.translate.shortContent }}</p>
+            <h3>{{ order.shipping.translate.title|raw }}</h3>
+            <p>{{ order.shipping.translate.shortContent|raw }}</p>
         </div>
         <div class="payment card-order-infos">
             <span class="small-title">{{ 'commerce.payment'|trans }}</span>
-            <h3>{{ order.paymentMethod.translate.title }}</h3>
-            <p>{{ order.paymentMethod.translate.shortContent }}</p>
+            <h3>{{ order.paymentMethod.translate.title|raw }}</h3>
+            <p>{{ order.paymentMethod.translate.shortContent|raw }}</p>
         </div>
     </div>
     <table class="table-products">

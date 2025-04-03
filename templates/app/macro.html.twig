@@ -50,7 +50,7 @@
         <div>
             <div class="card-article-descr">
                 <p>{{ article.translate.title }}</p>
-                <p>{{ article.translate.shortContent }}</p>
+                <p>{{ article.translate.shortContent|raw }}</p>
                 <a class="bn bn-primary" href="{{ path('app_article_show', {'id' : article.id}) }}">{{ "all.read"|trans }}</a>
             </div>
         </div>

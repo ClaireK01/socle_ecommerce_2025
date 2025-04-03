@@ -31,7 +31,7 @@
             <div class="order-details order-shipping">
                 <h3>{{ "order.address"|trans }}</h3>
                 <p>
-                    <span>{{ entity.shipping.translate.title }}</span><br>
+                    <span>{{ entity.shipping.translate.title|raw }}</span><br>
                     <span>{{ entity.shipping.price }} €</span>
                 </p>
             </div>

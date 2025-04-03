@@ -37,13 +37,13 @@
             </div>
             <div class="shipping card-order-infos">
                 <span class="small-title">{{ 'commerce.shipping'|trans }}</span>
-                <h3>{{ shipping.translate.title }}</h3>
-                <p>{{ shipping.translate.shortContent }}</p>
+                <h3>{{ shipping.translate.title|raw }}</h3>
+                <p>{{ shipping.translate.shortContent|raw }}</p>
             </div>
             <div class="payment card-order-infos">
                 <span class="small-title">{{ 'commerce.payment'|trans }}</span>
-                <h3>{{ payment.translate.title }}</h3>
-                <p>{{ payment.translate.shortContent }}</p>
+                <h3>{{ payment.translate.title|raw }}</h3>
+                <p>{{ payment.translate.shortContent|raw }}</p>
             </div>
         </div>
         <a class="bn bn-primary" href="{{ path('ecommerce_payment') }}">{{ 'all.previous'|trans }}</a>
