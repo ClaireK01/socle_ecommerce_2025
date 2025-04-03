@@ -1,8 +1,10 @@
 /************************** pagination ******************************/
 
 .pagination{
+    margin: 2rem 0;
     align-items: center;
     display: flex;
+    justify-content: center;
 }
 
 .fa-chevron-right{
