@@ -22,5 +22,16 @@ export default class extends Controller{
         }
     }
 
+    dropdownElement(event){
+        event.preventDefault();
+        let dropdown  = document.querySelector('.dropdown');
+
+        if(dropdown.classList.contains('active')){
+            dropdown.classList.remove('active')
+        }else{
+            dropdown.classList.add('active')
+        }
+    }
+
     connect(){}
 }

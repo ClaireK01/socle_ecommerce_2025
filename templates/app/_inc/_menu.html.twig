@@ -1,6 +1,6 @@
 {% import 'app/macro.html.twig' as m %}
 <nav>
-{#    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>#}
+    {#    <a href="{{ path('app_homepage') }}"><div class="logo"></div></a>#}
     <ul class="menu" data-controller="menu">
         <div class="bars" data-action>
             <button {{ stimulus_action('menu', 'menuElement') }}><i class="fa-solid fa-bars"></i></button>
@@ -22,11 +22,11 @@
         </div>
         <div class="plain1">
             <li><a href="{{ path('app_homepage') }}">{{ 'all.home'|trans }}</a></li>
-            <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>
+            {#            <li><a href="{{ path('app_presentation') }}">{{ 'all.about'|trans }}</a></li>#}
             {#        <li><a href="{{ path('app_stripe') }}">Page de paiement test</a></li>#}
             <li><a href="{{ path('app_article_list') }}">{{'commerce.article.see'|trans }}</a></li>
-            <li class="dropdown"  data-controller="menu">
-                <span  class="dropdown-selected"><a href="{{ path('app_category_list') }}">{{ 'commerce.category.see'|trans }} <i class="fa-solid fa-caret-down"></i></a></span>
+            <li class="dropdown">
+                <span  class="dropdown-selected" data-action="click->menu#dropdownElement">{# <a href="{{ path('app_category_list') }}"> #}{{ 'commerce.category.see'|trans }} <i class="fa-solid fa-caret-down"></i>{#</a>#}</span>
                 <ul class="dropdown-content">
                     {# generer sur twig #}
                     {% for cat in getCategories() %}

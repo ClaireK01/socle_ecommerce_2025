@@ -16,6 +16,10 @@
     overflow: hidden;
 }
 
+.swiper-slide{
+    width: 30% !important;
+}
+
 .slider .swiper-slide{
     min-height: 100vh;
     background-repeat: no-repeat;

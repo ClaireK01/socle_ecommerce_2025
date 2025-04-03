@@ -17,6 +17,7 @@ nav .plain1, nav .plain2{
 }
 
 nav .plain1 li,  nav .plain2 li{
+    z-index: 999;
     text-decoration: none;
     color: #fff;
     font-size: 1rem;
@@ -76,7 +77,7 @@ nav .bn.bn-primary{
     padding: 0;
     margin: auto;
     position: absolute;
-    display: none;
+    display: none ;
 }
 
 .dropdown-content-right{
@@ -179,10 +180,48 @@ nav .bn.bn-primary{
 /*    margin-bottom: 2rem!important;*/
 /*}*/
 
+@media (pointer: coarse) and (hover: none) {
+    .dropdown.active .dropdown-content{
+        display: block !important;
+    }
+
+    .dropdown.active .dropdown-selected .fa-caret-down::before{
+        content: "\f0d8" !important;
+    }
+
+    .dropdown .dropdown-content{
+        display: none !important;
+    }
+
+    .dropdown .dropdown-selected .fa-caret-down::before{
+        content:"\f0d7" !important;
+    }
+}
+
 @media (max-width: 1000px) {
+
+    .list-view-container{
+        width: 100% !important;
+    }
+
+    .list-view-container .list .card-product{
+        margin: auto;
+    }
 
     .dropdown-content{
         position: relative !important;
+    }
+
+    .dropdown-content .dropdown-right-selected{
+        margin: 0  !important;
+    }
+
+    .dropdown.active .dropdown-selected{
+        margin-bottom: 2rem !important;
+    }
+
+    .dropdown-right-selected a{
+        margin: auto;
     }
 
     nav{
@@ -203,7 +242,7 @@ nav .bn.bn-primary{
         height: 0 !important;
         flex-direction: column;
         width: 100%;
-        overflow: hidden;
+        overflow: auto;
         padding: 0 !important;
         display: none;
     }
@@ -216,6 +255,22 @@ nav .bn.bn-primary{
 
     nav.active .plain1 li{
         margin: 2rem 0;
+    }
+
+    nav.active .dropdown.active .dropdown-content{
+        display: block !important;
+    }
+
+    nav.active .dropdown.active .dropdown-selected .fa-caret-down::before{
+        content: "\f0d8" !important;
+    }
+
+    nav.active .dropdown .dropdown-content{
+        display: none !important;
+    }
+
+    nav.active .dropdown .dropdown-selected .fa-caret-down::before{
+        content:"\f0d7" !important;
     }
 
     nav .bars{

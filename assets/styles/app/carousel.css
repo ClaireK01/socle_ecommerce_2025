@@ -1,6 +1,7 @@
 
 .product-carousel{
-    width: 50%;
+    min-width: 45%;
+    max-width: 45%;
     display: flex;
     max-height: 85vh;
 }
