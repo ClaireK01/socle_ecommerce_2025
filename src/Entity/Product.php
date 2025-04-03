@@ -60,14 +60,20 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     #[ORM\ManyToMany(targetEntity: AttributeItem::class, inversedBy: 'products', cascade: ['persist'])]
     private Collection $attributeItems;
 
-
+    #[ORM\ManyToMany(targetEntity: PromoCode::class, mappedBy: 'product')]
+    private Collection $promoCodes;
 
     public function __construct(){
         $this->categories = new ArrayCollection();
         $this->attributeItems = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->promoCodes = new ArrayCollection();
     }
 
+    public function __toString() : string
+    {
+        return $this->translate('fr')->getTitle();
+    }
 
     public function getId(): ?int
     {
@@ -118,6 +124,32 @@ class Product implements TranslatableInterface, SoftDeletableInterface, Timestam
     public function setVariantId(string $variant_id): void
     {
         $this->variant_id = $variant_id;
+    }
+    /**
+     * @return Collection<int, PromoCode>
+     */
+    public function getPromoCodes(): Collection
+    {
+        return $this->promoCodes;
+    }
+
+    public function addPromoCode(PromoCode $promoCode): static
+    {
+        if (!$this->promoCodes->contains($promoCode)) {
+            $this->promoCodes->add($promoCode);
+            $promoCode->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromoCode(PromoCode $promoCode): static
+    {
+        if ($this->promoCodes->removeElement($promoCode)) {
+            $promoCode->removeProduct($this);
+        }
+
+        return $this;
     }
 
 }

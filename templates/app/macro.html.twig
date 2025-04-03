@@ -86,6 +86,7 @@
 {% endmacro %}
 
 {% macro cartLine(c) %}
+    {% set hasPromo = c.priceWithPromo != 0 %}
     <tr class="product list-item">
         <td>
             <a href="{{ path('app_product_show', {'id' : c.product.id}) }}">
@@ -99,26 +100,62 @@
             {% endfor %}
         </td>
         <td><input data-ecommerce-target="quantity" type="number" class="qty" value="{{ c.quantity }}" data-add="{{ path('update_quantity', {'id' : c.id}) }}" data-url="{{ path('ecommerce_cart_view') }}" /></td>
-        <td>{{ c.priceHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.price|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.finalPriceTtc|number_format(2, ',', ' ') }}€</td>
+
+        <td>
+            {{ _self.displayPrice(hasPromo, c.priceHt, c.priceHt(true) ) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, c.price, c.price(true) ) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, c.finalPriceHt, c.finalPriceHt(true) ) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, c.finalPriceTtc, c.finalPriceTtc(true) ) }}
+        </td>
         <td><a class="bn bn-danger" href="{{ path('remove_from_cart', {'id' : c.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
     </tr>
 {% endmacro %}
 
 {% macro cartLineTotal(cart) %}
     <tr class="product list-item">
+        {% set promo_amount = cart.cartPromoAmount%}
+        {% set hasPromo = promo_amount > 0 %}
+
+        {% set total_unitaire_ht = (cart.promoCode and cart.promoCode.application == 1) ? cart.totalUnitaireHt(true) : cart.totalUnitaireHt %}
+        {% set total_unitaire_ttc = (cart.promoCode and cart.promoCode.application == 1) ? cart.totalUnitaireTtc(true) : cart.totalUnitaireTtc %}
+        {% set total_ht = (cart.promoCode and cart.promoCode.application == 1) ? cart.totalHt(true) : (cart.totalHt - promo_amount ) %}
+        {% set total_ttc = (cart.promoCode and cart.promoCode.application == 1) ? cart.totalTtc(true) : (cart.totalTtc - promo_amount ) %}
+
         <td></td>
         <td>Total</td>
-        <td>{{ cart.totalQuantity }}</td>
-        <td>{{ cart.totalUnitaireHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ cart.totalUnitaireTtc|number_format(2, ',', ' ') }}€</td>
-        <td>{{ cart.totalHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+        <td>
+            {{ cart.totalQuantity }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, cart.totalUnitaireHt, total_unitaire_ht) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, cart.totalUnitaireTtc, total_unitaire_ttc) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, cart.totalHt, total_ht) }}
+        </td>
+        <td>
+            {{ _self.displayPrice(hasPromo, cart.totalTtc, total_ttc) }}
+        </td>
         <td></td>
     </tr>
 {% endmacro %}
+
+{% macro displayPrice(promo, old, new) %}
+    {% if promo and old != new %}
+        <span class="old-price">{{ old|number_format(2, ',', ' ') }}€</span><br><span>{{ new|number_format(2, ',', ' ') }}€</span>
+    {% else %}
+        <span>{{ old|number_format(2, ',', ' ') }}€</span>
+    {% endif %}
+{% endmacro %}
+
 
 {% macro flashDisplay() %}
     {% for label, flashes in app.session.flashbag.all %}
@@ -352,7 +389,7 @@
     </div>
 {% endmacro %}
 
-{% macro recap(cart, summary = false) %}
+{% macro recap(cart, summary = false, message = null) %}
     {% if cart != null and cart.cardProducts|length > 0 %}
         <div class="cart-recap-title">
             <h3>{{ "cart.recap"|trans }}</h3>
@@ -362,22 +399,31 @@
             <div class="recap-promo">
                 <h4 class="small-title">{{ "cart.promo"|trans }}</h4>
                 <label style="display: none" for="promo" class="small-title">{{ "cart.promo"|trans }}</label>
+                <span class="promo-message">{{ message ?: "" }}</span>
                 <form>
-                    <input type="text" name="promo" id="promo" class="form-inp">
-                    <button type="submit" class="bn bn-primary"><i class="fa-solid fa-plus"></i></button>
+                    <input type="text" name="promo" id="promo" class="code-input form-inp">
+                    <button {{ stimulus_action('ecommerce', 'promoCodeElement')}} data-url="{{ path("cart_add_promo")}}" class="bn bn-primary"><i class="fa-solid fa-plus"></i></button>
                 </form>
             </div>
         {% endif %}
         <div class="recap">
+        {% set total_ttc  = cart.totalTtc %}
+        {% set promo_amount  = cart.cartPromoAmount %}
             <table>
                 <tr>
                     <th>{{ 'cart.totalarticle'|trans }}</th>
-                    <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+                    <td>{{ total_ttc|number_format(2, ',', ' ') }}€</td>
                 </tr>
                 <tr>
                     <th class="small-title">{{ 'cart.ecopart'|trans }}</th>
                     <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
                 </tr>
+                {% if promo_amount > 0 %}
+                    <tr>
+                        <th>{{ 'cart.promotion'|trans }}</th>
+                        <td><span class="new-price">- {{ promo_amount|number_format(2, ',', ' ') }}€</span></td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <th>{{ 'cart.shipping'|trans }}</th>
                     <td>{{ 'cart.free'|trans }}</td>
@@ -385,7 +431,9 @@
                 <tr class="td-line"></tr>
                 <tr>
                     <th>{{ 'cart.totaltcc'|trans }}</th>
-                    <td>{{ cart.totalTtc|number_format(2, ',', ' ') }}€</td>
+                    <td>
+                        {{ (total_ttc - promo_amount)|number_format(2, ',', ' ') }}€
+                    </td>
                 </tr>
             </table>
         </div>

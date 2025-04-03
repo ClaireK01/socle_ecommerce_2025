@@ -17,8 +17,8 @@
                     <tr class=" list-item">
                         <td>{{ o.number }}</td>
                         <td>{{ o.statusLabel|raw }}</td>
-                        <td>{{ o.totalHT|number_format(2, ',', ' ') }}€</td>
-                        <td>{{ o.totalTTC|number_format(2, ',', ' ') }}€</td>
+                        <td>{{ o.totalHT(true)|number_format(2, ',', ' ') }}€</td>
+                        <td>{{ o.totalTTC(true)|number_format(2, ',', ' ') }}€</td>
                         <td class="actions">
                             <a href="{{ path('app_user_order_show', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-eye"></i></button></a>
                             <a href="{{ path('app_user_invoice', {'id' : o.id}) }}"><button class="bn bn-primary"><i class="fa-solid fa-file-download"></i></button>

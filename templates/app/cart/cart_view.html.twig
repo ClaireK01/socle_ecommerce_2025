@@ -5,6 +5,6 @@
         {{ m.cartDisplay(cart) }}
     </table>
     <div class="cart-recap">
-        {{ m.recap(cart) }}
+        {{ m.recap(cart, false, message is defined ? message : null) }}
     </div>
 {% endif %}

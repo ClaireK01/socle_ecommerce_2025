@@ -9,6 +9,7 @@ class MailEvent {
 
     const TYPES = ['client' => 1, 'admin' => 2, 'pro' => 3];
     private string $locale;
+    private ?string $filePath;
 
     private array $sendTo = [];
 
@@ -44,7 +45,15 @@ class MailEvent {
         return $this->sendTo;
     }
 
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
 
+    public function setFilePath(?string $filePath): void
+    {
+        $this->filePath = $filePath;
+    }
 
 
 }

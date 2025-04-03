@@ -10,12 +10,15 @@ use App\Entity\CardAttribute;
 use App\Entity\CardAttributeTranslation;
 use App\Entity\CardProduct;
 use App\Entity\Cart;
+use App\Entity\Constant;
 use App\Entity\EcommerceOrder;
+use App\Entity\PromoCode;
 use App\Entity\User;
 use App\Entity\UserSession;
 use App\Repository\AttributeItemRepository;
 use App\Repository\CartRepository;
 use App\Repository\EcommerceOrderRepository;
+use App\Repository\PromoCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\VarDumper\VarDumper;
@@ -26,13 +29,18 @@ class OrderService
     private EntityManagerInterface $entityManager;
     private EcommerceOrderRepository $ecommerceOrderRepository;
     private  AttributeItemRepository $attributeItemRepository;
+    private  PromoCodeRepository $promoCodeRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository, EcommerceOrderRepository $ecommerceOrderRepository, AttributeItemRepository $attributeItemRepository)
+    public function __construct(EntityManagerInterface $entityManager, CartRepository $cartRepository,
+                                EcommerceOrderRepository $ecommerceOrderRepository, AttributeItemRepository $attributeItemRepository,
+                                PromoCodeRepository $promoCodeRepository
+    )
     {
         $this->entityManager = $entityManager;
         $this->cartRepository = $cartRepository;
         $this->ecommerceOrderRepository = $ecommerceOrderRepository;
         $this->attributeItemRepository = $attributeItemRepository;
+        $this->promoCodeRepository = $promoCodeRepository;
     }
 
     public function createNewCart(SessionInterface $session, $user = null){
@@ -113,8 +121,8 @@ class OrderService
         foreach ($cart->getCardProducts() as $cp){
             $order->addCardProduct($cp);
         }
-        $order->setTotalPriceTtc($cart->getTotalTtc());
-        $order->setTotalPriceHt($cart->getTotalHt());
+        $order->setTotalPriceTtc($cart->getTotalTtc(true));
+        $order->setTotalPriceHt($cart->getTotalHt(true));
         $order->setStatus(EcommerceOrder::PENDING);
         $order->setShipping($shipping);
         $order->setPaymentMethod($payment);
@@ -203,5 +211,31 @@ class OrderService
         }
 
         return $order;
+    }
+
+    public function addPromoCode(Cart $cart, PromoCode $promoCode){
+
+        //si x achete x offert, mettre en place un nouveau type d'application : creation d'un nouveau cardPro avec priceWithPromo moitier prix ou offert
+        if($promoCode->getApplication() == Constant::PROMO_APPLICATION_PRODUCT){
+            foreach($cart->getCardProducts() as $cardProduct){
+                if($promoCode->getProducts()->contains($cardProduct->getProduct())){
+                    $reduction = $promoCode->getType() == Constant::PROMO_TYPE_PERCENTAGE ? ($cardProduct->getPrice() * $promoCode->getAmount() / 100) : $promoCode->getAmount();
+                    $cardProduct->setPriceWithPromo($cardProduct->getPrice() - $reduction);
+                    $this->entityManager->persist($cardProduct);
+                }else{
+                    //assure que les autre produits ne bénéficie pas de la réduction, enelever si gène
+                    $cardProduct->setPriceWithPromo(0);
+                }
+            }
+        }else {
+            foreach ($cart->getCardProducts() as $cardProduct) {
+                $cardProduct->setPriceWithPromo(0);
+            }
+        }
+
+        $cart->setPromoCode($promoCode);
+        $this->entityManager->flush();
+
+        return $cart;
     }
 }

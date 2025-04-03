@@ -37,6 +37,9 @@ class CardProduct
     #[ORM\Column(type: 'float', nullable:true)]
     private $price;
 
+    #[ORM\Column(type: 'float', nullable:true)]
+    private $price_with_promo = 0;
+
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cardProducts")]
     private $cart;
 
@@ -95,23 +98,36 @@ class CardProduct
     /**
      * @return mixed
      */
-    public function getPrice()
+    public function getPrice($withPromo = false)
     {
+        if($withPromo){
+            return $this->price_with_promo > 0 ? $this->price_with_promo : $this->price;
+        }
         return $this->price;
     }
 
-    public function getPriceHt()
+    public function getPriceHt($withPromo = false)
     {
-        return $this->price  - ( $this->product->getTva()->getRate() * $this->price / 100 );
+        if($withPromo){
+            return $this->getPrice(true)  - ( $this->product->getTva()->getRate() * $this->getPrice(true) / 100 );
+        }
+        return $this->getPrice()  - ( $this->product->getTva()->getRate() * $this->price / 100 );
     }
 
-    public function getFinalPriceTtc()
+    public function getFinalPriceTtc($withPromo = false)
     {
-        return $this->price * $this->getQuantity();
+        if($withPromo){
+            return $this->getPrice(true) * $this->getQuantity();
+        }
+
+        return $this->getPrice() * $this->getQuantity();
     }
 
-    public function getFinalPriceHt()
+    public function getFinalPriceHt($withPromo = false)
     {
+        if($withPromo) {
+            return $this->getFinalPriceTtc(true) - ( $this->product->getTva()->getRate() * $this->getFinalPriceTtc(true) / 100 ) ;
+        }
         return $this->getFinalPriceTtc() - ( $this->product->getTva()->getRate() * $this->getFinalPriceTtc() / 100 ) ;
     }
 
@@ -183,6 +199,29 @@ class CardProduct
         }
 
         return $this;
+    }
+
+    public function getFirstCardAttribute() : ?CardAttribute{
+        if(count($this->cardAttributes) > 0){
+            return $this->cardAttributes->first();
+        }
+        return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPriceWithPromo()
+    {
+        return $this->price_with_promo;
+    }
+
+    /**
+     * @param mixed $price_with_promo
+     */
+    public function setPriceWithPromo($price_with_promo): void
+    {
+        $this->price_with_promo = $price_with_promo;
     }
 
 }

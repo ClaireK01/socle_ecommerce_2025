@@ -12,20 +12,69 @@ use App\Repository\AddressRepository;
 use App\Repository\CardProductRepository;
 use App\Repository\CartRepository;
 use App\Repository\PaymentMethodRepository;
+use App\Repository\PromoCodeRepository;
 use App\Repository\ShippingRepository;
 use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(requirements: ['_locale' => 'en|fr'])]
 class EcommerceCartController extends AbstractController
 {
+
+    #codepromo
+    #[Route('{_locale}/cart/promo', name: 'cart_add_promo', methods: 'POST')]
+    public function cartCodePromoAction(Request $request, OrderService $orderService,
+                                        CartRepository $cartRepository, PromoCodeRepository $promoCodeRepository, TranslatorInterface $translator)
+    {
+        $cart = $request->getSession()->get('cart') ? $cartRepository->find($request->getSession()->get('cart') ) : null;
+        $code = json_decode($request->getContent())->promo;
+
+        //refractorer
+        if(!$cart) {
+            $message = $translator->trans("promo.empty", [], 'messages', $request->getLocale());
+            $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+            return new JsonResponse(["view" => $view, 'message' => $message, "code" => 201], 201);
+        }
+
+        if (!$code) {
+            $message = $translator->trans("promo.empty", [], 'messages', $request->getLocale());
+            $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+            return new JsonResponse(["view" => $view, 'message' => $message, "code" => 201], 201);
+        }
+
+        $promoCode = $promoCodeRepository->findOneBy(['code' => $code]);
+        if (!$promoCode) {
+            $message = $translator->trans("promo.invalid", [], 'messages', $request->getLocale());
+            $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+            return new JsonResponse(["view" => $view, 'message' => $message, "code" => 201], 201);
+        }
+
+        if ($promoCode->getExpiringDate() < new \DateTime()) {
+            $message = $translator->trans("promo.expired", ["amount" => $promoCode->getMinAmount() - $cart->getTotalTtc()], 'messages', $request->getLocale());
+            $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+            return new JsonResponse(["view" => $view, 'message' => $message, "code" => 201], 201);
+        }
+
+        if ($cart->getTotalTtc() < $promoCode->getMinAmount()) {
+            $message = $translator->trans("promo.minamount", ["amount" => $promoCode->getMinAmount() - $cart->getTotalTtc()], 'messages', $request->getLocale());
+            $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+            return new JsonResponse(["view" => $view, 'message' => $message, "code" => 201], 201);
+        }
+
+        $cart = $orderService->addPromoCode($cart, $promoCode);
+        $message = $promoCode->getMessage();
+        $view = $this->renderView('app/cart/cart_view.html.twig', ['cart' => $cart, "message" => $message]);
+
+        return new JsonResponse(["view" => $view, 'message' => $message, "code" => 200], 200);
+    }
+
     #[Route('{_locale}/cart/preview', name: 'cart_preview', methods: 'GET')]
     public function cartPreviewAction(Request $request,
                                     CardProductRepository $cardProductRepository, OrderService $orderService,

@@ -3,6 +3,7 @@
 namespace App\Trait;
 
 use App\Entity\CardProduct;
+use App\Entity\Constant;
 use App\Entity\EcommerceOrder;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,39 +55,82 @@ trait EcommerceTrait
         return $this;
     }
 
-    public function getTotalHt(){
+    public function getTotalHt($withPromo = false){
         $total_ht = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total_ht  += $c->getFinalPriceHt();
+
+        if($withPromo){
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total_ht  += $c->getFinalPriceHt(true);
+            }
+        }else{
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total_ht  += $c->getFinalPriceHt();
+            }
         }
 
         return $total_ht;
     }
 
-    public function getTotalTtc(){
+    public function getTotalTtc($withPromo = false){
         $total_ttc = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total_ttc  += $c->getFinalPriceTtc();
+
+        if($withPromo){
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total_ttc  += $c->getFinalPriceTtc(true);
+            }
+        }else{
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total_ttc  += $c->getFinalPriceTtc();
+            }
         }
         return $total_ttc;
     }
 
-    public function getTotalUnitaireTtc(){
+    public function getCartPromoAmount(){
+
+        if($this->getPromoCode() && $this->getPromoCode()->getApplication() == Constant::PROMO_APPLICATION_CART){
+            $code = $this->getPromoCode();
+            return $code->getType() == Constant::PROMO_TYPE_PERCENTAGE ? ($code->getAmount() * $this->getTotalTtc() / 100 ) : $code->getAmount();
+        }elseif ($this->getPromoCode() && $this->getPromoCode()->getApplication() == Constant::PROMO_APPLICATION_PRODUCT){
+            return $this->getTotalTtc() - $this->getTotalTtc(true);
+        }
+
+        return 0;
+    }
+
+    public function getTotalUnitaireTtc($withPromo = false){
         $total = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total  += $c->getPrice();
+
+        if($withPromo){
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total  += $c->getPrice(true);
+            }
+        }else{
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total  += $c->getPrice();
+            }
         }
         return $total;
     }
 
-    public function getTotalUnitaireHt(){
+    public function getTotalUnitaireHt($withPromo = false){
         $total = 0;
-        foreach ($this->getCardProducts() as $c){
-            /** @var CardProduct $c */
-            $total  += $c->getPriceHt();
+        if($withPromo){
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total  += $c->getPriceHt(true);
+            }
+        }else{
+            foreach ($this->getCardProducts() as $c){
+                /** @var CardProduct $c */
+                $total  += $c->getPriceHt();
+            }
         }
         return $total;
     }

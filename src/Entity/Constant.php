@@ -252,4 +252,19 @@ class Constant{
         "Zambia, Republic of (Former Northern Rhodesia) "	=>"ZM"	,
         "Zimbabwe, Republic of (Former Southern Rhodesia, Rhodesia) "	=>"ZW"	,
     ];
+
+    //orders
+    public const PENDING = 0;
+    public const CONFIRMED = 1;
+    public const PAYED = 2;
+    public const SHIPPED = 3;
+    public const DONE = 4;
+    public const CANCELED = 5;
+
+    //promocode
+
+    public const PROMO_TYPE_PERCENTAGE = 1;
+    public const PROMO_TYPE_AMOUNT = 2;
+    public const PROMO_APPLICATION_PRODUCT = 1;
+    public const PROMO_APPLICATION_CART = 2;
 }

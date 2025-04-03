@@ -40,31 +40,31 @@ export default class extends Controller{
         }
     }
 
+    promoCodeElement(event){
+        event.preventDefault();
+        let url = event.currentTarget.dataset.url;
+        let input = event.currentTarget.parentNode.querySelector('.code-input');
+        let code = input.value;
+
+        postData(url, {"promo" : code},  'POST').then((data) => {
+            if( document.querySelector('.cart-table')){
+                document.querySelector('.cart-table').innerHTML = data.view;
+                let mess = document.querySelector(".promo-message");
+                mess.innerHTML = data.message;
+                if(data.code === 201){
+                    mess.classList.remove('form-succ');
+                    mess.classList.add('form-err');
+                }else{
+                    mess.classList.add('form-succ');
+                    mess.classList.remove('form-err');
+                }
+            }
+        });
+    }
+
     attributeTargetConnected(element){
         element.addEventListener('click', (e) => {
-            let attrs = element.parentNode.querySelectorAll('.attribute');
-            let list = document.querySelector('[data-list-attr]').dataset.listAttr
-            attrs.forEach((a) => {
-                if(a === element && !a.classList.contains('active')){
-                    a.classList.add('active')
-                }else{
-                    if(a.classList.contains('active')){
-                        a.classList.remove('active');
-                    }
-                }
-            })
-            //maj des attributes item selectionné
-            let str = '';
-            document.querySelectorAll('.attribute.active').forEach((a) => { str +=  a.dataset.attr + '|'; })
-            document.querySelector('[data-list-attr]').dataset.listAttr = str
-            //maj du prix avec attributs
-            let url = document.querySelector('.price-tag').dataset.url
-            postData(url, {'attributes' : str},  'POST').then((data) => {
-                this.changeQuantity(data.total)
-            });
-
-            //TODO : maj des prix produit au fur et a mesure de la selection
-
+            this.updateAttribute(element);
         })
 
     }
@@ -79,22 +79,12 @@ export default class extends Controller{
                 attrs = attrs.dataset.listAttr;
             }
             postData(url, {"quantity" : quantity, 'attributes' : attrs},  'POST').then((data) => {
-                //voir si tjr utile
-                // this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
-                // input.value = input.min
-                if(document.querySelector("[data-ecommerce-target=shopcount]")){
-                    this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
-                }
+                this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
+                input.value = input.min
                 document.querySelector('.cart-preview').innerHTML = data.cartview;
-                if( document.querySelector('.cart-table')){
-                    postData(url).then((view) => {
-                    document.querySelector('.cart-table').innerHTML = view.view;
-                    });
+                if(!document.querySelector("body").classList.contains('show-prev')){
+                    document.querySelector("body").classList.add('show-prev');
                 }
-                //voir si tjr utile
-                // if(!document.querySelector("body").classList.contains('show-prev')){
-                //     document.querySelector("body").classList.add('show-prev');
-                // }
             });
             // postData(document.querySelector('.cart-preview-container').dataset.url).then((data) => {
             //
@@ -109,13 +99,15 @@ export default class extends Controller{
             let quantity = element.value
 
             postData(urlAdd, {"quantity" : quantity},  'POST').then((data) => {
-                this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
-                    document.querySelector('.cart-preview').innerHTML = data.cartview;
-                    if( document.querySelector('.table-products')){
-                        postData(url).then((view) => {
-                            document.querySelector('.table-products').innerHTML = view.view;
-                        });
-                    }
+                if(document.querySelector("[data-ecommerce-target=shopcount]")){
+                    this.shopcountTarget.innerHTML = data.cart['total_quantity'] ?? 0;
+                }
+                document.querySelector('.cart-preview').innerHTML = data.cartview;
+                if( document.querySelector('.cart-table')){
+                    postData(url).then((view) => {
+                        document.querySelector('.cart-table').innerHTML = view.view;
+                    });
+                }
             });
         })
     }
@@ -149,20 +141,22 @@ export default class extends Controller{
 
     filterTargetConnected(element){
         let event = null;
-        if(element.tagName === "INPUT"){
-           if(element.type === "checkbox"){
-               event = "click";
-           }else{
-               event = "input";
-           }
+        if(element.tagName === "INPUT" || element.tagName === "A"){
+            if(element.type === "checkbox" || element.tagName === "A"){
+                event = "click";
+            }else{
+                event = "input";
+            }
         }else if(element.tagName === "SELECT"){
             event = "change";
         }
 
         element.addEventListener(event, (e) => {
+            e.preventDefault();
             let form = document.querySelector('.filter form')
             var formData = new FormData(form);
             let data = {};
+            let url = element.dataset.url ? element.dataset.url  : form.dataset.url;
 
             for (var p of formData) {
                 if( data[p[0]]){
@@ -174,7 +168,7 @@ export default class extends Controller{
 
             }
 
-            postData(form.dataset.url, {"filter" : data},  'POST').then((data) => {
+            postData(url,{"filter" : data},  'POST').then((data) => {
                 document.querySelector('.list-view').innerHTML = data.view
             });
         })
@@ -183,9 +177,32 @@ export default class extends Controller{
     changeQuantity = (total) => {
         let priceTag = document.querySelector('.price-tag-num');
         if(!isNaN(total)){
-           let strTotal = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total)
-            priceTag.innerHTML = strTotal.replace('€', '').replace(/\&nbsp;/g, '');
+            let strTotal = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total)
+            priceTag.innerHTML = strTotal.replace('€', '').replace(/\s/g, '');
         }
+    }
+
+    updateAttribute = (element) => {
+        let attrs = document.querySelectorAll('.attribute');
+        // let list = document.querySelector('[data-list-attr]').dataset.listAttr
+        attrs.forEach((a) => {
+            if(a === element && !a.classList.contains('active')){
+                a.classList.add('active')
+            }
+
+            if(a.classList.contains('active') && a !== element){
+                a.classList.remove('active');
+            }
+        })
+        //maj des attributes item selectionné
+        let str = '';
+        document.querySelectorAll('.attribute.active').forEach((a) => { str +=  a.dataset.attr + '|'; })
+        document.querySelector('[data-list-attr]').dataset.listAttr = str
+        //maj du prix avec attributs
+        let url = document.querySelector('.price-tag').dataset.url
+        postData(url, {'attributes' : str},  'POST').then((data) => {
+            this.changeQuantity(data.total)
+        });
     }
 
     connect(){}

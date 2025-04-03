@@ -47,10 +47,10 @@
         </td>
         <td>{{ c.product.translate.title }}</td>
         <td>{{ c.quantity }}</td>
-        <td>{{ c.priceHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.price|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.finalPriceHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ c.finalPriceTtc|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.priceHt(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.price(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.finalPriceHt(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ c.finalPriceTtc(true)|number_format(2, ',', ' ') }}€</td>
         <td></td>
     </tr>
 {% endmacro %}
@@ -60,10 +60,10 @@
         <td></td>
         <td>Total</td>
         <td>{{ order.totalQuantity }}</td>
-        <td>{{ order.totalUnitaireHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ order.totalUnitaireTtc|number_format(2, ',', ' ') }}€</td>
-        <td>{{ order.totalHt|number_format(2, ',', ' ') }}€</td>
-        <td>{{ order.totalTtc|number_format(2, ',', ' ') }}€</td>
+        <td>{{ order.totalUnitaireHt(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ order.totalUnitaireTtc(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ order.totalHt(true)|number_format(2, ',', ' ') }}€</td>
+        <td>{{ order.totalTtc(true)|number_format(2, ',', ' ') }}€</td>
         <td></td>
     </tr>
 {% endmacro %}

@@ -55,4 +55,7 @@ if(document.querySelector('#category_parent')){
 if(document.querySelector('#product_attributeItems')){
     new TomSelect('#product_attributeItems', settings);
 }
+if(document.querySelector('#promo_code_products')){
+    new TomSelect('#promo_code_products', settings);
+}
 

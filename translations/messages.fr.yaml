@@ -110,7 +110,14 @@ cart:
   next: Continuer la commande
   articlecount: article(s)
   paymentmethod: Modes de paiement disponibles
-  promo: Code promo
+  promotion: Promotion
+
+
+promo:
+  invalid: Ce code n'existe pas
+  expired: Ce code est expiré
+  empty: Merci d'entre un code promo valide
+  minamount: "Encore %amount% € restant pour profiter de cette promotion !"
 
 form:
   add: Ajouter

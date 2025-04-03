@@ -37,6 +37,9 @@ class Cart implements TimestampableInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?UserSession $user_session = null;
 
+    #[ORM\ManyToOne(inversedBy: 'carts')]
+    private ?PromoCode $promoCode = null;
+
 
     public function __construct(){
         $this->cardProducts = new ArrayCollection();
@@ -72,6 +75,18 @@ class Cart implements TimestampableInterface
     public function setUserSession(?UserSession $user_session): static
     {
         $this->user_session = $user_session;
+
+        return $this;
+    }
+
+    public function getPromoCode(): ?PromoCode
+    {
+        return $this->promoCode;
+    }
+
+    public function setPromoCode(?PromoCode $promoCode): static
+    {
+        $this->promoCode = $promoCode;
 
         return $this;
     }
