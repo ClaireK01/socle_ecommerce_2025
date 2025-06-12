@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Fos\BaseUser;
 use App\Trait\P2PUserTrait;
 use App\Trait\PictureTrait;
 use App\Trait\UserTrait;
@@ -18,9 +17,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -81,6 +78,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->addresses = new ArrayCollection();
         $this->userSessions = new ArrayCollection();
         $this->orders = new ArrayCollection();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
     }
 
     public function isVerified(): bool
