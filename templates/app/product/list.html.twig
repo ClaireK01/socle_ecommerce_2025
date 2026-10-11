@@ -8,7 +8,7 @@
             <h2 class="title">{{ "commerce.product.listCat"|trans }}</h2>
             <div class="list-container">
                 {{ m.filter(productAttributes, category) }}
-                <div class="list-view">
+                <div class="list-view" style="width: 100%">
                     <div class="list">
                         {% for product in pagination %}
                             {{ m.cardProduct(product, cart) }}

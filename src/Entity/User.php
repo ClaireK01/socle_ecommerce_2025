@@ -31,7 +31,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         )
     )
 ])]
-#[ORM\Table(name: 'user')]
+#[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
@@ -44,7 +44,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    protected ?int $id = null;
+    protected int $id;
 
     #[ORM\Column(length: 300, nullable: true)]
     private ?string $description;

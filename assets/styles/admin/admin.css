@@ -3,12 +3,12 @@
 @import "@fortawesome/fontawesome-free/css/solid.min.css";
 @import "../_pagination.css";
 @import "tom-select/dist/css/tom-select.css";
-@import "../../../public/bundles/artgrisfilemanager/css/manager.css";
+@import "../../../vendor/artgris/filemanager-bundle/Resources/public/css/manager.css";
 @import "tinymce/skins/content/default/content.css";
 
 :root{
-    --main : #006622;
-    --secondary : #00802b;
+    --main : #252e3c;
+    --secondary : #3c4a60;
     --font-main : Roboto
 }
 

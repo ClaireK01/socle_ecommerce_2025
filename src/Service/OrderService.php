@@ -74,17 +74,19 @@ class OrderService
     public function addCardAttributesToCardProduct(CardProduct $cardProduct, array $attributes){
 
         foreach ($attributes as $a){
-            $item = $this->attributeItemRepository->find($a);
-            if($item){
-                /** @var AttributeItem $item */
-                $ca = new CardAttribute();
-                $ca->setPrice($item->getPrice());
-                $ca->setRef($item->getId());
-                foreach ($item->getTranslations() as $t){
-                    $newTranslation = new CardAttributeTranslation($t->getTitle(), $t->getContent(), $t->getShortContent(), $item->getProductAttribute()->translate($t->getLocale())->getTitle(), $t->getLocale());
-                    $ca->addTranslation($newTranslation);
+            if($a != ""){
+                $item = $this->attributeItemRepository->find($a);
+                if($item ) {
+                    /** @var AttributeItem $item */
+                    $ca = new CardAttribute();
+                    $ca->setPrice($item->getPrice());
+                    $ca->setRef($item->getId());
+                    foreach ($item->getTranslations() as $t){
+                        $newTranslation = new CardAttributeTranslation($t->getTitle(), $t->getContent(), $t->getShortContent(), $item->getProductAttribute()->translate($t->getLocale())->getTitle(), $t->getLocale());
+                        $ca->addTranslation($newTranslation);
+                    }
+                    $cardProduct->addCardAttribute($ca);
                 }
-                $cardProduct->addCardAttribute($ca);
             }
         }
 

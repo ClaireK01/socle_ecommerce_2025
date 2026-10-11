@@ -23,8 +23,6 @@ use Symfony\Component\VarDumper\VarDumper;
 
 class StripeController extends AbstractController
 {
-    //clé test
-    const API_KEY = 'sk_test_51OUsGkFkgT4pe1Ym524J1efunHtbuFqZsmXS3fE8mYdpaRaVILl1KM8eIXHeCovtdx8qEZobYb6wCchCszQFEP5u00R58jaibW';
     // test card  = Visa : 4242424242424242, Mastercard : 5555555555554444
 
 
