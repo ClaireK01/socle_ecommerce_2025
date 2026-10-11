@@ -1,4 +1,4 @@
-Exemple de socle Ecommerce en Symfony 6
+#### Exemple de socle Ecommerce en Symfony 6
 
 > Installation base de données Docker
 

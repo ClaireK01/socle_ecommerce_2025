@@ -30,7 +30,7 @@ Encore
     //admin
     .addStyleEntry('style-admin', './assets/styles/admin/admin.css')
     .addEntry('js-admin', './assets/js/admin.js')
-    .addEntry('manager-js', './vendor/artgris/filemanager-bundle/Resources/public/js/manager.js')
+    .addEntry('manager-js', './public/bundles/artgrisfilemanager/js/manager.js')
 
 
 
