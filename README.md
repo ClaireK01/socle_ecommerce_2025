@@ -18,7 +18,6 @@ Puis lancez ```docker-compose up -d```
 
 > Installation du projet
 
-- Clônez le repôt
 - Installez les dépendances composer avec ```composer install``` (PHP 8.1)
 - Installez les dépendances npm avec ```npm install```
 - Installez bien les assets des librairies artgris et tinymce ou votre front risque d'avoir des problèmes de fonctionnement : ```php bin/console assets:install public```
