@@ -22,7 +22,7 @@ Puis lancez ```docker-compose up -d```
 - Installez les dépendances composer avec ```composer install``` (PHP 8.1)
 - Installez les dépendances npm avec ```npm install```
 - Installez bien les assets des librairies artgris et tinymce ou votre front risque d'avoir des problèmes de fonctionnement : ```php bin/console assets:install public```
-- Compillez le front du projet avec ```npm run build```
+- Compilez le front avec ```npm run build```
 - Créez un chemin ```uploads/file_manager``` dans ```public/``` pour le file manager (le chemin doit correspondre à celui indiqué dans ```artgris_file_manager.yaml```)
 - Mettez la base de données à jour avec ```symfony console doctrine:schema:update --force``` (ou la méthode propre avec les migrations)
 
